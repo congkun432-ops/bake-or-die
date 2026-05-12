@@ -17,8 +17,6 @@ local RunService = game:GetService("RunService")
 local UserInputService = game:GetService("UserInputService")
 local Stats = game:GetService("Stats")
 local lp = Players.LocalPlayer
-
--- [[ @PHAN_0.1: ĐỊNH NGHĨA CÁC HÀM TẠO UI (Phải có trước khi dùng) ]]
 local function AddMiscBtn(name, color, callback)
     local B = Instance.new("TextButton")
     -- Sẽ được set Parent sau khi Tab_Misc được tạo
@@ -72,8 +70,6 @@ local function AddInput(name, def, parent, callback)
     end)
 end
 
--- [[ @LOGIC_SETTINGS_SUPREME ]]
-
 local function UltraLowLag()
     local l = game:GetService("Lighting")
     l.GlobalShadows = false
@@ -106,16 +102,12 @@ local function FakeMoney(value)
         end
     end
 end
-
--- [[ @PHAN_1: KHOI_TAO_HE_THONG ]]
-local CoreGui = game:GetService("CoreGui")
+game:GetService("CoreGui")
 if CoreGui:FindFirstChild("CongSupreme_V26") then CoreGui["CongSupreme_V26"]:Destroy() end
 
 local ScreenGui = Instance.new("ScreenGui", CoreGui)
 ScreenGui.Name = "CongSupreme_V26"
 ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
--- [[ @PHAN_2: BANG_MAU_VA_CAI_DAT - MODERN EDITION ]]
 local Theme = {
     MainBg = Color3.fromRGB(18, 18, 22),       
     SidebarBg = Color3.fromRGB(23, 23, 28),
@@ -124,7 +116,6 @@ local Theme = {
     SecondaryText = Color3.fromRGB(140, 140, 150),
     ButtonBg = Color3.fromRGB(32, 32, 38)
 }
--- [[ @PHAN_3: KHUNG_MENU_CHINH ]]
 local Main = Instance.new("Frame", ScreenGui) 
 Main.Name = "MainFrame"
 Main.Size = UDim2.new(0, 450, 0, 320)
@@ -160,8 +151,6 @@ local M_Glow = Instance.new("UIStroke", Main)
 M_Glow.Color = Theme.Accent
 M_Glow.Thickness = 5
 M_Glow.Transparency = 0.8 
-
--- [[ @PHAN_4: THANH_BEN_SIDEBAR ]]
 local Sidebar = Instance.new("Frame", Main)
 Sidebar.Name = "Sidebar"
 Sidebar.Size = UDim2.new(0, 120, 1, 0)
@@ -183,8 +172,6 @@ Title.Font = Enum.Font.GothamBold
 Title.TextSize = 16
 Title.BackgroundTransparency = 1
 Title.ZIndex = 5
-
--- Khung cuộn chứa nút Tab (Sửa lỗi tràn)
 local TabListFrame = Instance.new("ScrollingFrame", Sidebar)
 TabListFrame.Name = "TabList"
 TabListFrame.Size = UDim2.new(1, 0, 1, -70)
@@ -192,14 +179,12 @@ TabListFrame.Position = UDim2.new(0, 0, 0, 60)
 TabListFrame.BackgroundTransparency = 1
 TabListFrame.BorderSizePixel = 0
 TabListFrame.ScrollBarThickness = 2
-TabListFrame.CanvasSize = UDim2.new(0, 0, 0, 500) -- Đặt cứng 500 để chắc chắn cuộn được
+TabListFrame.CanvasSize = UDim2.new(0, 0, 0, 500) 
 
 local TabLayout = Instance.new("UIListLayout", TabListFrame)
 TabLayout.Padding = UDim.new(0, 5)
 TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
-TabLayout.SortOrder = Enum.SortOrder.LayoutOrder -- Sắp xếp theo thứ tự
-
--- [[ @PHAN_5: KHU_VUC_NOI_DUNG_TABS ]]
+TabLayout.SortOrder = Enum.SortOrder.LayoutOrder 
 local Content = Instance.new("Frame", Main)
 Content.Name = "Content"
 Content.Size = UDim2.new(1, -130, 1, -20)
@@ -209,8 +194,6 @@ Content.BackgroundTransparency = 1
 local TabHold = Instance.new("Frame", Content)
 TabHold.Size = UDim2.new(1, 0, 1, 0)
 TabHold.BackgroundTransparency = 1
-
--- [[ @PHAN_6: HE_THONG_TAO_TAB_CHUYEN_NGHIEP ]]
 local tabCount = 0
 local function CreateTab(name, isFirst)
     tabCount = tabCount + 1
@@ -234,7 +217,7 @@ local function CreateTab(name, isFirst)
     T.BackgroundTransparency = 1
     T.Visible = isFirst
     T.ScrollBarThickness = 0
-    T.CanvasSize = UDim2.new(0, 0, 0, 800) -- Nội dung bên phải cũng cần cuộn
+    T.CanvasSize = UDim2.new(0, 0, 0, 800)
     
     local L = Instance.new("UIListLayout", T)
     L.Padding = UDim.new(0, 10)
@@ -268,7 +251,6 @@ local Tab_Bring = CreateTab("Bring", false)
 local Tab_Misc= CreateTab("Misc", false)
 
 
--- [[ UPGRADED MINI BUTTON - MODERN & GLOW ]]
 local MiniBtn = Instance.new("TextButton", ScreenGui)
 MiniBtn.Name = "MiniButton"
 MiniBtn.Size = UDim2.new(0, 60, 0, 60)
@@ -436,7 +418,8 @@ end
 
 --note
 AddNote("👾 CẬP NHẬT MỚI 👾")
-AddNote("🐥 cách bug gold xem trên tiktok courier cat
+AddNote("🐥 cách bug gold có trên tiktok courier cat 👈")
+
 AddNote("⚔️ Kill Aura: Cần đánh tay 1 lần để kích hoạt")
 AddNote("🛠️ Fix: góc nhìn thứ 3, night vision và auto bản thiết kế")
 AddNote("🔧 scripts đã được tối ưu hóa mượt hơn")
@@ -1281,7 +1264,7 @@ local function RunGoldBugPath()
         _G.GoldBugActive = false
     end)
 end
-AddToggle("auto gold bug(beta)", Tab_Auto, function(state)
+AddToggle("Auto Gold Bug (V6)", Tab_Auto, function(state)
     _G.GoldBugActive = state
     if state then
         RunGoldBugPath()
