@@ -1233,7 +1233,7 @@ end
 
 local function RunGoldBugPath()
     task.spawn(function()
-        NotifyOn(six seven", "Đang đi lấy mã code...")
+        NotifyOn("six seven", "Đang đi lấy mã code...")
         for _, pos in pairs(BugCoords.CodePositions) do
             if not _G.GoldBugActive then return end
             BugInteract(pos)
