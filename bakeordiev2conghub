@@ -1254,14 +1254,14 @@ local function RunGoldBugPath()
             end
         end
         if not _G.GoldBugActive then return end
-        NotifyOn("six seven", "chưa nhập mã thì chịu")
+        NotifyOn("six seven", "chua nhập mã thì chịu")
         local hrp = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
         if hrp then hrp.CFrame = CFrame.new(BugCoords.FinalPos) end
         
         _G.GoldBugActive = false
     end)
 end
-AddToggle("Auto Gold Bug (V6)", Tab_Auto, function(state)
+AddToggle("Auto Gold Bug", Tab_Auto, function(state)
     _G.GoldBugActive = state
     if state then
         RunGoldBugPath()
