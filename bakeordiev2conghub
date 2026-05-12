@@ -1233,14 +1233,14 @@ end
 
 local function RunGoldBugPath()
     task.spawn(function()
-        NotifyOn("Hệ Thống", "Đang đi lấy mã code...")
+        NotifyOn(six seven", "Đang đi lấy mã code...")
         for _, pos in pairs(BugCoords.CodePositions) do
             if not _G.GoldBugActive then return end
             BugInteract(pos)
             task.wait(0.3)
         end
         if not _G.GoldBugActive then return end
-        NotifyOn("Hệ Thống", "Đang mở UI Ngân hàng...")
+        NotifyOn("six seven", "Đang mở UI Ngân hàng...")
         BugInteract(BugCoords.FinalPos)
         task.wait(1.2)
         for i, pos in pairs(BugCoords.FarmPoints) do
@@ -1248,13 +1248,13 @@ local function RunGoldBugPath()
             NotifyOn("six seven", "Farm nhồi Bug tại điểm #"..i)
             local hrp = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
             if hrp then hrp.CFrame = CFrame.new(pos) end
-            for t = 30, 1, -1 do
+            for t = 5, 1, -1 do
                 if not _G.GoldBugActive then break end
                 task.wait(1)
             end
         end
         if not _G.GoldBugActive then return end
-        NotifyOn("six seven", "chua nhập mã thì chịu")
+        NotifyOn("six seven", "chưa nhập mã thì chịu")
         local hrp = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
         if hrp then hrp.CFrame = CFrame.new(BugCoords.FinalPos) end
         
