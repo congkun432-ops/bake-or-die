@@ -19,7 +19,6 @@ local Stats = game:GetService("Stats")
 local lp = Players.LocalPlayer
 local function AddMiscBtn(name, color, callback)
     local B = Instance.new("TextButton")
-    -- Sẽ được set Parent sau khi Tab_Misc được tạo
     B.Size = UDim2.new(0.9, 0, 0, 45)
     B.BackgroundColor3 = color
     B.Text = name
@@ -102,7 +101,7 @@ local function FakeMoney(value)
         end
     end
 end
-game:GetService("CoreGui")
+local CoreGui = game:GetService("CoreGui")
 if CoreGui:FindFirstChild("CongSupreme_V26") then CoreGui["CongSupreme_V26"]:Destroy() end
 
 local ScreenGui = Instance.new("ScreenGui", CoreGui)
@@ -419,7 +418,6 @@ end
 --note
 AddNote("👾 CẬP NHẬT MỚI 👾")
 AddNote("🐥 cách bug gold có trên tiktok courier cat 👈")
-
 AddNote("⚔️ Kill Aura: Cần đánh tay 1 lần để kích hoạt")
 AddNote("🛠️ Fix: góc nhìn thứ 3, night vision và auto bản thiết kế")
 AddNote("🔧 scripts đã được tối ưu hóa mượt hơn")
@@ -785,7 +783,6 @@ AddInput("độ xa camera", "50", Tab_Visual, function(v)
 end)
 AddToggle("nhìn trong bóng tối", Tab_Visual, function(s)
     _G.FullBrightActive = s
-    ToggleFullBright(s)
 	if s then
         NotifyOn("six seven", "night vision bật")
     end
