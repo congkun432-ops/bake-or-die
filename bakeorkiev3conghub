@@ -342,16 +342,6 @@ AddToggle("đột quỵ 1", Tab_Misc, function(s)
     _G.SpinBotActive = s
 end)
 
-AddToggle("tự động chết", Tab_Misc, function(s)
-    _G.HeadOnlyActive = s
-    if not s then
-        task.wait(0.1)
-        local hum = lp.Character:FindFirstChildOfClass("Humanoid")
-        if hum then hum:ChangeState(Enum.HumanoidStateType.GettingUp) end
-    end
-end)
-
-
 --thông tin tab main
 local Author = "Courier cat 🗿🥀"
 local CreateDate = "3/04/2026"
@@ -610,7 +600,7 @@ _G.EspPlayer = false
 _G.EspMob = false
 
 -- Danh sách quái
-local TargetMobs = {"Zombie","TankZombie","PeaZombie","FastZombie","SewerRat","RadioactiveRat","CarrotZombie","AppleZombie","RadioactiveCornZombie","CrawlerZombie","RadioactiveAppleZombie","RadioactiveCarrotZombie", "RadioactiveBananaZombie","MushroomZombie","EnragedFastZombie","EvilScientistBoss","CherryBombZombie","GrapeZombie","GoldenCarrotZombie","StrawberryZombie","BlueberryZombie","DoomberryZombie","Enraged Cactus","Banana Zombie","Fire Zombie","Cactus","Pickle Zombie","Eggplant Zombie","Corn Zombie","Onion Zombie","Ghost Pepeer","Orange Zombie"}
+local TargetMobs = {"Zombie","TankZombie","PeaZombie","FastZombie","SewerRat","RadioactiveRat","CarrotZombie","AppleZombie","RadioactiveCornZombie","CrawlerZombie","RadioactiveAppleZombie","RadioactiveCarrotZombie", "RadioactiveBananaZombie","MushroomZombie","EnragedFastZombie","EvilScientistBoss","CherryBombZombie","GrapeZombie","GoldenCarrotZombie","StrawberryZombie","BlueberryZombie","DoomberryZombie","Enraged Cactus","Banana Zombie","Fire Zombie","Cactus","Pickle Zombie","Eggplant Zombie","Corn Zombie","Onion Zombie","Ghost Pepeer","Orange Zombie","Tomato Zombie"}
 local MainHUD = Instance.new("ScreenGui", CoreGui)
 local PingLabel = Instance.new("TextLabel", MainHUD)
 PingLabel.Size = UDim2.new(0, 100, 0, 30)
@@ -1034,7 +1024,7 @@ if s then
         NotifyOn("six seven", "kill aura bật")
     end
 end)
-AddToggle("auto chest (beta)", Tab_Auto, function(s)
+AddToggle("auto wood chest", Tab_Auto, function(s)
     _G.AutoCollectChest = s
 if s then
         NotifyOn("six seven", "auto tele chest bật")
