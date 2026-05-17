@@ -1,0 +1,1665 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Lighting = game:GetService("Lighting")
+local Workspace = game:GetService("Workspace")
+local CoreGui = game:GetService("CoreGui")
+local Stats = game:GetService("Stats")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local lp = Players.LocalPlayer
+local ZapRemote = ReplicatedStorage:WaitForChild("ZAP"):WaitForChild("ZAP_RELIABLE")
+local MonstersFolder = Workspace:FindFirstChild("Monsters")
+local ContainersFolder = Workspace:FindFirstChild("Containers")
+local InteractablesFolder = Workspace:FindFirstChild("Interactables")
+local startTime = tick()
+local fpsStack = {}
+local origFogStart = Lighting.FogStart
+local origFogEnd = Lighting.FogEnd
+local origAtmosphere = Lighting:FindFirstChildWhichIsA("Atmosphere")
+local origDensity = origAtmosphere and origAtmosphere.Density or 0
+local OriginalSettings = {
+    Ambient = Lighting.Ambient,
+    OutdoorAmbient = Lighting.OutdoorAmbient,
+    GlobalShadows = Lighting.GlobalShadows,
+    Brightness = Lighting.Brightness
+}
+
+_G.SpinBotActive = false
+_G.SpinSpeed = 100
+_G.SpeedActive = false
+_G.SpeedBoost = 0.5
+_G.InfJumpActive = false
+_G.InstantInteract = false
+_G.NoclipActive = false
+_G.EspPlayer = false
+_G.EspMob = false
+_G.EspAllChests = false
+_G.ThirdPersonActive = false
+_G.CameraDistance = 50
+_G.FullBrightActive = false
+_G.NoFogActive = false
+_G.AutoCollectChest = false
+_G.AutoFarm = false
+_G.PlatformActive = false
+_G.AutoBlueprintMaster = false
+_G.GoldBugActive = false
+_G.BringWeaponsActive = false
+_G.FarmRadius = 100 
+_G.AttackDelay = 0.05
+local SavedKey = nil 
+
+
+local MainHUD = Instance.new("ScreenGui", CoreGui)
+local PingLabel = Instance.new("TextLabel", MainHUD)
+PingLabel.Size = UDim2.new(0, 100, 0, 30)
+PingLabel.Position = UDim2.new(1, -110, 0, 10)
+PingLabel.BackgroundColor3 = Color3.fromRGB(15, 15, 18)
+PingLabel.TextColor3 = Color3.fromRGB(0, 255, 0)
+PingLabel.Text = "PING: --ms"
+Instance.new("UICorner", PingLabel)
+
+
+--thông báo scripts
+local function NotifyOn(title, text)
+    local sound = Instance.new("Sound")
+    sound.SoundId = "rbxassetid://4590662766" 
+    sound.Parent = game:GetService("SoundService")
+    sound:Play()
+    sound.Ended:Connect(function() sound:Destroy() end)
+game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = title,
+        Text = text,
+        Duration = 5
+    })
+end
+
+local function AddMiscBtn(name, color, callback)
+    local B = Instance.new("TextButton")
+    B.Size = UDim2.new(0.9, 0, 0, 45)
+    B.BackgroundColor3 = color
+    B.Text = name
+    B.TextColor3 = Color3.new(1, 1, 1)
+    B.Font = Enum.Font.GothamBold
+    Instance.new("UICorner", B)
+    B.MouseButton1Click:Connect(callback)
+    return B
+end
+local function AddToggle(name, parent, callback)
+    local Frame = Instance.new("Frame", parent)
+    Frame.Size = UDim2.new(0.9, 0, 0, 45)
+    Frame.BackgroundTransparency = 1
+    
+    local B = Instance.new("TextButton", Frame)
+    B.Size = UDim2.new(1, 0, 1, 0)
+    B.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
+    B.Text = "  " .. name .. ": OFF"
+    B.TextColor3 = Color3.fromRGB(200, 200, 200)
+    B.Font = Enum.Font.GothamBold
+    B.TextSize = 12
+    B.TextXAlignment = Enum.TextXAlignment.Left
+    Instance.new("UICorner", B)
+    
+    local act = false
+    B.MouseButton1Click:Connect(function()
+        act = not act
+        B.Text = "  " .. name .. (act and ": ON" or ": OFF")
+        B.TextColor3 = act and Color3.fromRGB(255, 200, 0) or Color3.fromRGB(200, 200, 200)
+        B.BackgroundColor3 = act and Color3.fromRGB(45, 45, 50) or Color3.fromRGB(35, 35, 40)
+        callback(act)
+	end)
+    local toggleObj = {}
+    function toggleObj:SetText(newText)
+        name = newText
+        B.Text = "  " .. name .. (act and ": ON" or ": OFF")
+    end
+    return toggleObj
+end
+
+local function AddInput(name, def, parent, callback)
+    local I = Instance.new("TextBox", parent)
+    I.Size = UDim2.new(0.9, 0, 0, 40)
+    I.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
+    I.Text = name .. ": " .. def
+    I.TextColor3 = Color3.fromRGB(255, 200, 0)
+    I.Font = Enum.Font.GothamSemibold
+    I.TextSize = 12
+    Instance.new("UICorner", I)
+    
+    I.FocusLost:Connect(function()
+        local val = tonumber(I.Text:match("%d+%.?%d*")) or def
+        I.Text = name .. ": " .. val
+        callback(val)
+    end)
+end
+
+--tab linh tinh 
+local function UltraLowLag()
+    local l = game:GetService("Lighting")
+    l.GlobalShadows = false
+    l.FogEnd = 9e9
+    settings().Rendering.QualityLevel = 1
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA("Part") or v:IsA("UnionOperation") or v:IsA("MeshPart") then
+            v.Material = Enum.Material.Plastic
+            v.Color = Color3.fromRGB(150, 150, 150)
+        elseif v:IsA("Decal") or v:IsA("Texture") then
+            v:Destroy()
+        elseif v:IsA("ParticleEmitter") or v:IsA("Trail") then
+            v.Enabled = false
+        end
+    end
+end
+
+--anti admin
+
+local function AntiAdmin()
+    Players.PlayerAdded:Connect(function(player)
+        if player:GetRankInGroup(0) > 100 or player.Name == "Admin" then 
+            lp:Kick("⚠ PHÁT HIỆN ADMIN: " .. player.Name .. " ĐÃ VÀO SERVER!")
+        end
+    end)
+end
+
+--xoay nhân vật
+task.spawn(function()
+    while true do
+        task.wait() 
+        if _G.SpinBotActive then
+            pcall(function()
+                local char = lp.Character
+                local hrp = char and char:FindFirstChild("HumanoidRootPart")
+                if hrp then
+                    hrp.CFrame = hrp.CFrame * CFrame.Angles(0, math.rad(_G.SpinSpeed), 0)
+                end
+            end)
+        end
+    end
+end)
+
+local CoreGui = game:GetService("CoreGui")
+if CoreGui:FindFirstChild("CongSupreme_V26") then CoreGui["CongSupreme_V26"]:Destroy() end
+
+local ScreenGui = Instance.new("ScreenGui", CoreGui)
+ScreenGui.Name = "CongSupreme_V26"
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+local Theme = {
+    MainBg = Color3.fromRGB(18, 18, 22),       
+    SidebarBg = Color3.fromRGB(23, 23, 28),
+    Accent = Color3.fromRGB(255, 180, 0),
+    Text = Color3.fromRGB(245, 245, 245),
+    SecondaryText = Color3.fromRGB(140, 140, 150),
+    ButtonBg = Color3.fromRGB(32, 32, 38)
+}
+local Main = Instance.new("Frame", ScreenGui) 
+Main.Name = "MainFrame"
+Main.Size = UDim2.new(0, 450, 0, 320)
+Main.Position = UDim2.new(0.5, -225, 0.5, -160)
+Main.BackgroundColor3 = Color3.fromRGB(0, 0, 0) 
+Main.BackgroundTransparency = 0.15 
+Main.Active = true
+Main.Draggable = true 
+
+local M_Corner = Instance.new("UICorner", Main)
+M_Corner.CornerRadius = UDim.new(0, 15) 
+local Gradient = Instance.new("UIGradient", Main)
+Gradient.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), 
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(150, 150, 150)), 
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 50, 50)) 
+})
+local M_Stroke = Instance.new("UIStroke", Main)
+M_Stroke.Color = Theme.Accent
+M_Stroke.Thickness = 2.5 
+M_Stroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+M_Stroke.Transparency = 0 
+local M_Glow = Instance.new("UIStroke", Main)
+M_Glow.Color = Theme.Accent
+M_Glow.Thickness = 5
+M_Glow.Transparency = 0.8 
+local Sidebar = Instance.new("Frame", Main)
+Sidebar.Name = "Sidebar"
+Sidebar.Size = UDim2.new(0, 120, 1, 0)
+Sidebar.BackgroundColor3 = Theme.SidebarBg
+local S_Corner = Instance.new("UICorner", Sidebar)
+S_Corner.CornerRadius = UDim.new(0, 12)
+
+local S_Line = Instance.new("Frame", Sidebar)
+S_Line.Size = UDim2.new(0, 1, 0.9, 0)
+S_Line.Position = UDim2.new(1, 0, 0.05, 0)
+S_Line.BackgroundColor3 = Theme.Accent
+S_Line.BorderSizePixel = 0
+
+local Title = Instance.new("TextLabel", Sidebar)
+Title.Size = UDim2.new(1, 0, 0, 60)
+Title.Text = "setchauphi"
+Title.TextColor3 = Theme.Accent
+Title.Font = Enum.Font.GothamBold
+Title.TextSize = 16
+Title.BackgroundTransparency = 1
+Title.ZIndex = 5
+local TabListFrame = Instance.new("ScrollingFrame", Sidebar)
+TabListFrame.Name = "TabList"
+TabListFrame.Size = UDim2.new(1, 0, 1, -70)
+TabListFrame.Position = UDim2.new(0, 0, 0, 60)
+TabListFrame.BackgroundTransparency = 1
+TabListFrame.BorderSizePixel = 0
+TabListFrame.ScrollBarThickness = 2
+TabListFrame.CanvasSize = UDim2.new(0, 0, 0, 500) 
+
+local TabLayout = Instance.new("UIListLayout", TabListFrame)
+TabLayout.Padding = UDim.new(0, 5)
+TabLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+TabLayout.SortOrder = Enum.SortOrder.LayoutOrder 
+local Content = Instance.new("Frame", Main)
+Content.Name = "Content"
+Content.Size = UDim2.new(1, -130, 1, -20)
+Content.Position = UDim2.new(0, 125, 0, 10)
+Content.BackgroundTransparency = 1
+
+local TabHold = Instance.new("Frame", Content)
+TabHold.Size = UDim2.new(1, 0, 1, 0)
+TabHold.BackgroundTransparency = 1
+local tabCount = 0
+local function CreateTab(name, isFirst)
+    tabCount = tabCount + 1
+    
+    -- Tạo nút bấm
+    local TabBtn = Instance.new("TextButton", TabListFrame)
+    TabBtn.Name = name .. "_Btn"
+    TabBtn.LayoutOrder = tabCount -- Ép thứ tự
+    TabBtn.Size = UDim2.new(0.9, 0, 0, 35)
+    TabBtn.BackgroundColor3 = isFirst and Theme.Accent or Color3.fromRGB(30, 30, 35)
+    TabBtn.Text = name
+    TabBtn.TextColor3 = isFirst and Color3.new(0,0,0) or Color3.new(1,1,1)
+    TabBtn.Font = Enum.Font.GothamBold
+    TabBtn.TextSize = 11
+    Instance.new("UICorner", TabBtn)
+
+    -- Tạo nội dung
+    local T = Instance.new("ScrollingFrame", TabHold)
+    T.Name = name .. "_Tab"
+    T.Size = UDim2.new(1, 0, 1, 0)
+    T.BackgroundTransparency = 1
+    T.Visible = isFirst
+    T.ScrollBarThickness = 0
+    T.CanvasSize = UDim2.new(0, 0, 0, 800)
+    
+    local L = Instance.new("UIListLayout", T)
+    L.Padding = UDim.new(0, 10)
+    L.HorizontalAlignment = "Center"
+
+    TabBtn.MouseButton1Click:Connect(function()
+        for _, v in pairs(TabHold:GetChildren()) do 
+            if v:IsA("ScrollingFrame") then v.Visible = false end 
+        end
+        for _, v in pairs(TabListFrame:GetChildren()) do 
+            if v:IsA("TextButton") then 
+                v.BackgroundColor3 = Color3.fromRGB(30, 30, 35) 
+                v.TextColor3 = Color3.new(1,1,1)
+            end 
+        end
+        T.Visible = true
+        TabBtn.BackgroundColor3 = Theme.Accent
+        TabBtn.TextColor3 = Color3.new(0,0,0)
+    end)
+
+    return T
+end
+
+--tab
+local Tab_Main= CreateTab("Main", true) 
+local Tab_Character =CreateTab("Character", false)
+local Tab_Bring =CreateTab("bring",false)
+local Tab_Auto= CreateTab("Auto", false)
+local Tab_Visual = CreateTab("Visual", false)
+local Tab_Tele= CreateTab("Tele", false)
+local Tab_Misc= CreateTab("Misc", false)
+local Tab_Language= CreateTab("language",false)
+
+local MiniBtn = Instance.new("TextButton", ScreenGui)
+MiniBtn.Name = "MiniButton"
+MiniBtn.Size = UDim2.new(0, 60, 0, 60)
+MiniBtn.Position = UDim2.new(0, 15, 0.5, -30)
+MiniBtn.BackgroundColor3 = Theme.MainBg
+MiniBtn.Text = "⚡️"
+MiniBtn.TextColor3 = Theme.Accent
+MiniBtn.TextSize = 25
+MiniBtn.Visible = false
+MiniBtn.Active = true
+MiniBtn.ZIndex = 10 
+local MiniCorner = Instance.new("UICorner", MiniBtn)
+MiniCorner.CornerRadius = UDim.new(1, 0)
+local MiniStroke = Instance.new("UIStroke", MiniBtn)
+MiniStroke.Color = Theme.Accent
+MiniStroke.Thickness = 2.5
+MiniStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+MiniBtn.MouseButton1Down:Connect(function()
+    MiniBtn:TweenSize(UDim2.new(0, 50, 0, 50), "Out", "Quad", 0.1, true)
+end)
+
+MiniBtn.MouseButton1Up:Connect(function()
+    MiniBtn:TweenSize(UDim2.new(0, 60, 0, 60), "Out", "Back", 0.2, true)
+end)
+local dragging = false
+local dragStart, startPos
+
+MiniBtn.InputBegan:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = true
+        dragStart = input.Position
+        startPos = MiniBtn.Position
+    end
+end)
+
+game:GetService("UserInputService").InputChanged:Connect(function(input)
+    if dragging and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local delta = input.Position - dragStart
+        game:GetService("TweenService"):Create(MiniBtn, TweenInfo.new(0.15, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+            Position = UDim2.new(
+                startPos.X.Scale, startPos.X.Offset + delta.X, 
+                startPos.Y.Scale, startPos.Y.Offset + delta.Y
+            )
+        }):Play()
+    end
+end)
+
+game:GetService("UserInputService").InputEnded:Connect(function(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        dragging = false
+    end
+end)
+
+local CloseBtn = Instance.new("TextButton", Main)
+CloseBtn.Size = UDim2.new(0, 25, 0, 25)
+CloseBtn.Position = UDim2.new(1, -35, 0, 10)
+CloseBtn.Text = "_"
+CloseBtn.TextColor3 = Theme.Text
+CloseBtn.BackgroundColor3 = Theme.ButtonBg
+Instance.new("UICorner", CloseBtn)
+
+CloseBtn.MouseButton1Click:Connect(function()
+    Main.Visible = false
+    MiniBtn.Visible = true
+end)
+MiniBtn.MouseButton1Click:Connect(function()
+    Main.Visible = true
+    MiniBtn.Visible = false
+end)
+
+--nút chức năng linh tinh
+local LagBtn = AddMiscBtn("giảm lag", Color3.fromRGB(0, 150, 0), function()
+    UltraLowLag()
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "sét châu phi",
+        Text = "Đã tối ưu hóa đồ họa cực thấp!",
+        Duration = 3
+    })
+end)
+LagBtn.Parent = Tab_Misc
+
+AddToggle("Anti Admin", Tab_Misc, function(s)
+    if s then AntiAdmin() end
+end)
+AddToggle("đột quỵ 1", Tab_Misc, function(s)
+    _G.SpinBotActive = s
+end)
+
+--thông tin tab main
+local Author = "Courier cat 🗿🥀"
+local CreateDate = "3/04/2026"
+local LastUpdate = "17/05/2026"
+local TikTokLink = "www.tiktok.com/@bnhtrngtrn042"
+local FacebookLink = "https://www.facebook.com/share/1McTRuX21R/?mibextid=wwXIfr"
+
+local MainScroll = Instance.new("ScrollingFrame", Tab_Main)
+MainScroll.Size = UDim2.new(1, -10, 1, -10)
+MainScroll.Position = UDim2.new(0, 5, 0, 5)
+MainScroll.BackgroundTransparency = 1
+MainScroll.CanvasSize = UDim2.new(0, 0, 0, 450)
+MainScroll.ScrollBarThickness = 2
+
+local Layout = Instance.new("UIListLayout", MainScroll)
+Layout.Padding = UDim.new(0, 8)
+Layout.SortOrder = Enum.SortOrder.LayoutOrder
+
+local function AddInfo(title, value, color)
+    local Label = Instance.new("TextLabel", MainScroll)
+    Label.Size = UDim2.new(1, -10, 0, 25)
+    Label.BackgroundTransparency = 1
+    Label.Text = " <b>" .. title .. ":</b> " .. tostring(value)
+    Label.RichText = true
+    Label.TextColor3 = color or Color3.new(1, 1, 1)
+    Label.Font = Enum.Font.Gotham
+    Label.TextSize = 13
+    Label.TextXAlignment = Enum.TextXAlignment.Left
+    return Label
+end
+
+local function AddCopyBtn(text, link, color)
+    local Btn = Instance.new("TextButton", MainScroll)
+    Btn.Size = UDim2.new(0.9, 0, 0, 35)
+    Btn.BackgroundColor3 = color
+    Btn.Text = text
+    Btn.TextColor3 = Color3.new(1, 1, 1)
+    Btn.Font = Enum.Font.GothamBold
+    Btn.TextSize = 12
+    Instance.new("UICorner", Btn)    
+    Btn.MouseButton1Click:Connect(function()
+        setclipboard(link)
+        NotifyOn("Hệ Thống", "Đã copy link: " .. text)
+        Btn.Text = "✅ ĐÃ COPY"
+        task.wait(1)
+        Btn.Text = text
+    end)
+end
+
+local function AddNote(text)
+    local Note = Instance.new("TextLabel", MainScroll)
+    Note.Name = "UserNote"
+    Note.Size = UDim2.new(1, -20, 0, 20)
+    Note.BackgroundTransparency = 1
+    Note.Text = "• " .. text 
+    Note.TextColor3 = Color3.fromRGB(255, 255, 255) 
+    Note.TextSize = 13
+    Note.Font = Enum.Font.SourceSans 
+    Note.TextXAlignment = Enum.TextXAlignment.Left
+    return Note
+end
+
+--note
+AddNote("👾 CẬP NHẬT MỚI 👾")
+AddNote("thêm language(VI,EN)")
+AddNote("🔧update kill aura,esp,noclip tối ưu hơn")
+AddNote("🧟bring xác zombie đang bị tàn hình")
+AddNote("🛠️ thêm chức năng bring siêu vip")
+AddNote("🐥 cách bug gold có trên tiktok courier cat 👈")
+AddNote("⚔️ Kill Aura: Cần đánh tay 1 lần để kích hoạt")
+AddNote("👇🏻góp ý qua tiktok or fakebook👇🏻")
+
+AddInfo("Tác giả", Author, Color3.fromRGB(255, 180, 0))
+local PlayTime = AddInfo("Thời gian chơi", "00:00:00")
+local ServerPlayers = AddInfo("Số người chơi", "0/0")
+local FPSLabel = AddInfo("Tốc độ khung hình (FPS)", "60 FPS")
+AddInfo("Ngày tạo", CreateDate, Color3.fromRGB(200, 200, 200))
+AddInfo("Cập nhật cuối", LastUpdate, Color3.fromRGB(200, 200, 200))
+
+local Line = Instance.new("Frame", MainScroll)
+Line.Size = UDim2.new(0.9, 0, 0, 1)
+Line.BackgroundColor3 = Color3.new(1,1,1)
+Line.BackgroundTransparency = 0.5
+
+AddCopyBtn("COPY TIKTOK", TikTokLink, Color3.fromRGB(0, 0, 0))
+AddCopyBtn("COPY FACEBOOK", FacebookLink, Color3.fromRGB(24, 119, 242))
+
+task.spawn(function()
+    while task.wait(1) do
+        ServerPlayers.Text = " <b>Số người chơi:</b> " .. #game.Players:GetPlayers() .. "/" .. game.Players.MaxPlayers
+        local diff = math.floor(tick() - startTime)
+        local h = math.floor(diff / 3600)
+        local m = math.floor((diff % 3600) / 60)
+        local s = diff % 60
+        PlayTime.Text = string.format(" <b>Thời gian chơi:</b> %02d:%02d:%02d", h, m, s)
+    end
+end)
+
+RunService.RenderStepped:Connect(function(dt)
+    table.insert(fpsStack, dt)
+    if #fpsStack > 60 then table.remove(fpsStack, 1) end
+    local avg = 0
+    for _, v in pairs(fpsStack) do avg = avg + v end
+    FPSLabel.Text = " <b>Tốc độ khung hình (FPS):</b> " .. math.floor(1 / (avg / #fpsStack)) .. " FPS"
+end)
+
+--bay
+
+
+--speed
+
+RunService.Heartbeat:Connect(function()
+    if _G.SpeedActive then
+        local char = lp.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        local hum = char and char:FindFirstChild("Humanoid")
+        if hrp and hum and hum.MoveDirection.Magnitude > 0 then
+            hrp.CFrame = hrp.CFrame + (hum.MoveDirection * _G.SpeedBoost)
+        end
+    end
+end)
+
+--infinite jumb
+
+UserInputService.JumpRequest:Connect(function()
+    if _G.InfJumpActive then
+        local hum = lp.Character and lp.Character:FindFirstChildOfClass("Humanoid")
+        if hum then hum:ChangeState(Enum.HumanoidStateType.Jumping) end
+    end
+end)
+
+--noclip
+
+RunService.Stepped:Connect(function()
+    if _G.NoclipActive and lp.Character then
+        local humanoid = lp.Character:FindFirstChildOfClass("Humanoid")
+        local rootPart = lp.Character:FindFirstChild("HumanoidRootPart")
+        if humanoid and rootPart then
+            if humanoid:GetState() == Enum.HumanoidStateType.Freefall and rootPart.Velocity.Y < -40 then
+                for _, v in pairs(lp.Character:GetChildren()) do
+                    if v:IsA("BasePart") then v.CanCollide = true end
+                end
+            else
+                for _, v in pairs(lp.Character:GetChildren()) do
+                    if v:IsA("BasePart") then v.CanCollide = false end
+                end
+            end
+        end
+    end
+end)
+
+--tương tác nhanh
+
+task.spawn(function()
+    while task.wait(1) do 
+        if _G.InstantInteract then
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("ProximityPrompt") then
+                    if not v:GetAttribute("OriginalHold") then
+                        v:SetAttribute("OriginalHold", v.HoldDuration)
+                    end
+                    v.HoldDuration = 0
+                end
+            end
+        else
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA("ProximityPrompt") and v:GetAttribute("OriginalHold") then
+                    v.HoldDuration = v:GetAttribute("OriginalHold")
+                end
+            end
+        end
+    end
+end)
+
+workspace.DescendantAdded:Connect(function(v)
+    if _G.InstantInteract and v:IsA("ProximityPrompt") then
+        v.HoldDuration = 0
+    end
+end)
+
+--nút
+
+Toggle_Speed = AddToggle("speed", Tab_Character, function(s) 
+    _G.SpeedActive = s
+    if s then NotifyOn("six seven", "tốc độ bật") end
+end)
+
+AddInput("tốc độ", "0.5", Tab_Character, function(v) 
+    _G.SpeedBoost = tonumber(v) or 0.5 
+end)
+
+Toggle_Fly = AddToggle("Fly Mode", Tab_Character, function(s)
+    if s ~= flying then
+        ToggleFly()
+    end
+    if s then NotifyOn("six seven", "Bay bật") end
+end)
+
+AddInput("Fly Speed", "50", Tab_Character, function(v)
+    _G.FlySpeed = tonumber(v) or 50
+end)
+
+Toggle_InfJump = AddToggle("nhảy vô hạn", Tab_Character, function(s) 
+    _G.InfJumpActive = s
+    if s then NotifyOn("six seven", "nhảy vô hạn bật") end
+end)
+
+Toggle_Instant = AddToggle("Tương Tác Nhanh (Instant)", Tab_Character, function(s)
+    _G.InstantInteract = s
+    if s then NotifyOn("six seven", "tương tác nhanh bật") end
+end)
+
+Toggle_Noclip = AddToggle("xuyên tường", Tab_Character, function(s)
+    _G.NoclipActive = s
+    if s then NotifyOn("six seven", "xuyên tường bật") end
+end)
+
+
+
+--tele v2
+local function SafeTele(cf)
+    pcall(function()
+        if lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") then
+            lp.Character.HumanoidRootPart.CFrame = cf
+        end
+    end)
+end
+
+local CoreBtn = Instance.new("TextButton", Tab_Tele)
+CoreBtn.Size = UDim2.new(0.9, 0, 0, 45)
+CoreBtn.BackgroundColor3 = Color3.fromRGB(255, 100, 0)
+CoreBtn.Text = "telebot"
+CoreBtn.TextColor3 = Color3.new(1, 1, 1)
+CoreBtn.Font = Enum.Font.GothamBold
+Instance.new("UICorner", CoreBtn)
+CoreBtn.MouseButton1Click:Connect(function()
+    local core = workspace:FindFirstChild("Block", true) or workspace:FindFirstChild("Core", true)
+    SafeTele(core and (core.CFrame * CFrame.new(0, 4, 0)) or CFrame.new(0, 15, 0))
+end)
+
+local PlayerScroll = Instance.new("ScrollingFrame", Tab_Tele)
+PlayerScroll.Size = UDim2.new(0.95, 0, 0, 180)
+PlayerScroll.BackgroundTransparency = 1
+PlayerScroll.ScrollBarThickness = 2
+local pList = Instance.new("UIListLayout", PlayerScroll)
+pList.Padding = UDim.new(0, 5)
+
+local function RefreshPlayers()
+    for _, v in pairs(PlayerScroll:GetChildren()) do if v:IsA("TextButton") then v:Destroy() end end
+    for _, p in pairs(Players:GetPlayers()) do
+        if p ~= lp then
+            local pBtn = Instance.new("TextButton", PlayerScroll)
+            pBtn.Size = UDim2.new(0.95, 0, 0, 35)
+            pBtn.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+            pBtn.Text = p.DisplayName
+            pBtn.TextColor3 = Color3.new(1, 1, 1)
+            Instance.new("UICorner", pBtn)
+            pBtn.MouseButton1Click:Connect(function()
+                if p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
+                    SafeTele(p.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3))
+                end
+            end)
+        end
+    end
+end
+
+local RefBtn = Instance.new("TextButton", Tab_Tele)
+RefBtn.Size = UDim2.new(0.5, 0, 0, 30)
+RefBtn.Text = "LÀM MỚI TÊN"
+RefBtn.TextColor3 = Theme.Accent
+RefBtn.BackgroundColor3 = Color3.fromRGB(45, 45, 50)
+Instance.new("UICorner", RefBtn)
+RefBtn.MouseButton1Click:Connect(RefreshPlayers)
+RefreshPlayers()
+
+--visua
+--esp chest
+
+local function CreateESP(obj, color)
+    if obj:FindFirstChild("CongESP") then return end
+
+    local hl = Instance.new("Highlight")
+    hl.Name = "CongESP"
+    hl.FillColor = color
+    hl.FillTransparency = 0.5
+    hl.OutlineColor = Color3.fromRGB(255, 255, 255)
+    hl.OutlineTransparency = 0
+    hl.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    hl.Parent = obj
+end
+
+local function RemoveESP(obj)
+    local esp = obj:FindFirstChild("CongESP")
+    local tag = obj:FindFirstChild("CongTag")
+    if esp then esp:Destroy() end
+    if tag then tag:Destroy() end
+end
+
+local function ApplyChestESP(obj, text, color)
+    if obj:FindFirstChild("ChestVisual") then return end
+    local billboard = Instance.new("BillboardGui")
+    billboard.Name = "ChestVisual"
+    billboard.AlwaysOnTop = true
+    billboard.Size = UDim2.new(0, 120, 0, 50)
+    billboard.StudsOffset = Vector3.new(0, 2, 0)
+
+    local label = Instance.new("TextLabel")
+    label.Parent = billboard
+    label.Size = UDim2.new(1, 0, 1, 0)
+    label.BackgroundTransparency = 1
+    label.Text = text
+    label.TextColor3 = color
+    label.Font = Enum.Font.GothamBold
+    label.TextSize = 12
+    label.TextStrokeTransparency = 0.3
+    
+    billboard.Parent = obj
+    task.spawn(function()
+        local target = obj:IsA("Model") and (obj.PrimaryPart or obj:FindFirstChild("HumanoidRootPart")) or obj
+        
+        while _G.EspAllChests and obj and obj.Parent do
+            local char = lp.Character
+            local hrp = char and char:FindFirstChild("HumanoidRootPart")
+            
+            if hrp and target then
+                local targetPos = obj:IsA("Model") and obj:GetPivot().Position or obj.Position
+                local d = math.floor((hrp.Position - targetPos).Magnitude)
+                label.Text = string.format("%s [%dm]", text, d)
+            end
+            task.wait(0.5)
+        end
+        if billboard then billboard:Destroy() end
+    end)
+end
+
+--gics nhìn thứ 3
+
+local function UpdateArmVisibility()
+    local char = lp.Character
+    if not char then return end
+    local armTransparency = _G.ThirdPersonActive and 0 or 1
+    local cameraObjTransparency = _G.ThirdPersonActive and 1 or 0
+    for _, v in pairs(char:GetChildren()) do
+        if v:IsA("BasePart") and (v.Name:find("Arm") or v.Name:find("Hand")) then
+            v.LocalTransparencyModifier = armTransparency
+        end
+    end
+    for _, v in pairs(workspace.CurrentCamera:GetChildren()) do
+        if v:IsA("Model") or v:IsA("BasePart") then
+            if v:IsA("BasePart") then
+                v.LocalTransparencyModifier = cameraObjTransparency
+            else
+                for _, part in pairs(v:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.LocalTransparencyModifier = cameraObjTransparency
+                    end
+                end
+            end
+        end
+    end
+end
+
+RunService.RenderStepped:Connect(function()
+    local pingValue = math.floor(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValue())
+    PingLabel.Text = "PING: " .. pingValue .. "ms"
+end)
+    
+task.spawn(function()
+    while true do
+        for _, p in pairs(Players:GetPlayers()) do
+            if p ~= lp and p.Character then
+                if _G.EspPlayer then 
+                    CreateESP(p.Character, Color3.fromRGB(0, 170, 255)) 
+                else 
+                    RemoveESP(p.Character) 
+                end
+            end
+        end
+        if _G.EspMob and MonstersFolder then
+            for _, obj in pairs(MonstersFolder:GetChildren()) do
+                if obj:IsA("Model") and obj:FindFirstChild("Humanoid") then
+                    if TargetMobs then
+                        for _, mobName in pairs(TargetMobs) do
+                            if obj.Name == mobName then 
+                                CreateESP(obj, Color3.fromRGB(255, 0, 0)) 
+                            end
+                        end
+                    else
+                        CreateESP(obj, Color3.fromRGB(255, 0, 0))
+                    end
+                end
+            end
+        else
+            if MonstersFolder then
+                for _, obj in pairs(MonstersFolder:GetChildren()) do
+                    RemoveESP(obj)
+                end
+            end
+        end
+        task.wait(1)
+    end
+end)
+
+task.spawn(function()
+    while task.wait(0.5) do 
+        if _G.FullBrightActive then
+            
+            if Lighting.GlobalShadows ~= false then
+                Lighting.Ambient = Color3.fromRGB(200, 200, 200)
+                Lighting.OutdoorAmbient = Color3.fromRGB(200, 200, 200)
+                Lighting.GlobalShadows = false
+                Lighting.Brightness = 2
+            end
+        else
+            if Lighting.GlobalShadows == false then
+                Lighting.Ambient = OriginalSettings.Ambient
+                Lighting.OutdoorAmbient = OriginalSettings.OutdoorAmbient
+                Lighting.GlobalShadows = OriginalSettings.GlobalShadows
+                Lighting.Brightness = OriginalSettings.Brightness
+            end
+        end
+        UpdateArmVisibility()
+    end
+end)
+
+task.spawn(function()
+    while true do
+        if _G.EspMob and MonstersFolder then
+            for _, obj in pairs(MonstersFolder:GetChildren()) do
+                if obj:IsA("Model") and obj:FindFirstChild("HumanoidRootPart") then
+                    local hum = obj:FindFirstChildOfClass("Humanoid")
+                    if hum and hum.Health > 0 then 
+                        CreateESP(obj, Color3.fromRGB(255, 0, 0)) 
+                    else 
+                        RemoveESP(obj) 
+                    end
+                end
+            end
+        else
+            if MonstersFolder then
+                for _, obj in pairs(MonstersFolder:GetChildren()) do
+                    RemoveESP(obj)
+                end
+            end
+        end
+        task.wait(0.5)
+    end
+end)
+
+local fogApplied = false 
+
+task.spawn(function()
+    while task.wait(1) do
+        if _G.NoFogActive then
+            if not fogApplied then
+                Lighting.FogStart = 999999
+                Lighting.FogEnd = 999999
+                local atmosphere = Lighting:FindFirstChildWhichIsA("Atmosphere")
+                if atmosphere then 
+                    atmosphere.Density = 0 
+                end
+                fogApplied = true 
+            end
+        else
+            if fogApplied then
+                Lighting.FogStart = origFogStart
+                Lighting.FogEnd = origFogEnd
+                local atmosphere = Lighting:FindFirstChildWhichIsA("Atmosphere")
+                if atmosphere then 
+                    atmosphere.Density = origDensity 
+                end
+                fogApplied = false 
+            end
+        end
+    end
+end)
+
+
+task.spawn(function()
+    while true do
+        if _G.EspAllChests and ContainersFolder then
+            for _, v in pairs(ContainersFolder:GetChildren()) do
+                if not v.Name:lower():find("open") then
+                    local target = (v:IsA("Model") and v.PrimaryPart) and v.PrimaryPart or v
+                    if v.Name:find("Weapon") or v.Name:find("Crate") then ApplyChestESP(target, v.Name, Color3.fromRGB(0, 255, 255))
+                    elseif v.Name:find("Chest") or v.Name:find("Mystery") then ApplyChestESP(target, v.Name, Color3.fromRGB(255, 150, 0)) end
+                end
+            end
+        else
+            if ContainersFolder then
+                for _, v in pairs(ContainersFolder:GetChildren()) do
+                    local target = v:IsA("Model") and v.PrimaryPart or v
+                    local esp = target and target:FindFirstChild("ChestVisual")
+                    if esp then esp:Destroy() end
+                end
+            end
+        end
+        task.wait(1)
+    end
+end)
+
+Toggle_ThirdPerson = AddToggle("góc nhìn thứ 3", Tab_Visual, function(s)
+    _G.ThirdPersonActive = s
+    lp.CameraMode = s and Enum.CameraMode.Classic or Enum.CameraMode.LockFirstPerson
+    if s then NotifyOn("six seven", "góc nhìn thứ 3 bật") end
+end)
+
+Toggle_EspPlayer = AddToggle("ESP Người Chơi", Tab_Visual, function(s) _G.EspPlayer = s if s then NotifyOn("six seven", "esp player bật") end end)
+Toggle_EspMob = AddToggle("ESP Quái Vật", Tab_Visual, function(s) _G.EspMob = s if s then NotifyOn("six seven", "esp mob bật") end end)
+Toggle_EspChest = AddToggle("ESP all chest", Tab_Visual, function(s) _G.EspAllChests = s if s then NotifyOn("six seven", "esp chest bật") end end)
+
+AddInput("độ xa camera", "50", Tab_Visual, function(v)
+    _G.CameraDistance = tonumber(v) or 50
+    lp.CameraMaxZoomDistance = _G.CameraDistance
+end)
+
+Toggle_FullBright = AddToggle("nhìn trong bóng tối", Tab_Visual, function(s) _G.FullBrightActive = s if s then NotifyOn("six seven", "night vision bật") end end)
+Toggle_NoFog = AddToggle("Xóa sương mù", Tab_Visual, function(s) _G.NoFogActive = s if s then NotifyOn("six seven", "xoá xương mù") end end)
+
+
+--kill aura
+
+old = hookmetamethod(game, "__namecall", function(self, ...)
+    local args = {...}
+    if self == ZapRemote and getnamecallmethod() == "FireServer" then
+        if typeof(args[1]) == "buffer" or typeof(args[1]) == "string" then
+            SavedKey = args[1] 
+        end
+    end
+    return old(self, ...)
+end)
+
+local function IsEnemy(model)
+    local hum = model:FindFirstChildOfClass("Humanoid")
+    if not hum or hum.Health <= 0 then return false end
+    return true
+end
+
+task.spawn(function()
+    while true do
+        if _G.AutoFarm and SavedKey and MonstersFolder then
+            local myRoot = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
+            if myRoot then
+                local CurrentMonsters = MonstersFolder:GetChildren()
+                
+                for _, obj in pairs(CurrentMonsters) do
+                    if not _G.AutoFarm then break end
+                    
+                    if obj:IsA("Model") and obj:FindFirstChild("HumanoidRootPart") and IsEnemy(obj) then
+                        local mobRoot = obj.HumanoidRootPart
+                        local dist = (myRoot.Position - mobRoot.Position).Magnitude
+                        
+                        if dist <= _G.FarmRadius then
+                            pcall(function()
+                                ZapRemote:FireServer(SavedKey, {obj})
+                            end)
+                            task.wait(0.01)
+                        end
+                    end
+                end
+            end
+        end
+        task.wait(_G.AttackDelay)
+    end
+end)
+
+--auto chest
+local OpenedChests = {} 
+
+task.spawn(function()
+    while true do
+        task.wait(0.5)
+        if _G.AutoCollectChest then
+            local char = lp.Character
+            local hrp = char and char:FindFirstChild("HumanoidRootPart")
+            
+            if hrp and ContainersFolder then
+                for _, v in pairs(ContainersFolder:GetChildren()) do
+                    if not _G.AutoCollectChest then break end
+                    
+local name = v.Name
+local prompt = v:FindFirstChildWhichIsA("ProximityPrompt", true) 
+
+if (name:find("Chest") or name:find("Crate")) and (prompt and prompt.Enabled) and not OpenedChests[v] then 
+                        local targetPart = v:IsA("Model") and (v.PrimaryPart or v:FindFirstChildWhichIsA("BasePart")) or v                     
+                        
+                        if targetPart and targetPart:IsA("BasePart") then
+                            hrp.CFrame = targetPart.CFrame * CFrame.new(0, 3, 0)
+                            task.wait(0.2)  
+       if prompt then
+                                prompt.HoldDuration = 0
+                                fireproximityprompt(prompt)
+                                OpenedChests[v] = true 
+                                task.wait(0.5) 
+                            end
+                        end
+                    end
+                end
+            end
+        else
+            if next(OpenedChests) ~= nil then
+                OpenedChests = {}
+            end
+        end
+    end
+end)
+
+--phần anti void
+local Platform = Instance.new("Part")
+Platform.Name = "CongSupreme_Platform"
+Platform.Size = Vector3.new(10, 1, 10)
+Platform.Anchored = true
+Platform.CanCollide = true
+Platform.Transparency = 1 
+Platform.Parent = workspace
+RunService.Heartbeat:Connect(function()
+    if _G.PlatformActive then
+        local char = lp.Character
+        local hrp = char and char:FindFirstChild("HumanoidRootPart")
+        if hrp then
+            Platform.CFrame = CFrame.new(hrp.Position.X, Platform.Position.Y, hrp.Position.Z)
+            Platform.CanCollide = true
+        else
+            Platform.CanCollide = false
+        end
+    else
+        Platform.CanCollide = false
+        Platform.CFrame = CFrame.new(0, -500, 0)
+    end
+end)
+
+-- nút tab auto
+
+Toggle_AutoFarm = AddToggle("kill aura", Tab_Auto, function(s)
+    _G.AutoFarm = s
+    if s then
+        NotifyOn("six seven", "kill aura bật")
+    end
+end)
+
+Toggle_AutoChest = AddToggle("auto all chest", Tab_Auto, function(s)
+    _G.AutoCollectChest = s
+    if s then
+        NotifyOn("six seven", "auto tele chest bật")
+    end
+end)
+
+Toggle_AutoBlueprint = AddToggle("auto bản thiết kế(beta)", Tab_Auto, function(s)
+    _G.AutoBlueprintMaster = s
+    if s then 
+        NotifyOn("six seven", "auto nhận bản thiết kế")
+    end
+end)
+
+Toggle_AntiVoid = AddToggle("anti void", Tab_Auto, function(s)
+    _G.PlatformActive = s
+    if s then
+        NotifyOn("six seven", "anti void bật")
+        if lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") then
+            Platform.Position = lp.Character.HumanoidRootPart.Position - Vector3.new(0, 3.5, 0)
+        end
+    end
+end)
+
+game:GetService("StarterGui"):SetCore("SendNotification", {
+    Title = "six seven",
+    Text = "đã tải xong",
+    Duration = 10
+})
+
+--auto bản thiết kế
+
+local BlueprintSequence = {
+    {Type = "Farm", Pos = Vector3.new(-432.01, 82.23, -35.68)},
+    {Type = "Farm", Pos = Vector3.new(-118.78, 67.92, -167.74)}, 
+    {Type = "Collect", Pos = Vector3.new(-142.67, 53.77, -211.52)}, 
+    {Type = "Farm", Pos = Vector3.new(251.28, 68.51, -23.98)}, 
+    {Type = "Collect", Pos = Vector3.new(229.28, 51.85, -33.03)}, 
+    {Type = "Farm", Pos = Vector3.new(627.25, 66.60, -185.59)}, 
+    {Type = "Collect", Pos = Vector3.new(657.27, 68.38, -179.39)}, 
+    {Type = "Collect", Pos = Vector3.new(667.93, 56.22, -134.54)}, 
+    {Type = "Farm", Pos = Vector3.new(688.43, 66.78, 242.20)}, 
+    {Type = "Collect", Pos = Vector3.new(690.56, 66.78, 273.21)}, 
+    {Type = "Collect", Pos = Vector3.new(456.61, 55.92, -597.25)}, 
+    {Type = "Farm", Pos = Vector3.new(989.22, 81.00, -126.43)}, 
+    {Type = "GetCode", Pos = {Vector3.new(981.03, 54.10, -162.96), Vector3.new(983.45, 54.10, -93.26)}}, 
+    {Type = "Final", Pos = Vector3.new(1037.90, 65.60, -126.34)} 
+}
+
+local function GetEnemies(radius)
+    local count = 0
+    local myRoot = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
+    if not myRoot then return 0, nil end
+
+    local firstEnemy = nil
+    for _, obj in pairs(workspace:GetDescendants()) do
+        if obj:IsA("Model") and obj:FindFirstChild("HumanoidRootPart") and obj:FindFirstChildOfClass("Humanoid") then
+            local hum = obj:FindFirstChildOfClass("Humanoid")
+            if hum.Health > 0 then
+                local name = obj.Name
+                if not (name:find("Farmer") or name:find("Builder") or name:find("Civilian")) then
+                    local dist = (myRoot.Position - obj.HumanoidRootPart.Position).Magnitude
+                    if dist <= radius then
+                        count = count + 1
+                        if not firstEnemy then firstEnemy = obj end
+                    end
+                end
+            end
+        end
+    end
+    return count, firstEnemy
+end
+
+task.spawn(function()
+    while true do
+        task.wait(1)
+        if not _G.AutoBlueprintMaster then continue end
+        
+        _G.AutoFarm = true 
+        
+        local currentIndex = 1
+        while _G.AutoBlueprintMaster and currentIndex <= #BlueprintSequence do
+            local root = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
+            if not root then task.wait(1) continue end
+            if NotifyOn then
+                NotifyOn("Processing", "Đang xử lý tọa độ: " .. currentIndex)
+            end
+
+            local Step = BlueprintSequence[currentIndex]
+            local targetPos = (typeof(Step.Pos) == "table") and Step.Pos[1] or Step.Pos
+            
+            root.CFrame = CFrame.new(targetPos)
+            task.wait(currentIndex == 1 and 2 or 1)
+            
+            if Step.Type == "Farm" then
+                if currentIndex == 1 then
+                    local _, enemy = GetEnemies(100)
+                    if enemy and enemy:FindFirstChild("HumanoidRootPart") then
+                        local hum = enemy.Humanoid
+                        local pullTime = tick()
+                        while hum and hum.Health > 0 and (tick() - pullTime < 5) and _G.AutoBlueprintMaster do
+                            enemy.HumanoidRootPart.CFrame = root.CFrame * CFrame.new(0, 0, -5)
+                            task.wait(0.1)
+                        end
+                    end
+                else
+                    local startTime = tick()
+                    repeat
+                        local enemyCount, _ = GetEnemies(100)
+                        task.wait(1)
+                    until enemyCount == 0 or (tick() - startTime > 15) or not _G.AutoBlueprintMaster
+                end
+                
+            elseif Step.Type == "Collect" or Step.Type == "Final" or Step.Type == "GetCode" then
+                local positions = (typeof(Step.Pos) == "table") and Step.Pos or {Step.Pos}
+                for _, p in pairs(positions) do
+                    root.CFrame = CFrame.new(p)
+                    task.wait(0.8)
+                    for _, v in pairs(workspace:GetDescendants()) do
+                        if v:IsA("ProximityPrompt") then
+                            if (v.Parent:IsA("BasePart") and (v.Parent.Position - root.Position).Magnitude < 30) then
+                                v.HoldDuration = 0
+                                fireproximityprompt(v)
+                            end
+                        end
+                    end
+                    task.wait(Step.Type == "GetCode" and 1.5 or 2.5)
+                end
+            end
+            
+            currentIndex = currentIndex + 1
+            task.wait(0.5)
+        end
+        _G.AutoBlueprintMaster = false
+        _G.AutoFarm = false
+        if NotifyOn then
+            NotifyOn("Done", "Đã hoàn thành bản thiết kế!")
+        end
+    end
+end)
+
+--auto bug gold
+local BugCoords = {
+    CodePositions = {
+        Vector3.new(981.03, 54.10, -162.96),
+        Vector3.new(983.45, 54.10, -93.26)
+    },
+    FinalPos = Vector3.new(1037.90, 65.60, -126.34),
+    FarmPoints = {
+        Vector3.new(452.10, 51.00, -531.34),
+        Vector3.new(1011.88, 81.00, -139.67),
+        Vector3.new(457.67, 110.96, -385.12)
+    }
+}
+local function BugInteract(targetPos)
+    local char = lp.Character
+    local hrp = char and char:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+    hrp.CFrame = CFrame.new(targetPos) + Vector3.new(0, 3, 0)
+    task.wait(0.3)
+    for _, v in pairs(workspace:GetDescendants()) do
+        if v:IsA("ProximityPrompt") then
+            local parent = v.Parent
+            local pos = parent:IsA("Model") and (parent.PrimaryPart and parent.PrimaryPart.Position) or (parent:IsA("BasePart") and parent.Position)
+            
+            if pos and (pos - hrp.Position).Magnitude < 20 then
+                v.HoldDuration = 0 
+                fireproximityprompt(v)
+                return true
+            end
+        end
+    end
+    return false
+end
+
+local function RunGoldBugPath()
+    task.spawn(function()
+        NotifyOn("six seven", "Đang đi lấy mã code...")
+        for _, pos in pairs(BugCoords.CodePositions) do
+            if not _G.GoldBugActive then return end
+            BugInteract(pos)
+            task.wait(0.3)
+        end
+        if not _G.GoldBugActive then return end
+        NotifyOn("six seven", "Đang mở UI Ngân hàng...")
+        BugInteract(BugCoords.FinalPos)
+        task.wait(1.2)
+        for i, pos in pairs(BugCoords.FarmPoints) do
+            if not _G.GoldBugActive then return end
+            NotifyOn("six seven", "Farm nhồi Bug tại điểm #"..i)
+            local hrp = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
+            if hrp then hrp.CFrame = CFrame.new(pos) end
+            for t = 5, 1, -1 do
+                if not _G.GoldBugActive then break end
+                task.wait(1)
+            end
+        end
+        if not _G.GoldBugActive then return end
+        NotifyOn("six seven", "chua nhập mã thì chịu")
+        local hrp = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
+        if hrp then hrp.CFrame = CFrame.new(BugCoords.FinalPos) end
+        
+        _G.GoldBugActive = false
+    end)
+end
+
+
+Toggle_GoldBug = AddToggle("Auto Gold Bug", Tab_Auto, function(state)
+    _G.GoldBugActive = state
+    if state then
+        RunGoldBugPath()
+    end
+end)
+
+
+--skip day
+
+local POS_SKIP = Vector3.new(-37.91, 51.59, 86.33)
+local POS_TREO = Vector3.new(-26.95, 85.49, 122.67)
+
+local function ClickSkip()
+    for _, v in pairs(workspace:GetDescendants()) do
+        if (v:IsA("ProximityPrompt") or v:IsA("ClickDetector")) then
+            local parent = v.Parent
+            if parent:IsA("BasePart") and (parent.Position - POS_SKIP).Magnitude < 15 then
+                if v:IsA("ProximityPrompt") then
+                    v.HoldDuration = 0 -- Ép thời gian giữ bằng 0 giống auto rương để bấm ngay lập tức
+                    fireproximityprompt(v)
+                else
+                    fireclickdetector(v)
+                end
+                return true
+            end
+        end
+    end
+    return false
+end
+
+AddToggle("auto days", Tab_Auto , function(s)
+    _G.AutoLoopActive = s
+    if _G.AutoLoopActive then
+        task.spawn(function()
+            local skippedForToday = false
+            while _G.AutoLoopActive do
+                -- Lấy RootPart an toàn bên trong vòng lặp (Chống sập script khi chết/hồi sinh)
+                local char = lp.Character
+                local RootPart = char and char:FindFirstChild("HumanoidRootPart")
+                
+                if RootPart then
+                    local hour = Lighting.ClockTime
+                    if hour >= 6 and hour < 18 then
+                        if not skippedForToday then
+                            RootPart.CFrame = CFrame.new(POS_SKIP)
+                            task.wait(0.4)
+                            if ClickSkip() then
+                                skippedForToday = true
+                                RootPart.CFrame = CFrame.new(POS_TREO)
+                            end
+                        else
+                            if (RootPart.Position - POS_TREO).Magnitude > 5 then
+                                RootPart.CFrame = CFrame.new(POS_TREO)
+                            end
+                        end
+                    else
+                        skippedForToday = false
+                        if (RootPart.Position - POS_TREO).Magnitude > 5 then
+                            RootPart.CFrame = CFrame.new(POS_TREO)
+                        end
+                    end
+                end
+                task.wait(0.5)
+            end
+        end)
+    end
+end)
+
+--nút bring 
+
+Toggle_BringVatLieu = AddToggle("Bring vật liệu", Tab_Bring, function(state)
+    _G.BringWhitelistActive = state
+end)
+
+Toggle_BringXacZombie = AddToggle("Bring xác zombie", Tab_Bring, function(state)
+    _G.BringCorpsesActive = state
+end)
+
+Toggle_BringDoYTe = AddToggle("Bring đồ y tế", Tab_Bring, function(state)
+    _G.BringBandagesActive = state
+end)
+
+Toggle_BringLinhTinh = AddToggle("bring linh tinh(lỗi)", Tab_Bring, function(stage)
+     _G.BringWeaponsActive = stage
+end)
+
+
+_G.MaterialWhitelist = {"Nut","WoodStool","BrokenLantern","Painting","Nail","Gear","Lamp","OldCan","Teapot","CrushedCan","VintageTV","Woodchair","Toaster","RockingChair","MetalBarrel","Wheel","CrackedBell","MetalGear","WheelBarrow"}
+
+-- Danh sách Zombie (Anti-lag)
+local TargetMobs = {
+    ["zombie"] = true, ["tankzombie"] = true, ["peazombie"] = true, ["fastzombie"] = true,
+    ["sewerrat"] = true, ["radioactiverat"] = true, ["carrotzombie"] = true, ["applezombie"] = true,
+    ["radioactivecornzombie"] = true, ["crawlerzombie"] = true, ["radioactiveapplezombie"] = true,
+    ["radioactivecarrotzombie"] = true, ["radioactivebananazombie"] = true, ["mushroomzombie"] = true,
+    ["enragedfastzombie"] = true, ["evilscientistboss"] = true, ["cherrybombzombie"] = true,
+    ["grapezombie"] = true, ["goldencarrotzombie"] = true, ["strawberryzombie"] = true,
+    ["blueberryzombie"] = true, ["doomberryzombie"] = true, ["enragedcactus"] = true,
+    ["bananazombie"] = true, ["firezombie"] = true, ["cactus"] = true, ["picklezombie"] = true,
+    ["eggplantzombie"] = true, ["cornzombie"] = true, ["onionzombie"] = true, ["ghostpepeer"] = true,
+    ["orangezombie"] = true, ["tomatozombie"] = true
+}
+
+local function IsInWhitelist(objName)
+    local cleanedName = objName:lower()
+    for _, whiteName in pairs(_G.MaterialWhitelist) do
+        if cleanedName == whiteName:lower() then
+            return true
+        end
+    end
+    return false
+end
+
+local function IsTargetMob(objName)
+    local cleanedObjName = objName:lower():gsub("%s+", "") 
+    return TargetMobs[cleanedObjName] or false
+end
+
+local function BringToPosition(obj, targetCFrame)
+    pcall(function()
+        local prompt = obj:FindFirstChildOfClass("ProximityPrompt") or obj:FindFirstChild("Prompt", true)
+
+        if obj:IsA("Model") then
+            if obj.PrimaryPart then
+                obj.PrimaryPart.CFrame = targetCFrame + Vector3.new(0, 1, 0)
+            else
+                obj:MoveTo(targetCFrame.Position) 
+            end
+        else
+            obj.Anchored = false
+            obj.CanCollide = false
+            obj.CFrame = targetCFrame + Vector3.new(0, 1, 0) 
+        end
+
+        if prompt then
+            task.spawn(function()
+                fireproximityprompt(prompt)
+            end)
+        end
+    end)
+end
+
+--hút vật liệu
+task.spawn(function()
+    local FixedCFrame = nil
+    while true do
+        task.wait(0.15) 
+        local lp = Players.LocalPlayer
+        if _G.BringWhitelistActive and lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") then
+            if not FixedCFrame then
+                FixedCFrame = lp.Character.HumanoidRootPart.CFrame
+            end
+            
+            if InteractablesFolder then
+                local CurrentInteractables = InteractablesFolder:GetChildren()
+                local ItemsBrought = 0
+                
+                for _, obj in pairs(CurrentInteractables) do
+                    if not _G.BringWhitelistActive then break end
+                    if obj:IsA("Part") or obj:IsA("MeshPart") or obj:IsA("Model") then
+                        if IsInWhitelist(obj.Name) then
+                            BringToPosition(obj, FixedCFrame)
+                            ItemsBrought = ItemsBrought + 1
+                            task.wait(0.01) 
+                        end
+                    end
+                end
+
+                if ItemsBrought > 0 then
+                    pcall(function()
+                        NotifyOn("six seven", "đã chôm thành công " .. ItemsBrought .. " nguyên liệu")
+                    end)
+                end
+            end
+        else
+            FixedCFrame = nil
+        end
+    end
+end)
+
+--hút xác
+task.spawn(function()
+    local FixedCFrame = nil
+    while true do
+        task.wait(0.15) 
+        local lp = Players.LocalPlayer
+        if _G.BringCorpsesActive and lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") then
+            if not FixedCFrame then
+                FixedCFrame = lp.Character.HumanoidRootPart.CFrame
+            end 
+            
+            if InteractablesFolder then
+                local CurrentInteractables = InteractablesFolder:GetChildren()
+                local CorpsesBrought = 0
+
+                for _, obj in pairs(CurrentInteractables) do
+                    if not _G.BringCorpsesActive then break end
+                    if IsTargetMob(obj.Name) then
+                        BringToPosition(obj, FixedCFrame)
+                        CorpsesBrought = CorpsesBrought + 1
+                        task.wait(0.01) 
+                    end
+                end
+
+                if CorpsesBrought > 0 then
+                    pcall(function()
+                        NotifyOn("six seven", "Đã gom thành công " .. CorpsesBrought .. " xác zombie")
+                    end)
+                end
+            end
+        else
+            FixedCFrame = nil
+        end
+    end
+end)
+
+--hút băng gạt
+task.spawn(function()
+    local FixedCFrame = nil
+    while true do
+        task.wait(0.15) 
+        local lp = Players.LocalPlayer
+        if _G.BringBandagesActive and lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") then
+            if not FixedCFrame then
+                FixedCFrame = nil
+                FixedCFrame = lp.Character.HumanoidRootPart.CFrame
+            end
+            
+            if InteractablesFolder then
+                local CurrentInteractables = InteractablesFolder:GetChildren()
+                local MedsBrought = 0
+                
+                for _, obj in pairs(CurrentInteractables) do
+                    if not _G.BringBandagesActive then break end
+                    if obj:IsA("Part") or obj:IsA("MeshPart") or obj:IsA("Model") then
+                        local nameLower = obj.Name:lower()
+                        if nameLower == "bandage" or nameLower == "firstaidkit" or nameLower == "revivekit" then
+                            BringToPosition(obj, FixedCFrame)
+                            MedsBrought = MedsBrought + 1
+                            task.wait(0.01) 
+                        end
+                    end
+                end
+
+                if MedsBrought > 0 then
+                    pcall(function()
+                        NotifyOn("six seven", "đã chôm thành công " .. MedsBrought .. " đồ y tế")
+                    end)
+                end
+            end
+        else
+            FixedCFrame = nil
+        end
+    end
+end)
+
+local WeaponWhitelist = {
+    ["DMR"] = true,     ["BrassKnucklesdmr"] = true,
+    ["Chainsaw"] = true,     ["Revolver"] = true,
+    ["SuperSpeedJuice"] = true,     ["ExoRifle"] = true,
+    ["JugChugJuice"] = true,    ["M4A1"] = true,
+    [""] = true,    [""] = true,
+    [""] = true,    [""] = true,
+    [""] = true,    [""] = true,
+    [""] = true,    [""] = true,
+    [""] = true,    [""] = true,
+    [""] = true,    [""] = true,
+    [""] = true
+}
+
+local function IsWeapon(objName)
+    local cleanedName = objName:lower():gsub("%s+", "")
+    return WeaponWhitelist[cleanedName] or false
+end
+
+-- hút vũ khí
+task.spawn(function()
+    local FixedCFrame = nil
+    while true do
+        task.wait(0.15) 
+        local lp = Players.LocalPlayer
+        if _G.BringWeaponsActive and lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") then
+            if not FixedCFrame then
+                FixedCFrame = lp.Character.HumanoidRootPart.CFrame
+            end
+            
+            if InteractablesFolder then
+                local CurrentInteractables = InteractablesFolder:GetChildren()
+                local WeaponsBrought = 0
+                
+                for _, obj in pairs(CurrentInteractables) do
+                    if not _G.BringWeaponsActive then break end
+                    if obj:IsA("Part") or obj:IsA("MeshPart") or obj:IsA("Model") then
+                        if IsWeapon(obj.Name) then
+                            BringToPosition(obj, FixedCFrame)
+                            WeaponsBrought = WeaponsBrought + 1
+                            task.wait(0.01) 
+                        end
+                    end
+                end
+
+                if WeaponsBrought > 0 then
+                    pcall(function()
+                        NotifyOn("six seven", "đã chôm thành công " .. WeaponsBrought .. " vũ khí")
+                    end)
+                end
+            end
+        else
+            FixedCFrame = nil
+        end
+    end
+end)
+
+local Localization = {
+    ["vi"] = {
+
+        ["BringMat"] = "hút vật liệu",
+        ["BringCorpse"] = "hút xác zombie",
+        ["BringMed"] = "hút đồ y tế",
+        ["BringMisc"] = "hút linh tinh(lỗi)",
+
+        ["GoldBug"] = "tự động dup vàng",
+        ["AutoFarm"] = "kill aura",
+        ["AutoChest"] = "tự động mở rương",
+        ["AutoBlueprint"] = "tự động bản thiết kế(beta)",
+        ["AntiVoid"] = "anti hư không",
+        
+        ["Speed"] = "tốc độ",
+        ["Fly"] = "bay",
+        ["InfJump"] = "nhảy vô hạn",
+        ["Instant"] = "Tương Tác Nhanh",
+        ["Noclip"] = "xuyên tường",
+        
+        ["ThirdPerson"] = "góc nhìn thứ 3",
+        ["EspPlayer"] = "ESP Người Chơi",
+        ["EspMob"] = "ESP Quái Vật",
+        ["EspChest"] = "ESP toàn bộ rương",
+        ["FullBright"] = "nhìn trong bóng tối",
+        ["NoFog"] = "Xóa sương mù"
+    },
+    ["en"] = {
+
+        ["BringMat"] = "Bring Materials",
+        ["BringCorpse"] = "Bring Zombie Corpses",
+        ["BringMed"] = "Bring Medical Items",
+        ["BringMisc"] = "Bring Misc Items (Buggy)",
+
+        ["GoldBug"] = "Auto Gold Glitch / Bug",
+        ["AutoFarm"] = "Kill Aura",
+        ["AutoChest"] = "Auto Collect Chest",
+        ["AutoBlueprint"] = "Auto Blueprint (Beta)",
+        ["AntiVoid"] = "Anti Void Protection",
+        
+        ["Speed"] = "Speed Hack",
+        ["Fly"] = "Fly Mode (Flight)",
+        ["InfJump"] = "Infinite Jump",
+        ["Instant"] = "Instant Interaction",
+        ["Noclip"] = "Noclip (Walk Through Walls)",
+        
+        ["ThirdPerson"] = "Third Person View",
+        ["EspPlayer"] = "Player ESP",
+        ["EspMob"] = "Monster ESP",
+        ["EspChest"] = "Chest ESP (All)",
+        ["FullBright"] = "FullBright",
+        ["NoFog"] = "Remove Fog"
+    }
+}
+
+local function UpdateUILanguage(lang)
+    local text = Localization[lang]
+    
+    if Toggle_BringVatLieu then Toggle_BringVatLieu:SetText(text["BringMat"]) end
+    if Toggle_BringXacZombie then Toggle_BringXacZombie:SetText(text["BringCorpse"]) end
+    if Toggle_BringDoYTe then Toggle_BringDoYTe:SetText(text["BringMed"]) end
+    if Toggle_BringLinhTinh then Toggle_BringLinhTinh:SetText(text["BringMisc"]) end
+
+    if Toggle_GoldBug then Toggle_GoldBug:SetText(text["GoldBug"]) end
+    if Toggle_AutoFarm then Toggle_AutoFarm:SetText(text["AutoFarm"]) end
+    if Toggle_AutoChest then Toggle_AutoChest:SetText(text["AutoChest"]) end
+    if Toggle_AutoBlueprint then Toggle_AutoBlueprint:SetText(text["AutoBlueprint"]) end
+    if Toggle_AntiVoid then Toggle_AntiVoid:SetText(text["AntiVoid"]) end
+    
+    if Toggle_Speed then Toggle_Speed:SetText(text["Speed"]) end
+    if Toggle_Fly then Toggle_Fly:SetText(text["Fly"]) end
+    if Toggle_InfJump then Toggle_InfJump:SetText(text["InfJump"]) end
+    if Toggle_Instant then Toggle_Instant:SetText(text["Instant"]) end
+    if Toggle_Noclip then Toggle_Noclip:SetText(text["Noclip"]) end
+    
+    if Toggle_ThirdPerson then Toggle_ThirdPerson:SetText(text["ThirdPerson"]) end
+    if Toggle_EspPlayer then Toggle_EspPlayer:SetText(text["EspPlayer"]) end
+    if Toggle_EspMob then Toggle_EspMob:SetText(text["EspMob"]) end
+    if Toggle_EspChest then Toggle_EspChest:SetText(text["EspChest"]) end
+    if Toggle_FullBright then Toggle_FullBright:SetText(text["FullBright"]) end
+    if Toggle_NoFog then Toggle_NoFog:SetText(text["NoFog"]) end
+end
+
+if Tab_Language and AddMiscBtn then
+    local BtnVN = AddMiscBtn("VIỆT NAM 🇻🇳", Color3.fromRGB(30, 30, 35), function()
+        UpdateUILanguage("vi")
+        if NotifyOn then NotifyOn("Ngôn Ngữ", "Đã chuyển sang Tiếng Việt") end
+    end)
+    BtnVN.TextSize = 12
+    BtnVN.Parent = Tab_Language
+
+    local BtnEN = AddMiscBtn("English 🇺🇸", Color3.fromRGB(30, 30, 35), function()
+        UpdateUILanguage("en")
+        if NotifyOn then NotifyOn("Language", "Switched to English successfully!") end
+    end)
+    BtnEN.TextSize = 12
+    BtnEN.Parent = Tab_Language
+end
