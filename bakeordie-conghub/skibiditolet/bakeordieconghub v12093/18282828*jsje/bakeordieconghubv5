@@ -467,8 +467,8 @@ local function AddNote(text)
 end
 
 --note
-AddNote("👾 CẬP NHẬT MỚI 👾")
-AddNote("thêm language(VI,EN)")
+AddNote("👾 NEW UPDATE 👾")
+AddNote("😋 thêm language(VI,EN) 😋")
 AddNote("🔧update kill aura,esp,noclip tối ưu hơn")
 AddNote("🧟bring xác zombie đang bị tàn hình")
 AddNote("🛠️ thêm chức năng bring siêu vip")
@@ -480,8 +480,8 @@ AddInfo("Tác giả", Author, Color3.fromRGB(255, 180, 0))
 local PlayTime = AddInfo("Thời gian chơi", "00:00:00")
 local ServerPlayers = AddInfo("Số người chơi", "0/0")
 local FPSLabel = AddInfo("Tốc độ khung hình (FPS)", "60 FPS")
-AddInfo("Ngày tạo", CreateDate, Color3.fromRGB(200, 200, 200))
-AddInfo("Cập nhật cuối", LastUpdate, Color3.fromRGB(200, 200, 200))
+AddInfo("ngày tạo", CreateDate, Color3.fromRGB(200, 200, 200))
+AddInfo("Cập nhật mới nhất", LastUpdate, Color3.fromRGB(200, 200, 200))
 
 local Line = Instance.new("Frame", MainScroll)
 Line.Size = UDim2.new(0.9, 0, 0, 1)
