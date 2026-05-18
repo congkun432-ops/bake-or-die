@@ -468,12 +468,7 @@ end
 
 --note
 AddNote("👾 NEW UPDATE 👾")
-AddNote("😋 thêm language(VI,EN) 😋")
-AddNote("🔧update kill aura,esp,noclip tối ưu hơn")
-AddNote("🧟bring xác zombie đang bị tàn hình")
-AddNote("🛠️ thêm chức năng bring siêu vip")
-AddNote("🐥 cách bug gold có trên tiktok courier cat 👈")
-AddNote("⚔️ Kill Aura: Cần đánh tay 1 lần để kích hoạt")
+AddNote("update mới sẽ có vào 8h tối nay")
 AddNote("👇🏻góp ý qua tiktok or fakebook👇🏻")
 
 AddInfo("Tác giả", Author, Color3.fromRGB(255, 180, 0))
