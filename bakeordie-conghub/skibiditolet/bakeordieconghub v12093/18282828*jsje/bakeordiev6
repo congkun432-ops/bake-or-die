@@ -42,7 +42,6 @@ _G.AutoCollectChest = false
 _G.AutoFarm = false
 _G.PlatformActive = false
 _G.AutoBlueprintMaster = false
-_G.GoldBugActive = false
 _G.BringWeaponsActive = false
 local SavedKey = nil 
 
@@ -467,10 +466,10 @@ end
 --note
 AddNote("👾 NEW UPDATE 👾")
 AddNote("👇🏻những tính năng sẽ thêm vào👇🏻")
-AddNote("auto bản thiết kế(đang sửa")
-AddNote("bay(chưa thêm")
-AddNote("xoá gold bug(admin fix")
-AddNote("---------------------------------")
+AddNote("auto bản thiết kế(đang sửa)")
+AddNote("bay(chưa thêm)")
+AddNote("xoá gold bug(admin fix)")
+AddNote("-----------------------------------------------------------------------------")
 AddNote("lưu ý: anh em nhăn cho mình không spam")
 AddNote("🗡️update kill aura V3")
 AddNote("🔧update kill aura,esp,noclip tối ưu hơn")
@@ -1121,20 +1120,12 @@ task.spawn(function()
             local targetPos = (typeof(Step.Pos) == "table") and Step.Pos[1] or Step.Pos
             
             root.CFrame = CFrame.new(targetPos)
-            
-            -- [BẮT BUỘC CHỜ 5 GIÂY] 
-            -- Đến điểm nào cũng sẽ đứng im tại chỗ đúng 5 giây để Kill Aura đấm quái ổn định
             task.wait(5) 
-            
-            -- Sau khi chờ đủ 5 giây, kiểm tra lại xem bãi đã sạch quái chưa
             local startTime = tick()
             repeat
                 local enemyCount, _ = GetEnemies(100) 
                 task.wait(0.1) 
-            -- Nếu sau 5 giây vẫn còn quái, nó sẽ đợi đập tiếp (tối đa thêm 7 giây nữa để tránh kẹt bài)
             until enemyCount == 0 or (tick() - startTime > 7) or not _G.AutoBlueprintMaster
-
-            -- Nếu là điểm nhặt đồ thì tiến hành gom đồ sau khi đã xử lý xong quái
             if Step.Type == "Collect" or Step.Type == "Final" or Step.Type == "GetCode" then
                 local positions = (typeof(Step.Pos) == "table") and Step.Pos or {Step.Pos}
                 for _, p in pairs(positions) do
@@ -1164,81 +1155,6 @@ task.spawn(function()
     end
 end)
 
-
---auto bug gold
-local BugCoords = {
-    CodePositions = {
-        Vector3.new(981.03, 54.10, -162.96),
-        Vector3.new(983.45, 54.10, -93.26)
-    },
-    FinalPos = Vector3.new(1037.90, 65.60, -126.34),
-    FarmPoints = {
-        Vector3.new(452.10, 51.00, -531.34),
-        Vector3.new(1011.88, 81.00, -139.67),
-        Vector3.new(457.67, 110.96, -385.12)
-    }
-}
-local function BugInteract(targetPos)
-    local char = lp.Character
-    local hrp = char and char:FindFirstChild("HumanoidRootPart")
-    if not hrp then return end
-    hrp.CFrame = CFrame.new(targetPos) + Vector3.new(0, 3, 0)
-    task.wait(0.3)
-    for _, v in pairs(workspace:GetDescendants()) do
-        if v:IsA("ProximityPrompt") then
-            local parent = v.Parent
-            local pos = parent:IsA("Model") and (parent.PrimaryPart and parent.PrimaryPart.Position) or (parent:IsA("BasePart") and parent.Position)
-            
-            if pos and (pos - hrp.Position).Magnitude < 20 then
-                v.HoldDuration = 0 
-                fireproximityprompt(v)
-                return true
-            end
-        end
-    end
-    return false
-end
-
-local function RunGoldBugPath()
-    task.spawn(function()
-        NotifyOn("six seven", "Đang đi lấy mã code...")
-        for _, pos in pairs(BugCoords.CodePositions) do
-            if not _G.GoldBugActive then return end
-            BugInteract(pos)
-            task.wait(0.3)
-        end
-        if not _G.GoldBugActive then return end
-        NotifyOn("six seven", "Đang mở UI Ngân hàng...")
-        BugInteract(BugCoords.FinalPos)
-        task.wait(1.2)
-        for i, pos in pairs(BugCoords.FarmPoints) do
-            if not _G.GoldBugActive then return end
-            NotifyOn("six seven", "Farm nhồi Bug tại điểm #"..i)
-            local hrp = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
-            if hrp then hrp.CFrame = CFrame.new(pos) end
-            for t = 5, 1, -1 do
-                if not _G.GoldBugActive then break end
-                task.wait(1)
-            end
-        end
-        if not _G.GoldBugActive then return end
-        NotifyOn("six seven", "chua nhập mã thì chịu")
-        local hrp = lp.Character and lp.Character:FindFirstChild("HumanoidRootPart")
-        if hrp then hrp.CFrame = CFrame.new(BugCoords.FinalPos) end
-        
-        _G.GoldBugActive = false
-    end)
-end
-
-
-Toggle_GoldBug = AddToggle("Auto Gold Bug", Tab_Auto, function(state)
-    _G.GoldBugActive = state
-    if state then
-        RunGoldBugPath()
-    end
-end)
-
-
 --skip day
 
 local POS_SKIP = Vector3.new(-37.91, 51.59, 86.33)
@@ -1250,7 +1166,7 @@ local function ClickSkip()
             local parent = v.Parent
             if parent:IsA("BasePart") and (parent.Position - POS_SKIP).Magnitude < 15 then
                 if v:IsA("ProximityPrompt") then
-                    v.HoldDuration = 0 -- Ép thời gian giữ bằng 0 giống auto rương để bấm ngay lập tức
+                    v.HoldDuration = 0
                     fireproximityprompt(v)
                 else
                     fireclickdetector(v)
