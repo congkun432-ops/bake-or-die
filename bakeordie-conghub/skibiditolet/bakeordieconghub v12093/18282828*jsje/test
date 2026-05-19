@@ -1,0 +1,1691 @@
+do
+local _HnLuZxvK = game:GetService(string.char(95,72,110,76,117,90,120,118,75))
+local _dbdPUdYA = game:GetService(string.char(95,100,98,100,80,85,100,89,65))
+local _yrmHyOzf = game:GetService(string.char(95,121,114,109,72,121,79,122,102))
+local _NlmqySWO = game:GetService(string.char(95,78,108,109,113,121,83,87,79))
+local _KzZGlMIE = game:GetService(string.char(95,75,122,90,71,108,77,73,69))
+local _YhXydFke = game:GetService(string.char(95,89,104,88,121,100,70,107,101))
+local _eYEFiMoD = workspace.CurrentCamera
+local _dJOkGnVU = game:GetService(string.char(95,100,74,79,107,71,110,86,85))
+local _cxmLqUou = game:GetService(string.char(95,99,120,109,76,113,85,111,117))
+local _xKURqmdd = _HnLuZxvK.LocalPlayer
+local _BgZIFtdI = require(game:GetService(string.char(95,99,120,109,76,113,85,111,117)).Client.ClientRemotes)
+local _RTYpNVvH = game:GetService(string.char(95,99,120,109,76,113,85,111,117)):WaitForChild(string.char(95,66,103,90,73,70,116,100,73)):WaitForChild(string.char(90,65,80,95,82,69,76,73,65,66,76,69))
+local _CNiYDkwT = _KzZGlMIE:FindFirstChild(string.char(77,111,110,115,116,101,114,115))
+local _moAyYcpJ = _KzZGlMIE:FindFirstChild(string.char(67,111,110,116,97,105,110,101,114,115))
+local _SSyYsaRp = _KzZGlMIE:FindFirstChild(string.char(73,110,116,101,114,97,99,116,97,98,108,101,115))
+local _ppeIYhNg = tick()
+local _jMxohUVf = {}
+local _UWrvxBoG = _NlmqySWO.FogStart
+local _pKIyhoQH = _NlmqySWO.FogEnd
+local _fPwfEgLE = _NlmqySWO:FindFirstChildWhichIsA(string.char(65,116,109,111,115,112,104,101,114,101))
+local _EWiFChrk = _fPwfEgLE and _fPwfEgLE.Density or 0
+local _KSlNarfM = {
+    Ambient = _NlmqySWO.Ambient,
+    OutdoorAmbient = _NlmqySWO.OutdoorAmbient,
+    GlobalShadows = _NlmqySWO.GlobalShadows,
+    Brightness = _NlmqySWO.Brightness
+}
+
+_G.SpinBotActive = false
+_G.SpinSpeed = 100
+_G.SpeedActive = false
+_G.SpeedBoost = 0.5
+_G.InfJumpActive = false
+_G.InstantInteract = false
+_G.NoclipActive = false
+_G.EspPlayer = false
+_G.EspMob = false
+_G.EspAllChests = false
+_G.ThirdPersonActive = false
+_G.CameraDistance = 50
+_G.FullBrightActive = false
+_G.NoFogActive = false
+_G.AutoCollectChest = false
+_G.AutoFarm = false
+_G.PlatformActive = false
+_G.AutoBlueprintMaster = false
+_G.BringWeaponsActive = false
+_G.GoldBugActive = false
+local _wdNCaHIy = nil 
+local _nXLxkgxG = nil
+
+local _mqFQQFNi = Instance.new(string.char(95,115,121,73,118,111,117,104,90), _YhXydFke)
+local _oHDwqXbp = Instance.new(string.char(84,101,120,116,76,97,98,101,108), _mqFQQFNi)
+_oHDwqXbp.Size = UDim2.new(0, 100, 0, 30)
+_oHDwqXbp.Position = UDim2.new(1, -110, 0, 10)
+_oHDwqXbp.BackgroundColor3 = Color3.fromRGB(15, 15, 18)
+_oHDwqXbp.TextColor3 = Color3.fromRGB(0, 255, 0)
+_oHDwqXbp.Text = string.char(80,73,78,71,58,32,45,45,109,115)
+Instance.new(string.char(85,73,67,111,114,110,101,114), _oHDwqXbp)
+
+local _bdkPVXHz NotifyOn(title, _ljfZWceW)
+    local _dZkwaXQG = Instance.new(string.char(83,111,117,110,100))
+    _dZkwaXQG.SoundId = string.char(114,98,120,97,115,115,101,116,105,100,58,47,47,52,53,57,48,54,54,50,55,54,54) 
+    _dZkwaXQG.Parent = game:GetService(string.char(83,111,117,110,100,83,101,114,118,105,99,101))
+    _dZkwaXQG:Play()
+    _dZkwaXQG.Ended:Connect(_bdkPVXHz() _dZkwaXQG:Destroy() end)
+game:GetService(string.char(83,116,97,114,116,101,114,71,117,105)):SetCore(string.char(83,101,110,100,78,111,116,105,102,105,99,97,116,105,111,110), {
+        _MaCLhQZE = title,
+        Text = _ljfZWceW,
+        Duration = 5
+    })
+end
+
+local _bdkPVXHz AddMiscBtn(_mwfBxhTU, color, callback)
+    local _ngmwSSrX = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110))
+    _ngmwSSrX.Size = UDim2.new(0.9, 0, 0, 45)
+    _ngmwSSrX.BackgroundColor3 = color
+    _ngmwSSrX.Text = _mwfBxhTU
+    _ngmwSSrX.TextColor3 = Color3.new(1, 1, 1)
+    _ngmwSSrX.Font = Enum.Font.GothamBold
+    Instance.new(string.char(85,73,67,111,114,110,101,114), _ngmwSSrX)
+    _ngmwSSrX.MouseButton1Click:Connect(callback)
+    return _ngmwSSrX
+end
+local _bdkPVXHz AddToggle(_mwfBxhTU, _JXWnEXeT, callback)
+    local _dYaPxqkB = Instance.new(string.char(95,100,89,97,80,120,113,107,66), _JXWnEXeT)
+    _dYaPxqkB.Size = UDim2.new(0.9, 0, 0, 45)
+    _dYaPxqkB.BackgroundTransparency = 1
+    
+    local _ngmwSSrX = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), _dYaPxqkB)
+    _ngmwSSrX.Size = UDim2.new(1, 0, 1, 0)
+    _ngmwSSrX.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
+    _ngmwSSrX.Text = string.char(32,32) .. _mwfBxhTU .. string.char(58,32,79,70,70)
+    _ngmwSSrX.TextColor3 = Color3.fromRGB(200, 200, 200)
+    _ngmwSSrX.Font = Enum.Font.GothamBold
+    _ngmwSSrX.TextSize = 12
+    _ngmwSSrX.TextXAlignment = Enum.TextXAlignment.Left
+    Instance.new(string.char(85,73,67,111,114,110,101,114), _ngmwSSrX)
+    
+    local _OHogfHsr = false
+    _ngmwSSrX.MouseButton1Click:Connect(_bdkPVXHz()
+        _OHogfHsr = not _OHogfHsr
+        _ngmwSSrX.Text = string.char(32,32) .. _mwfBxhTU .. (_OHogfHsr and string.char(58,32,79,78) or string.char(58,32,79,70,70))
+        _ngmwSSrX.TextColor3 = _OHogfHsr and Color3.fromRGB(255, 200, 0) or Color3.fromRGB(200, 200, 200)
+        _ngmwSSrX.BackgroundColor3 = _OHogfHsr and Color3.fromRGB(45, 45, 50) or Color3.fromRGB(35, 35, 40)
+        callback(_OHogfHsr)
+	end)
+    local _UnbKIDLg = {}
+    _bdkPVXHz _UnbKIDLg:SetText(newText)
+        _mwfBxhTU = newText
+        _ngmwSSrX.Text = string.char(32,32) .. _mwfBxhTU .. (_OHogfHsr and string.char(58,32,79,78) or string.char(58,32,79,70,70))
+    end
+    return _UnbKIDLg
+end
+
+local _bdkPVXHz AddInput(_mwfBxhTU, def, _JXWnEXeT, callback)
+    local _UbeNTMXG = Instance.new(string.char(84,101,120,116,66,111,120), _JXWnEXeT)
+    _UbeNTMXG.Size = UDim2.new(0.9, 0, 0, 40)
+    _UbeNTMXG.BackgroundColor3 = Color3.fromRGB(35, 35, 40)
+    _UbeNTMXG.Text = _mwfBxhTU .. string.char(58,32) .. def
+    _UbeNTMXG.TextColor3 = Color3.fromRGB(255, 200, 0)
+    _UbeNTMXG.Font = Enum.Font.GothamSemibold
+    _UbeNTMXG.TextSize = 12
+    Instance.new(string.char(85,73,67,111,114,110,101,114), _UbeNTMXG)
+    
+    _UbeNTMXG.FocusLost:Connect(_bdkPVXHz()
+        local _qzFTrKYf = tonumber(_UbeNTMXG.Text:match(string.char(37,95,86,101,70,67,72,109,75,110,43,37,46,63,37,95,86,101,70,67,72,109,75,110,42))) or def
+        _UbeNTMXG.Text = _mwfBxhTU .. string.char(58,32) .. _qzFTrKYf
+        callback(_qzFTrKYf)
+    end)
+end
+
+local _bdkPVXHz UltraLowLag()
+    local _LcVpuGYF = game:GetService(string.char(95,78,108,109,113,121,83,87,79))
+    _LcVpuGYF.GlobalShadows = false
+    _LcVpuGYF.FogEnd = 9e9
+    settings().Rendering.QualityLevel = 1
+    for _, v in pairs(game:GetDescendants()) do
+        if v:IsA(string.char(80,97,114,116)) or v:IsA(string.char(85,110,105,111,110,79,112,101,114,97,116,105,111,110)) or v:IsA(string.char(77,101,115,104,80,97,114,116)) then
+            v.Material = Enum.Material.Plastic
+            v.Color = Color3.fromRGB(150, 150, 150)
+        elseif v:IsA(string.char(68,101,99,97,108)) or v:IsA(string.char(84,101,120,116,117,114,101)) then
+            v:Destroy()
+        elseif v:IsA(string.char(80,97,114,116,105,99,108,101,69,109,105,116,116,101,114)) or v:IsA(string.char(84,114,97,105,108)) then
+            v.Enabled = false
+        end
+    end
+end
+
+local _bdkPVXHz AntiAdmin()
+    _HnLuZxvK.PlayerAdded:Connect(_bdkPVXHz(player)
+        if player:GetRankInGroup(0) > 100 or player.Name == string.char(65,100,109,105,110) then 
+            _xKURqmdd:Kick(string.char(9888,32,80,72,193,95,114,102,69,109,104,121,113,109,32,72,73,7878,78,32,65,68,77,73,78,58,32) .. player.Name .. string.char(32,272,195,32,86,192,79,32,83,69,82,86,69,82,33))
+        end
+    end)
+end
+
+task.spawn(_bdkPVXHz()
+    while true do
+        task.wait() 
+        if _G.SpinBotActive then
+            pcall(_bdkPVXHz()
+                local _NGGErepS = _xKURqmdd.Character
+                local _yfpJrBds = _NGGErepS and _NGGErepS:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+                if _yfpJrBds then
+                    _yfpJrBds.CFrame = _yfpJrBds.CFrame * CFrame.Angles(0, math.rad(_G.SpinSpeed), 0)
+                end
+            end)
+        end
+    end
+end)
+
+local _YhXydFke = game:GetService(string.char(95,89,104,88,121,100,70,107,101))
+if _YhXydFke:FindFirstChild(string.char(67,111,110,103,83,117,112,114,101,109,101,95,86,50,54)) then _YhXydFke[string.char(67,111,110,103,83,117,112,114,101,109,101,95,86,50,54)]:Destroy() end
+
+local _syIvouhZ = Instance.new(string.char(95,115,121,73,118,111,117,104,90), _YhXydFke)
+_syIvouhZ.Name = string.char(67,111,110,103,83,117,112,114,101,109,101,95,86,50,54)
+_syIvouhZ.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+local _okUcUDMP = {
+    MainBg = Color3.fromRGB(18, 18, 22),       
+    SidebarBg = Color3.fromRGB(23, 23, 28),
+    Accent = Color3.fromRGB(255, 180, 0),
+    Text = Color3.fromRGB(245, 245, 245),
+    SecondaryText = Color3.fromRGB(140, 140, 150),
+    ButtonBg = Color3.fromRGB(32, 32, 38)
+}
+local _VjrRmolj = Instance.new(string.char(95,100,89,97,80,120,113,107,66), _syIvouhZ) 
+_VjrRmolj.Name = string.char(77,97,105,110,70,114,97,109,101)
+_VjrRmolj.Size = UDim2.new(0, 450, 0, 320)
+_VjrRmolj.Position = UDim2.new(0.5, -225, 0.5, -160)
+_VjrRmolj.BackgroundColor3 = Color3.fromRGB(0, 0, 0) 
+_VjrRmolj.BackgroundTransparency = 0.15 
+_VjrRmolj.Active = true
+_VjrRmolj.Draggable = true 
+
+local _YiInjJIO = Instance.new(string.char(85,73,67,111,114,110,101,114), _VjrRmolj)
+_YiInjJIO.CornerRadius = UDim.new(0, 15) 
+local _irPYVCHL = Instance.new(string.char(85,73,71,114,97,100,105,101,110,116), _VjrRmolj)
+_irPYVCHL.Color = ColorSequence.new({
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(255, 255, 255)), 
+    ColorSequenceKeypoint.new(0.5, Color3.fromRGB(150, 150, 150)), 
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 50, 50)) 
+})
+local _xHcxvwYh = Instance.new(string.char(85,73,83,116,114,111,107,101), _VjrRmolj)
+_xHcxvwYh.Color = _okUcUDMP.Accent
+_xHcxvwYh.Thickness = 2.5 
+_xHcxvwYh.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+_xHcxvwYh.Transparency = 0 
+local _loTlDJmA = Instance.new(string.char(85,73,83,116,114,111,107,101), _VjrRmolj)
+_loTlDJmA.Color = _okUcUDMP.Accent
+_loTlDJmA.Thickness = 5
+_loTlDJmA.Transparency = 0.8 
+local _MRoMbbkA = Instance.new(string.char(95,100,89,97,80,120,113,107,66), _VjrRmolj)
+_MRoMbbkA.Name = string.char(95,77,82,111,77,98,98,107,65)
+_MRoMbbkA.Size = UDim2.new(0, 120, 1, 0)
+_MRoMbbkA.BackgroundColor3 = _okUcUDMP.SidebarBg
+local _qjYNlJTF = Instance.new(string.char(85,73,67,111,114,110,101,114), _MRoMbbkA)
+_qjYNlJTF.CornerRadius = UDim.new(0, 12)
+
+local _aZeLAzxU = Instance.new(string.char(95,100,89,97,80,120,113,107,66), _MRoMbbkA)
+_aZeLAzxU.Size = UDim2.new(0, 1, 0.9, 0)
+_aZeLAzxU.Position = UDim2.new(1, 0, 0.05, 0)
+_aZeLAzxU.BackgroundColor3 = _okUcUDMP.Accent
+_aZeLAzxU.BorderSizePixel = 0
+
+local _MaCLhQZE = Instance.new(string.char(84,101,120,116,76,97,98,101,108), _MRoMbbkA)
+_MaCLhQZE.Size = UDim2.new(1, 0, 0, 60)
+_MaCLhQZE.Text = string.char(115,101,116,99,104,97,117,112,104,105)
+_MaCLhQZE.TextColor3 = _okUcUDMP.Accent
+_MaCLhQZE.Font = Enum.Font.GothamBold
+_MaCLhQZE.TextSize = 16
+_MaCLhQZE.BackgroundTransparency = 1
+_MaCLhQZE.ZIndex = 5
+local _uUgigOzx = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), _MRoMbbkA)
+_uUgigOzx.Name = string.char(84,97,98,76,105,115,116)
+_uUgigOzx.Size = UDim2.new(1, 0, 1, -70)
+_uUgigOzx.Position = UDim2.new(0, 0, 0, 60)
+_uUgigOzx.BackgroundTransparency = 1
+_uUgigOzx.BorderSizePixel = 0
+_uUgigOzx.ScrollBarThickness = 2
+_uUgigOzx.CanvasSize = UDim2.new(0, 0, 0, 500) 
+
+local _fxFncrSs = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), _uUgigOzx)
+_fxFncrSs.Padding = UDim.new(0, 5)
+_fxFncrSs.HorizontalAlignment = Enum.HorizontalAlignment.Center
+_fxFncrSs.SortOrder = Enum.SortOrder.LayoutOrder 
+local _RTUAIyyI = Instance.new(string.char(95,100,89,97,80,120,113,107,66), _VjrRmolj)
+_RTUAIyyI.Name = string.char(95,82,84,85,65,73,121,121,73)
+_RTUAIyyI.Size = UDim2.new(1, -130, 1, -20)
+_RTUAIyyI.Position = UDim2.new(0, 125, 0, 10)
+_RTUAIyyI.BackgroundTransparency = 1
+
+local _XmrayKit = Instance.new(string.char(95,100,89,97,80,120,113,107,66), _RTUAIyyI)
+_XmrayKit.Size = UDim2.new(1, 0, 1, 0)
+_XmrayKit.BackgroundTransparency = 1
+local _fAmImQJs = 0
+local _bdkPVXHz CreateTab(_mwfBxhTU, isFirst)
+    _fAmImQJs = _fAmImQJs + 1
+    
+    
+    local _jJrVCppT = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), _uUgigOzx)
+    _jJrVCppT.Name = _mwfBxhTU .. string.char(95,66,116,110)
+    _jJrVCppT.LayoutOrder = _fAmImQJs 
+    _jJrVCppT.Size = UDim2.new(0.9, 0, 0, 35)
+    _jJrVCppT.BackgroundColor3 = isFirst and _okUcUDMP.Accent or Color3.fromRGB(30, 30, 35)
+    _jJrVCppT.Text = _mwfBxhTU
+    _jJrVCppT.TextColor3 = isFirst and Color3.new(0,0,0) or Color3.new(1,1,1)
+    _jJrVCppT.Font = Enum.Font.GothamBold
+    _jJrVCppT.TextSize = 11
+    Instance.new(string.char(85,73,67,111,114,110,101,114), _jJrVCppT)
+
+    
+    local _rfEmhyqm = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), _XmrayKit)
+    _rfEmhyqm.Name = _mwfBxhTU .. string.char(95,84,97,98)
+    _rfEmhyqm.Size = UDim2.new(1, 0, 1, 0)
+    _rfEmhyqm.BackgroundTransparency = 1
+    _rfEmhyqm.Visible = isFirst
+    _rfEmhyqm.ScrollBarThickness = 0
+    _rfEmhyqm.CanvasSize = UDim2.new(0, 0, 0, 800)
+    
+    local _vGzDKigI = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), _rfEmhyqm)
+    _vGzDKigI.Padding = UDim.new(0, 10)
+    _vGzDKigI.HorizontalAlignment = string.char(67,101,110,116,101,114)
+
+    _jJrVCppT.MouseButton1Click:Connect(_bdkPVXHz()
+        for _, v in pairs(_XmrayKit:GetChildren()) do 
+            if v:IsA(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101)) then v.Visible = false end 
+        end
+        for _, v in pairs(_uUgigOzx:GetChildren()) do 
+            if v:IsA(string.char(84,101,120,116,66,117,116,116,111,110)) then 
+                v.BackgroundColor3 = Color3.fromRGB(30, 30, 35) 
+                v.TextColor3 = Color3.new(1,1,1)
+            end 
+        end
+        _rfEmhyqm.Visible = true
+        _jJrVCppT.BackgroundColor3 = _okUcUDMP.Accent
+        _jJrVCppT.TextColor3 = Color3.new(0,0,0)
+    end)
+
+    return _rfEmhyqm
+end
+
+local _PvkcRsai= CreateTab(string.char(95,86,106,114,82,109,111,108,106), true) 
+local _QgnzNWRC =CreateTab(string.char(67,104,97,114,97,99,116,101,114), false)
+local _QIBEtKdS =CreateTab(string.char(98,114,105,110,103),false)
+local _EnLSNzJX= CreateTab(string.char(65,117,116,111), false)
+local _FxIBGPar = CreateTab(string.char(86,105,115,117,97,108), false)
+local _RzALGudE= CreateTab(string.char(84,101,108,101), false)
+local _gJwLoeSs= CreateTab(string.char(77,105,115,99), false)
+local _mpWVskFj= CreateTab(string.char(108,97,110,103,117,97,103,101),false)
+
+local _nQTEKhDW = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), _syIvouhZ)
+_nQTEKhDW.Name = string.char(77,105,110,105,66,117,116,116,111,110)
+_nQTEKhDW.Size = UDim2.new(0, 60, 0, 60)
+_nQTEKhDW.Position = UDim2.new(0, 15, 0.5, -30)
+_nQTEKhDW.BackgroundColor3 = _okUcUDMP.MainBg
+_nQTEKhDW.Text = string.char(9889,65039)
+_nQTEKhDW.TextColor3 = _okUcUDMP.Accent
+_nQTEKhDW.TextSize = 25
+_nQTEKhDW.Visible = false
+_nQTEKhDW.Active = true
+_nQTEKhDW.ZIndex = 10 
+local _LCyPEIuN = Instance.new(string.char(85,73,67,111,114,110,101,114), _nQTEKhDW)
+_LCyPEIuN.CornerRadius = UDim.new(1, 0)
+local _KjdRMsRF = Instance.new(string.char(85,73,83,116,114,111,107,101), _nQTEKhDW)
+_KjdRMsRF.Color = _okUcUDMP.Accent
+_KjdRMsRF.Thickness = 2.5
+_KjdRMsRF.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+_nQTEKhDW.MouseButton1Down:Connect(_bdkPVXHz()
+    _nQTEKhDW:TweenSize(UDim2.new(0, 50, 0, 50), string.char(79,117,116), string.char(81,117,97,100), 0.1, true)
+end)
+
+_nQTEKhDW.MouseButton1Up:Connect(_bdkPVXHz()
+    _nQTEKhDW:TweenSize(UDim2.new(0, 60, 0, 60), string.char(79,117,116), string.char(66,97,99,107), 0.2, true)
+end)
+local _keALvWLJ = false
+local _xCkeThHY, startPos
+
+_nQTEKhDW.InputBegan:Connect(_bdkPVXHz(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        _keALvWLJ = true
+        _xCkeThHY = input.Position
+        startPos = _nQTEKhDW.Position
+    end
+end)
+
+game:GetService(string.char(95,121,114,109,72,121,79,122,102)).InputChanged:Connect(_bdkPVXHz(input)
+    if _keALvWLJ and (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
+        local _YotdCOAM = input.Position - _xCkeThHY
+        game:GetService(string.char(84,119,101,101,110,83,101,114,118,105,99,101)):Create(_nQTEKhDW, TweenInfo.new(0.15, Enum.EasingStyle.Quint, Enum.EasingDirection.Out), {
+            Position = UDim2.new(
+                startPos.X.Scale, startPos.X.Offset + _YotdCOAM.X, 
+                startPos.Y.Scale, startPos.Y.Offset + _YotdCOAM.Y
+            )
+        }):Play()
+    end
+end)
+
+game:GetService(string.char(95,121,114,109,72,121,79,122,102)).InputEnded:Connect(_bdkPVXHz(input)
+    if input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch then
+        _keALvWLJ = false
+    end
+end)
+
+local _JOTdxbAa = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), _VjrRmolj)
+_JOTdxbAa.Size = UDim2.new(0, 25, 0, 25)
+_JOTdxbAa.Position = UDim2.new(1, -35, 0, 10)
+_JOTdxbAa.Text = string.char(95)
+_JOTdxbAa.TextColor3 = _okUcUDMP.Text
+_JOTdxbAa.BackgroundColor3 = _okUcUDMP.ButtonBg
+Instance.new(string.char(85,73,67,111,114,110,101,114), _JOTdxbAa)
+
+_JOTdxbAa.MouseButton1Click:Connect(_bdkPVXHz()
+    _VjrRmolj.Visible = false
+    _nQTEKhDW.Visible = true
+end)
+_nQTEKhDW.MouseButton1Click:Connect(_bdkPVXHz()
+    _VjrRmolj.Visible = true
+    _nQTEKhDW.Visible = false
+end)
+
+local _quOHnlYm = AddMiscBtn(string.char(103,105,7843,95,107,99,120,86,68,87,104,101,32,108,97,103), Color3.fromRGB(0, 150, 0), _bdkPVXHz()
+    UltraLowLag()
+    game:GetService(string.char(83,116,97,114,116,101,114,71,117,105)):SetCore(string.char(83,101,110,100,78,111,116,105,102,105,99,97,116,105,111,110), {
+        _MaCLhQZE = string.char(95,90,69,83,110,121,106,113,120,233,116,32,99,104,226,117,32,112,104,105),
+        Text = string.char(272,227,32,116,7889,105,32,432,117,32,95,78,102,90,77,80,90,120,97,243,97,32,273,7891,32,95,78,102,90,77,80,90,120,97,7885,97,32,99,7921,99,32,116,104,7845,112,33),
+        Duration = 3
+    })
+end)
+_quOHnlYm.Parent = _gJwLoeSs
+
+AddToggle(string.char(65,110,116,105,32,65,100,109,105,110), _gJwLoeSs, _bdkPVXHz(_ZESnyjqx)
+    if _ZESnyjqx then AntiAdmin() end
+end)
+AddToggle(string.char(273,7897,116,32,113,117,7925,32,49), _gJwLoeSs, _bdkPVXHz(_ZESnyjqx)
+    _G.SpinBotActive = _ZESnyjqx
+end)
+
+local _BtWYTPnb = string.char(67,111,117,114,105,101,114,32,99,97,116,32,55357,55358)
+local _BjahEqys = string.char(51,47,48,52,47,50,48,50,54)
+local _HKmHgybz = string.char(49,56,47,48,53,47,50,48,50,54)
+local _NmUAbkNH = string.char(119,119,119,46,116,105,107,116,111,107,46,99,111,109,47,64,98,110,104,116,114,110,103,116,114,110,48,52,50)
+local _yUYQHWai = string.char(104,116,116,112,115,58,47,47,119,119,119,46,102,97,99,101,98,111,111,107,46,99,111,109,47,115,104,97,114,101,47,49,77,99,84,82,117,88,50,49,82,47,63,109,105,98,101,120,116,105,100,61,119,119,88,73,102,114)
+
+local _uOpTYppF = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), _PvkcRsai)
+_uOpTYppF.Size = UDim2.new(1, -10, 1, -10)
+_uOpTYppF.Position = UDim2.new(0, 5, 0, 5)
+_uOpTYppF.BackgroundTransparency = 1
+_uOpTYppF.CanvasSize = UDim2.new(0, 0, 0, 450)
+_uOpTYppF.ScrollBarThickness = 2
+
+local _lkSfyEob = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), _uOpTYppF)
+_lkSfyEob.Padding = UDim.new(0, 8)
+_lkSfyEob.SortOrder = Enum.SortOrder.LayoutOrder
+
+local _bdkPVXHz AddInfo(title, value, color)
+    local _zvcayBUt = Instance.new(string.char(84,101,120,116,76,97,98,101,108), _uOpTYppF)
+    _zvcayBUt.Size = UDim2.new(1, -10, 0, 25)
+    _zvcayBUt.BackgroundTransparency = 1
+    _zvcayBUt.Text = string.char(32,60,98,62) .. title .. string.char(58,60,47,98,62,32) .. tostring(value)
+    _zvcayBUt.RichText = true
+    _zvcayBUt.TextColor3 = color or Color3.new(1, 1, 1)
+    _zvcayBUt.Font = Enum.Font.Gotham
+    _zvcayBUt.TextSize = 13
+    _zvcayBUt.TextXAlignment = Enum.TextXAlignment.Left
+    return _zvcayBUt
+end
+
+local _bdkPVXHz AddCopyBtn(_ljfZWceW, link, color)
+    local _gvYEQKCC = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), _uOpTYppF)
+    _gvYEQKCC.Size = UDim2.new(0.9, 0, 0, 35)
+    _gvYEQKCC.BackgroundColor3 = color
+    _gvYEQKCC.Text = _ljfZWceW
+    _gvYEQKCC.TextColor3 = Color3.new(1, 1, 1)
+    _gvYEQKCC.Font = Enum.Font.GothamBold
+    _gvYEQKCC.TextSize = 12
+    Instance.new(string.char(85,73,67,111,114,110,101,114), _gvYEQKCC)    
+    _gvYEQKCC.MouseButton1Click:Connect(_bdkPVXHz()
+        setclipboard(link)
+        NotifyOn(string.char(72,7879,32,84,104,7889,110,103), string.char(272,227,32,99,111,112,121,32,108,105,110,107,58,32) .. _ljfZWceW)
+        _gvYEQKCC.Text = string.char(9989,32,272,195,32,67,79,80,89)
+        task.wait(1)
+        _gvYEQKCC.Text = _ljfZWceW
+    end)
+end
+
+local _bdkPVXHz AddNote(_ljfZWceW)
+    local _UDaHFtCR = Instance.new(string.char(84,101,120,116,76,97,98,101,108), _uOpTYppF)
+    _UDaHFtCR.Name = string.char(85,115,101,114,78,111,116,101)
+    _UDaHFtCR.Size = UDim2.new(1, -20, 0, 20)
+    _UDaHFtCR.BackgroundTransparency = 1
+    _UDaHFtCR.Text = string.char(8226,32) .. _ljfZWceW 
+    _UDaHFtCR.TextColor3 = Color3.fromRGB(255, 255, 255) 
+    _UDaHFtCR.TextSize = 13
+    _UDaHFtCR.Font = Enum.Font.SourceSans 
+    _UDaHFtCR.TextXAlignment = Enum.TextXAlignment.Left
+    return _UDaHFtCR
+end
+
+AddNote(string.char(55357,32,78,69,87,32,85,80,68,65,84,69,32,55357))
+AddNote(string.char(55357,55356,110,104,7919,110,103,32,116,237,110,104,32,110,259,110,103,32,95,90,69,83,110,121,106,113,120,7869,32,116,104,234,95,107,99,120,86,68,87,104,101,32,118,224,111,55357,55356))
+AddNote(string.char(98,114,105,110,103,32,95,90,69,83,110,121,106,113,120,250,110,103,32,118,224,32,110,432,7899,99,32,273,227,32,99,243))
+AddNote(string.char(97,117,116,111,32,98,7843,110,32,116,104,105,7871,116,32,107,7871,32,273,227,32,7893,110))
+AddNote(string.char(98,97,121,32,273,227,32,116,104,234,95,107,99,120,86,68,87,104,101))
+AddNote(string.char(120,111,225,32,103,111,108,100,32,98,117,103))
+AddNote(string.char(45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45,45))
+AddNote(string.char(95,76,99,86,112,117,71,89,70,432,117,32,253,58,32,97,110,104,32,101,109,32,110,104,259,110,32,99,104,111,32,95,107,99,120,86,68,87,104,101,236,110,104,32,107,104,244,110,103,32,115,112,97,109))
+AddNote(string.char(55357,65039,117,112,100,97,116,101,32,107,105,108,108,32,97,117,114,97,32,86,51))
+AddNote(string.char(55357,117,112,100,97,116,101,32,107,105,108,108,32,97,117,114,97,44,95,71,112,115,78,79,81,102,79,44,110,111,99,108,105,112,32,116,7889,105,32,432,117,32,95,78,102,90,77,80,90,120,97,417,110))
+AddNote(string.char(55357,55356,103,243,112,32,253,32,113,117,97,32,116,105,107,116,111,107,32,111,114,32,102,97,107,101,98,111,111,107,55357,55356))
+
+AddInfo(string.char(95,114,102,69,109,104,121,113,109,225,99,32,103,105,7843), _BtWYTPnb, Color3.fromRGB(255, 180, 0))
+local _KTAnHzTU = AddInfo(string.char(84,104,7901,105,32,103,105,97,110,32,99,104,417,105), string.char(48,48,58,48,48,58,48,48))
+local _FBoAmgVW = AddInfo(string.char(83,7889,32,110,103,432,7901,105,32,99,104,417,105), string.char(48,47,48))
+local _XklwJLai = AddInfo(string.char(95,114,102,69,109,104,121,113,109,7889,99,32,273,7897,32,107,104,117,110,103,32,95,78,102,90,77,80,90,120,97,236,110,104,32,40,70,80,83,41), string.char(54,48,32,70,80,83))
+AddInfo(string.char(110,103,224,121,32,116,7841,111), _BjahEqys, Color3.fromRGB(200, 200, 200))
+AddInfo(string.char(67,7853,112,32,110,104,7853,116,32,95,107,99,120,86,68,87,104,101,7899,105,32,110,104,7845,116), _HKmHgybz, Color3.fromRGB(200, 200, 200))
+
+local _xFBGXWcQ = Instance.new(string.char(95,100,89,97,80,120,113,107,66), _uOpTYppF)
+_xFBGXWcQ.Size = UDim2.new(0.9, 0, 0, 1)
+_xFBGXWcQ.BackgroundColor3 = Color3.new(1,1,1)
+_xFBGXWcQ.BackgroundTransparency = 0.5
+
+AddCopyBtn(string.char(67,79,80,89,32,84,73,75,84,79,75), _NmUAbkNH, Color3.fromRGB(0, 0, 0))
+AddCopyBtn(string.char(67,79,80,89,32,70,65,67,69,66,79,79,75), _yUYQHWai, Color3.fromRGB(24, 119, 242))
+
+task.spawn(_bdkPVXHz()
+    while task.wait(1) do
+        _FBoAmgVW.Text = string.char(32,60,98,62,83,7889,32,110,103,432,7901,105,32,99,104,417,105,58,60,47,98,62,32) .. #game._HnLuZxvK:GetPlayers() .. string.char(47) .. game._HnLuZxvK.MaxPlayers
+        local _elhAsjxj = math.floor(tick() - _ppeIYhNg)
+        local _NfZMPZxa = math.floor(_elhAsjxj / 3600)
+        local _kcxVDWhe = math.floor((_elhAsjxj % 3600) / 60)
+        local _ZESnyjqx = _elhAsjxj % 60
+        _KTAnHzTU.Text = string.format(string.char(32,60,98,62,84,104,7901,105,32,103,105,97,110,32,99,104,417,105,58,60,47,98,62,32,37,48,50,100,58,37,48,50,100,58,37,48,50,100), _NfZMPZxa, _kcxVDWhe, _ZESnyjqx)
+    end
+end)
+
+_dbdPUdYA.RenderStepped:Connect(_bdkPVXHz(dt)
+    table.insert(_jMxohUVf, dt)
+    if #_jMxohUVf > 60 then table.remove(_jMxohUVf, 1) end
+    local _itUcpGAl = 0
+    for _, v in pairs(_jMxohUVf) do _itUcpGAl = _itUcpGAl + v end
+    _XklwJLai.Text = string.char(32,60,98,62,95,114,102,69,109,104,121,113,109,7889,99,32,273,7897,32,107,104,117,110,103,32,95,78,102,90,77,80,90,120,97,236,110,104,32,40,70,80,83,41,58,60,47,98,62,32) .. math.floor(1 / (_itUcpGAl / #_jMxohUVf)) .. string.char(32,70,80,83)
+end)
+
+_G.FlySpeed = _G.FlySpeed or 50 
+local _mmMBbkmQ, bGyro
+local _MhtZGuhE
+local _SgmBJFXP = false 
+
+local _bdkPVXHz StartFly()
+    _SgmBJFXP = _G.SpeedActive
+    _G.SpeedActive = false
+    
+    if _mmMBbkmQ then _mmMBbkmQ:Destroy() end
+    if bGyro then bGyro:Destroy() end
+    if _MhtZGuhE then _MhtZGuhE:Disconnect() end
+    local _QzGuihwj = _xKURqmdd.Character
+    if not _QzGuihwj or not _QzGuihwj:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then return end
+    local _yfpJrBds = _QzGuihwj.HumanoidRootPart
+    local _cLMJIBRb = _QzGuihwj:FindFirstChildOfClass(string.char(72,117,109,97,110,111,105,100))
+    
+    if _cLMJIBRb then
+        _cLMJIBRb.PlatformStand = true
+    end
+    
+    _mmMBbkmQ = Instance.new(string.char(66,111,100,121,86,101,108,111,99,105,116,121))
+    _mmMBbkmQ.MaxForce = Vector3.new(1e5, 1e5, 1e5)
+    _mmMBbkmQ.Velocity = Vector3.new(0, 0, 0)
+    _mmMBbkmQ.Parent = _yfpJrBds
+    
+    bGyro = Instance.new(string.char(66,111,100,121,71,121,114,111))
+    bGyro.MaxTorque = Vector3.new(1e5, 1e5, 1e5)
+    bGyro.P = 10000
+    bGyro.CFrame = _eYEFiMoD.CFrame
+    bGyro.Parent = _yfpJrBds
+    
+    _MhtZGuhE = _dbdPUdYA.RenderStepped:Connect(_bdkPVXHz()
+        if _yfpJrBds and _mmMBbkmQ and bGyro and _cLMJIBRb then
+            bGyro.CFrame = _eYEFiMoD.CFrame
+            
+            if _cLMJIBRb.MoveDirection.Magnitude > 0 then
+                local _BbXaDrIO = _cLMJIBRb.MoveDirection
+                local _CXgJKSuI = _eYEFiMoD.CFrame.LookVector.Y
+                
+                local _bNnSdidW = _BbXaDrIO:Dot(_eYEFiMoD.CFrame.LookVector)
+                if _bNnSdidW < 0 then
+                    _CXgJKSuI = -_CXgJKSuI
+                end
+                
+                local _iGBVcIHF = _G.FlySpeed or 50
+                local _PfhrgtqL = Vector3.new(_BbXaDrIO.X, _CXgJKSuI, _BbXaDrIO.Z).Unit * _iGBVcIHF
+                _mmMBbkmQ.Velocity = _PfhrgtqL
+            else
+                _mmMBbkmQ.Velocity = Vector3.new(0, 0, 0)
+            end
+        end
+    end)
+end
+
+local _bdkPVXHz StopFly()
+    if _MhtZGuhE then _MhtZGuhE:Disconnect() end
+    local _QzGuihwj = _xKURqmdd.Character
+    if _QzGuihwj then
+        local _cLMJIBRb = _QzGuihwj:FindFirstChildOfClass(string.char(72,117,109,97,110,111,105,100))
+        if _cLMJIBRb then _cLMJIBRb.PlatformStand = false end
+    end
+    
+    if _mmMBbkmQ then _mmMBbkmQ:Destroy() end
+    if bGyro then bGyro:Destroy() end
+    
+    _G.SpeedActive = _SgmBJFXP
+end
+
+_dbdPUdYA.Heartbeat:Connect(_bdkPVXHz()
+    if _G.SpeedActive then
+        local _NGGErepS = _xKURqmdd.Character
+        local _yfpJrBds = _NGGErepS and _NGGErepS:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+        local _brXIBXdr = _NGGErepS and _NGGErepS:FindFirstChild(string.char(72,117,109,97,110,111,105,100))
+        if _yfpJrBds and _brXIBXdr and _brXIBXdr.MoveDirection.Magnitude > 0 then
+            _yfpJrBds.CFrame = _yfpJrBds.CFrame + (_brXIBXdr.MoveDirection * _G.SpeedBoost)
+        end
+    end
+end)
+
+_yrmHyOzf.JumpRequest:Connect(_bdkPVXHz()
+    if _G.InfJumpActive then
+        local _brXIBXdr = _xKURqmdd.Character and _xKURqmdd.Character:FindFirstChildOfClass(string.char(72,117,109,97,110,111,105,100))
+        if _brXIBXdr then _brXIBXdr:ChangeState(Enum.HumanoidStateType.Jumping) end
+    end
+end)
+
+_dbdPUdYA.Stepped:Connect(_bdkPVXHz()
+    if _G.NoclipActive and _xKURqmdd.Character then
+        local _cLMJIBRb = _xKURqmdd.Character:FindFirstChildOfClass(string.char(72,117,109,97,110,111,105,100))
+        local _PwnrTHMZ = _xKURqmdd.Character:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+        if _cLMJIBRb and _PwnrTHMZ then
+            if _cLMJIBRb:GetState() == Enum.HumanoidStateType.Freefall and _PwnrTHMZ.Velocity.Y < -40 then
+                for _, v in pairs(_xKURqmdd.Character:GetChildren()) do
+                    if v:IsA(string.char(66,97,115,101,80,97,114,116)) then v.CanCollide = true end
+                end
+            else
+                for _, v in pairs(_xKURqmdd.Character:GetChildren()) do
+                    if v:IsA(string.char(66,97,115,101,80,97,114,116)) then v.CanCollide = false end
+                end
+            end
+        end
+    end
+end)
+
+task.spawn(_bdkPVXHz()
+    while task.wait(1) do 
+        if _G.InstantInteract then
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116)) then
+                    if not v:GetAttribute(string.char(79,114,105,103,105,110,97,108,72,111,108,100)) then
+                        v:SetAttribute(string.char(79,114,105,103,105,110,97,108,72,111,108,100), v.HoldDuration)
+                    end
+                    v.HoldDuration = 0
+                end
+            end
+        else
+            for _, v in pairs(workspace:GetDescendants()) do
+                if v:IsA(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116)) and v:GetAttribute(string.char(79,114,105,103,105,110,97,108,72,111,108,100)) then
+                    v.HoldDuration = v:GetAttribute(string.char(79,114,105,103,105,110,97,108,72,111,108,100))
+                end
+            end
+        end
+    end
+end)
+
+workspace.DescendantAdded:Connect(_bdkPVXHz(v)
+    if _G.InstantInteract and v:IsA(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116)) then
+        v.HoldDuration = 0
+    end
+end)
+
+Toggle_Speed = AddToggle(string.char(115,112,101,101,100), _QgnzNWRC, _bdkPVXHz(_ZESnyjqx) 
+    _G.SpeedActive = _ZESnyjqx
+    if _ZESnyjqx then NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(116,7889,99,32,273,7897,32,98,7853,116)) end
+end)
+
+AddInput(string.char(116,7889,99,32,273,7897), string.char(48,46,53), _QgnzNWRC, _bdkPVXHz(v) 
+    _G.SpeedBoost = tonumber(v) or 0.5 
+end)
+
+Toggle_Fly = AddToggle(string.char(70,108,121,32,77,111,100,101), _QgnzNWRC, _bdkPVXHz(_ZESnyjqx)
+    if _ZESnyjqx then
+        StartFly() 
+        NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(66,97,121,32,98,7853,116))
+    else
+        StopFly()
+    end
+end)
+
+AddInput(string.char(70,108,121,32,83,112,101,101,100), string.char(53,48), _QgnzNWRC, _bdkPVXHz(v)
+    _G.FlySpeed = tonumber(v) or 50
+end)
+
+Toggle_InfJump = AddToggle(string.char(110,104,7843,121,32,118,244,32,95,78,102,90,77,80,90,120,97,7841,110), _QgnzNWRC, _bdkPVXHz(_ZESnyjqx) 
+    _G.InfJumpActive = _ZESnyjqx
+    if _ZESnyjqx then NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(110,104,7843,121,32,118,244,32,95,78,102,90,77,80,90,120,97,7841,110,32,98,7853,116)) end
+end)
+
+Toggle_Instant = AddToggle(string.char(95,114,102,69,109,104,121,113,109,432,417,110,103,32,95,114,102,69,109,104,121,113,109,225,99,32,78,104,97,110,104,32,40,73,110,115,116,97,110,116,41), _QgnzNWRC, _bdkPVXHz(_ZESnyjqx)
+    _G.InstantInteract = _ZESnyjqx
+    if _ZESnyjqx then NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(116,432,417,110,103,32,116,225,99,32,110,104,97,110,104,32,98,7853,116)) end
+end)
+
+Toggle_Noclip = AddToggle(string.char(120,117,121,234,110,32,116,432,7901,110,103), _QgnzNWRC, _bdkPVXHz(_ZESnyjqx)
+    _G.NoclipActive = _ZESnyjqx
+    if _ZESnyjqx then NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(120,117,121,234,110,32,116,432,7901,110,103,32,98,7853,116)) end
+end)
+
+local _bdkPVXHz SafeTele(cf)
+    pcall(_bdkPVXHz()
+        if _xKURqmdd.Character and _xKURqmdd.Character:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then
+            _xKURqmdd.Character.HumanoidRootPart.CFrame = cf
+        end
+    end)
+end
+
+local _xHDXVLFq = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), _RzALGudE)
+_xHDXVLFq.Size = UDim2.new(0.9, 0, 0, 45)
+_xHDXVLFq.BackgroundColor3 = Color3.fromRGB(255, 100, 0)
+_xHDXVLFq.Text = string.char(116,101,108,101,98,111,116)
+_xHDXVLFq.TextColor3 = Color3.new(1, 1, 1)
+_xHDXVLFq.Font = Enum.Font.GothamBold
+Instance.new(string.char(85,73,67,111,114,110,101,114), _xHDXVLFq)
+_xHDXVLFq.MouseButton1Click:Connect(_bdkPVXHz()
+    local _uUEUrERl = workspace:FindFirstChild(string.char(66,108,111,99,107), true) or workspace:FindFirstChild(string.char(67,111,114,101), true)
+    SafeTele(_uUEUrERl and (_uUEUrERl.CFrame * CFrame.new(0, 4, 0)) or CFrame.new(0, 15, 0))
+end)
+
+local _eExKoDPY = Instance.new(string.char(83,99,114,111,108,108,105,110,103,70,114,97,109,101), _RzALGudE)
+_eExKoDPY.Size = UDim2.new(0.95, 0, 0, 180)
+_eExKoDPY.BackgroundTransparency = 1
+_eExKoDPY.ScrollBarThickness = 2
+local _yUZcULAH = Instance.new(string.char(85,73,76,105,115,116,76,97,121,111,117,116), _eExKoDPY)
+_yUZcULAH.Padding = UDim.new(0, 5)
+
+local _bdkPVXHz RefreshPlayers()
+    for _, v in pairs(_eExKoDPY:GetChildren()) do if v:IsA(string.char(84,101,120,116,66,117,116,116,111,110)) then v:Destroy() end end
+    for _, p in pairs(_HnLuZxvK:GetPlayers()) do
+        if p ~= _xKURqmdd then
+            local _nKmDIhnW = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), _eExKoDPY)
+            _nKmDIhnW.Size = UDim2.new(0.95, 0, 0, 35)
+            _nKmDIhnW.BackgroundColor3 = Color3.fromRGB(30, 30, 35)
+            _nKmDIhnW.Text = p.DisplayName
+            _nKmDIhnW.TextColor3 = Color3.new(1, 1, 1)
+            Instance.new(string.char(85,73,67,111,114,110,101,114), _nKmDIhnW)
+            _nKmDIhnW.MouseButton1Click:Connect(_bdkPVXHz()
+                if p.Character and p.Character:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then
+                    SafeTele(p.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3))
+                end
+            end)
+        end
+    end
+end
+
+local _UYRTAvMd = Instance.new(string.char(84,101,120,116,66,117,116,116,111,110), _RzALGudE)
+_UYRTAvMd.Size = UDim2.new(0.5, 0, 0, 30)
+_UYRTAvMd.Text = string.char(95,118,71,122,68,75,105,103,73,192,77,32,77,7898,95,85,98,101,78,84,77,88,71,32,95,114,102,69,109,104,121,113,109,202,78)
+_UYRTAvMd.TextColor3 = _okUcUDMP.Accent
+_UYRTAvMd.BackgroundColor3 = Color3.fromRGB(45, 45, 50)
+Instance.new(string.char(85,73,67,111,114,110,101,114), _UYRTAvMd)
+_UYRTAvMd.MouseButton1Click:Connect(RefreshPlayers)
+RefreshPlayers()
+
+local _bdkPVXHz CreateESP(obj, color)
+    if obj:FindFirstChild(string.char(67,111,110,103,69,83,80)) then return end
+
+    local _BYhaIlvb = Instance.new(string.char(72,105,103,104,108,105,103,104,116))
+    _BYhaIlvb.Name = string.char(67,111,110,103,69,83,80)
+    _BYhaIlvb.FillColor = color
+    _BYhaIlvb.FillTransparency = 0.5
+    _BYhaIlvb.OutlineColor = Color3.fromRGB(255, 255, 255)
+    _BYhaIlvb.OutlineTransparency = 0
+    _BYhaIlvb.DepthMode = Enum.HighlightDepthMode.AlwaysOnTop
+    _BYhaIlvb.Parent = obj
+end
+
+local _bdkPVXHz RemoveESP(obj)
+    local _GpsNOQfO = obj:FindFirstChild(string.char(67,111,110,103,69,83,80))
+    local _tAlUjsxh = obj:FindFirstChild(string.char(67,111,110,103,84,97,103))
+    if _GpsNOQfO then _GpsNOQfO:Destroy() end
+    if _tAlUjsxh then _tAlUjsxh:Destroy() end
+end
+
+local _bdkPVXHz ApplyChestESP(obj, _ljfZWceW, color)
+    if obj:FindFirstChild(string.char(67,104,101,115,116,86,105,115,117,97,108)) then return end
+    local _jwHRPJQX = Instance.new(string.char(66,105,108,108,98,111,97,114,100,71,117,105))
+    _jwHRPJQX.Name = string.char(67,104,101,115,116,86,105,115,117,97,108)
+    _jwHRPJQX.AlwaysOnTop = true
+    _jwHRPJQX.Size = UDim2.new(0, 120, 0, 50)
+    _jwHRPJQX.StudsOffset = Vector3.new(0, 2, 0)
+
+    local _FBOnHVSe = Instance.new(string.char(84,101,120,116,76,97,98,101,108))
+    _FBOnHVSe.Parent = _jwHRPJQX
+    _FBOnHVSe.Size = UDim2.new(1, 0, 1, 0)
+    _FBOnHVSe.BackgroundTransparency = 1
+    _FBOnHVSe.Text = _ljfZWceW
+    _FBOnHVSe.TextColor3 = color
+    _FBOnHVSe.Font = Enum.Font.GothamBold
+    _FBOnHVSe.TextSize = 12
+    _FBOnHVSe.TextStrokeTransparency = 0.3
+    
+    _jwHRPJQX.Parent = obj
+    task.spawn(_bdkPVXHz()
+        local _qABURNCR = obj:IsA(string.char(77,111,100,101,108)) and (obj.PrimaryPart or obj:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))) or obj
+        
+        while _G.EspAllChests and obj and obj.Parent do
+            local _NGGErepS = _xKURqmdd.Character
+            local _yfpJrBds = _NGGErepS and _NGGErepS:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+            
+            if _yfpJrBds and _qABURNCR then
+                local _vSFjPIWI = obj:IsA(string.char(77,111,100,101,108)) and obj:GetPivot().Position or obj.Position
+                local _VeFCHmKn = math.floor((_yfpJrBds.Position - _vSFjPIWI).Magnitude)
+                _FBOnHVSe.Text = string.format(string.char(37,95,90,69,83,110,121,106,113,120,32,91,37,100,109,93), _ljfZWceW, _VeFCHmKn)
+            end
+            task.wait(0.5)
+        end
+        if _jwHRPJQX then _jwHRPJQX:Destroy() end
+    end)
+end
+
+local _bdkPVXHz UpdateArmVisibility()
+    local _NGGErepS = _xKURqmdd.Character
+    if not _NGGErepS then return end
+    local _hlpcLnJT = _G.ThirdPersonActive and 0 or 1
+    local _ePnkbklB = _G.ThirdPersonActive and 1 or 0
+    for _, v in pairs(_NGGErepS:GetChildren()) do
+        if v:IsA(string.char(66,97,115,101,80,97,114,116)) and (v.Name:find(string.char(65,114,109)) or v.Name:find(string.char(72,97,110,100))) then
+            v.LocalTransparencyModifier = _hlpcLnJT
+        end
+    end
+    for _, v in pairs(workspace.CurrentCamera:GetChildren()) do
+        if v:IsA(string.char(77,111,100,101,108)) or v:IsA(string.char(66,97,115,101,80,97,114,116)) then
+            if v:IsA(string.char(66,97,115,101,80,97,114,116)) then
+                v.LocalTransparencyModifier = _ePnkbklB
+            else
+                for _, _DOFabTwS in pairs(v:GetDescendants()) do
+                    if _DOFabTwS:IsA(string.char(66,97,115,101,80,97,114,116)) then
+                        _DOFabTwS.LocalTransparencyModifier = _ePnkbklB
+                    end
+                end
+            end
+        end
+    end
+end
+
+_dbdPUdYA.RenderStepped:Connect(_bdkPVXHz()
+    local _lIjjLbHJ = math.floor(game:GetService(string.char(95,100,74,79,107,71,110,86,85)).Network.ServerStatsItem[string.char(68,97,116,97,32,80,105,110,103)]:GetValue())
+    _oHDwqXbp.Text = string.char(80,73,78,71,58,32) .. _lIjjLbHJ .. string.char(109,115)
+end)
+    
+task.spawn(_bdkPVXHz()
+    while true do
+        for _, p in pairs(_HnLuZxvK:GetPlayers()) do
+            if p ~= _xKURqmdd and p.Character then
+                if _G.EspPlayer then 
+                    CreateESP(p.Character, Color3.fromRGB(0, 170, 255)) 
+                else 
+                    RemoveESP(p.Character) 
+                end
+            end
+        end
+        if _G.EspMob and _CNiYDkwT then
+            for _, obj in pairs(_CNiYDkwT:GetChildren()) do
+                if obj:IsA(string.char(77,111,100,101,108)) and obj:FindFirstChild(string.char(72,117,109,97,110,111,105,100)) then
+                    if _SHiBuERA then
+                        for _, mobName in pairs(_SHiBuERA) do
+                            if obj.Name == mobName then 
+                                CreateESP(obj, Color3.fromRGB(255, 0, 0)) 
+                            end
+                        end
+                    else
+                        CreateESP(obj, Color3.fromRGB(255, 0, 0))
+                    end
+                end
+            end
+        else
+            if _CNiYDkwT then
+                for _, obj in pairs(_CNiYDkwT:GetChildren()) do
+                    RemoveESP(obj)
+                end
+            end
+        end
+        task.wait(1)
+    end
+end)
+
+task.spawn(_bdkPVXHz()
+    while task.wait(0.5) do 
+        if _G.FullBrightActive then
+            
+            if _NlmqySWO.GlobalShadows ~= false then
+                _NlmqySWO.Ambient = Color3.fromRGB(200, 200, 200)
+                _NlmqySWO.OutdoorAmbient = Color3.fromRGB(200, 200, 200)
+                _NlmqySWO.GlobalShadows = false
+                _NlmqySWO.Brightness = 2
+            end
+        else
+            if _NlmqySWO.GlobalShadows == false then
+                _NlmqySWO.Ambient = _KSlNarfM.Ambient
+                _NlmqySWO.OutdoorAmbient = _KSlNarfM.OutdoorAmbient
+                _NlmqySWO.GlobalShadows = _KSlNarfM.GlobalShadows
+                _NlmqySWO.Brightness = _KSlNarfM.Brightness
+            end
+        end
+        UpdateArmVisibility()
+    end
+end)
+
+task.spawn(_bdkPVXHz()
+    while true do
+        if _G.EspMob and _CNiYDkwT then
+            for _, obj in pairs(_CNiYDkwT:GetChildren()) do
+                if obj:IsA(string.char(77,111,100,101,108)) and obj:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then
+                    local _brXIBXdr = obj:FindFirstChildOfClass(string.char(72,117,109,97,110,111,105,100))
+                    if _brXIBXdr and _brXIBXdr.Health > 0 then 
+                        CreateESP(obj, Color3.fromRGB(255, 0, 0)) 
+                    else 
+                        RemoveESP(obj) 
+                    end
+                end
+            end
+        else
+            if _CNiYDkwT then
+                for _, obj in pairs(_CNiYDkwT:GetChildren()) do
+                    RemoveESP(obj)
+                end
+            end
+        end
+        task.wait(0.5)
+    end
+end)
+
+local _bwRkZIbR = false 
+
+task.spawn(_bdkPVXHz()
+    while task.wait(1) do
+        if _G.NoFogActive then
+            if not _bwRkZIbR then
+                _NlmqySWO.FogStart = 999999
+                _NlmqySWO.FogEnd = 999999
+                local _DiDsNKBp = _NlmqySWO:FindFirstChildWhichIsA(string.char(65,116,109,111,115,112,104,101,114,101))
+                if _DiDsNKBp then 
+                    _DiDsNKBp.Density = 0 
+                end
+                _bwRkZIbR = true 
+            end
+        else
+            if _bwRkZIbR then
+                _NlmqySWO.FogStart = _UWrvxBoG
+                _NlmqySWO.FogEnd = _pKIyhoQH
+                local _DiDsNKBp = _NlmqySWO:FindFirstChildWhichIsA(string.char(65,116,109,111,115,112,104,101,114,101))
+                if _DiDsNKBp then 
+                    _DiDsNKBp.Density = _EWiFChrk 
+                end
+                _bwRkZIbR = false 
+            end
+        end
+    end
+end)
+
+task.spawn(_bdkPVXHz()
+    while true do
+        if _G.EspAllChests and _moAyYcpJ then
+            for _, v in pairs(_moAyYcpJ:GetChildren()) do
+                if not v.Name:lower():find(string.char(111,112,101,110)) then
+                    local _qABURNCR = (v:IsA(string.char(77,111,100,101,108)) and v.PrimaryPart) and v.PrimaryPart or v
+                    if v.Name:find(string.char(87,101,97,112,111,110)) or v.Name:find(string.char(67,114,97,116,101)) then ApplyChestESP(_qABURNCR, v.Name, Color3.fromRGB(0, 255, 255))
+                    elseif v.Name:find(string.char(67,104,101,115,116)) or v.Name:find(string.char(77,121,115,116,101,114,121)) then ApplyChestESP(_qABURNCR, v.Name, Color3.fromRGB(255, 150, 0)) end
+                end
+            end
+        else
+            if _moAyYcpJ then
+                for _, v in pairs(_moAyYcpJ:GetChildren()) do
+                    local _qABURNCR = v:IsA(string.char(77,111,100,101,108)) and v.PrimaryPart or v
+                    local _GpsNOQfO = _qABURNCR and _qABURNCR:FindFirstChild(string.char(67,104,101,115,116,86,105,115,117,97,108))
+                    if _GpsNOQfO then _GpsNOQfO:Destroy() end
+                end
+            end
+        end
+        task.wait(1)
+    end
+end)
+
+Toggle_ThirdPerson = AddToggle(string.char(103,243,99,32,110,104,236,110,32,116,104,7913,32,51), _FxIBGPar, _bdkPVXHz(_ZESnyjqx)
+    _G.ThirdPersonActive = _ZESnyjqx
+    _xKURqmdd.CameraMode = _ZESnyjqx and Enum.CameraMode.Classic or Enum.CameraMode.LockFirstPerson
+    if _ZESnyjqx then NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(103,243,99,32,110,104,236,110,32,116,104,7913,32,51,32,98,7853,116)) end
+end)
+
+Toggle_EspPlayer = AddToggle(string.char(69,83,80,32,78,103,432,7901,105,32,67,104,417,105), _FxIBGPar, _bdkPVXHz(_ZESnyjqx) _G.EspPlayer = _ZESnyjqx if _ZESnyjqx then NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(95,71,112,115,78,79,81,102,79,32,112,108,97,121,101,114,32,98,7853,116)) end end)
+Toggle_EspMob = AddToggle(string.char(69,83,80,32,81,117,225,105,32,86,7853,116), _FxIBGPar, _bdkPVXHz(_ZESnyjqx) _G.EspMob = _ZESnyjqx if _ZESnyjqx then NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(95,71,112,115,78,79,81,102,79,32,109,111,98,32,98,7853,116)) end end)
+Toggle_EspChest = AddToggle(string.char(69,83,80,32,97,108,108,32,99,104,101,115,116), _FxIBGPar, _bdkPVXHz(_ZESnyjqx) _G.EspAllChests = _ZESnyjqx if _ZESnyjqx then NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(95,71,112,115,78,79,81,102,79,32,99,104,101,115,116,32,98,7853,116)) end end)
+
+AddInput(string.char(273,7897,32,120,97,32,99,97,109,101,114,97), string.char(53,48), _FxIBGPar, _bdkPVXHz(v)
+    _G.CameraDistance = tonumber(v) or 50
+    _xKURqmdd.CameraMaxZoomDistance = _G.CameraDistance
+end)
+
+Toggle_FullBright = AddToggle(string.char(110,104,236,110,32,116,114,111,110,103,32,98,243,110,103,32,116,7889,105), _FxIBGPar, _bdkPVXHz(_ZESnyjqx) _G.FullBrightActive = _ZESnyjqx if _ZESnyjqx then NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(110,105,103,104,116,32,118,105,115,105,111,110,32,98,7853,116)) end end)
+Toggle_NoFog = AddToggle(string.char(88,243,97,32,95,90,69,83,110,121,106,113,120,432,417,110,103,32,95,107,99,120,86,68,87,104,101,249), _FxIBGPar, _bdkPVXHz(_ZESnyjqx) _G.NoFogActive = _ZESnyjqx if _ZESnyjqx then NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(120,111,225,32,120,432,417,110,103,32,95,107,99,120,86,68,87,104,101,249)) end end)
+
+task.spawn(_bdkPVXHz()
+    while true do
+        task.wait()
+        if _G.AutoFarm then
+            local _QzGuihwj = _HnLuZxvK.LocalPlayer.Character
+            if _QzGuihwj and _QzGuihwj:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then
+                local _HyYRRzcg = _QzGuihwj.HumanoidRootPart
+                local _PPeTCBuO = _G.WeaponSlot or 1
+                local _KhFBAYIZ = _G.AuraDistance or 100
+                
+                for _, monster in pairs(workspace.Monsters:GetChildren()) do
+                    if monster:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then
+                        local _uDqArjus = (_HyYRRzcg.Position - monster.HumanoidRootPart.Position).Magnitude
+                        if _uDqArjus < _KhFBAYIZ then
+                            _BgZIFtdI.meleeAttack.fire({
+                                monsters = {monster},
+                                civilians = {},
+                                activeSlot = _PPeTCBuO
+                            })
+                            break
+                        end
+                    end
+                end
+            end
+        end
+    end
+end)
+
+local _shKKohqf
+_shKKohqf = hookmetamethod(game, string.char(95,95,110,97,109,101,99,97,108,108), _bdkPVXHz(self, ...)
+    local _iEmZzXLz = {...}
+    if _G.GoldBugActive and self == _RTYpNVvH and getnamecallmethod() == string.char(70,105,114,101,83,101,114,118,101,114) then
+        if (typeof(_iEmZzXLz[1]) == string.char(98,117,102,102,101,114) or typeof(_iEmZzXLz[1]) == string.char(115,116,114,105,110,103)) 
+           and typeof(_iEmZzXLz[2]) == string.char(116,97,98,108,101) and #_iEmZzXLz[2] == 0 then
+            if not _nXLxkgxG then
+                _nXLxkgxG = _iEmZzXLz[1]
+                if NotifyOn then
+                    NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(273,7915,110,103,32,95,76,99,86,112,117,71,89,70,7841,95,107,99,120,86,68,87,104,101,32,95,86,101,70,67,72,109,75,110,7909,110,103,32,113,117,225))
+                end
+            end
+        end
+    end
+    
+    return _shKKohqf(self, ...)
+end)
+task.spawn(_bdkPVXHz()
+    while true do
+        if _G.GoldBugActive then
+            if _nXLxkgxG then
+                pcall(_bdkPVXHz()
+_RTYpNVvH:FireServer(_nXLxkgxG, {})
+                end)
+            end
+            task.wait(0.05)
+        else
+            task.wait(0.5)
+        end
+    end
+end)
+
+local _gbAvKXXM = {} 
+
+task.spawn(_bdkPVXHz()
+    while true do
+        task.wait(0.5)
+        if _G.AutoCollectChest then
+            local _NGGErepS = _xKURqmdd.Character
+            local _yfpJrBds = _NGGErepS and _NGGErepS:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+            
+            if _yfpJrBds and _moAyYcpJ then
+                for _, v in pairs(_moAyYcpJ:GetChildren()) do
+                    if not _G.AutoCollectChest then break end
+                    
+local _mwfBxhTU = v.Name
+local _sMCopMEE = v:FindFirstChildWhichIsA(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116), true) 
+
+if (_mwfBxhTU:find(string.char(67,104,101,115,116)) or _mwfBxhTU:find(string.char(67,114,97,116,101))) and (_sMCopMEE and _sMCopMEE.Enabled) and not _gbAvKXXM[v] then 
+                        local _wJvYGDfr = v:IsA(string.char(77,111,100,101,108)) and (v.PrimaryPart or v:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116))) or v                     
+                        
+                        if _wJvYGDfr and _wJvYGDfr:IsA(string.char(66,97,115,101,80,97,114,116)) then
+                            _yfpJrBds.CFrame = _wJvYGDfr.CFrame * CFrame.new(0, 3, 0)
+                            task.wait(0.2)  
+       if _sMCopMEE then
+                                _sMCopMEE.HoldDuration = 0
+                                fireproximityprompt(_sMCopMEE)
+                                _gbAvKXXM[v] = true 
+                                task.wait(0.5) 
+                            end
+                        end
+                    end
+                end
+            end
+        else
+            if next(_gbAvKXXM) ~= nil then
+                _gbAvKXXM = {}
+            end
+        end
+    end
+end)
+
+local _ZVPxuNTV = Instance.new(string.char(80,97,114,116))
+_ZVPxuNTV.Name = string.char(67,111,110,103,83,117,112,114,101,109,101,95,80,108,97,116,102,111,114,109)
+_ZVPxuNTV.Size = Vector3.new(10, 1, 10)
+_ZVPxuNTV.Anchored = true
+_ZVPxuNTV.CanCollide = true
+_ZVPxuNTV.Transparency = 1 
+_ZVPxuNTV.Parent = workspace
+_dbdPUdYA.Heartbeat:Connect(_bdkPVXHz()
+    if _G.PlatformActive then
+        local _NGGErepS = _xKURqmdd.Character
+        local _yfpJrBds = _NGGErepS and _NGGErepS:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+        if _yfpJrBds then
+            _ZVPxuNTV.CFrame = CFrame.new(_yfpJrBds.Position.X, _ZVPxuNTV.Position.Y, _yfpJrBds.Position.Z)
+            _ZVPxuNTV.CanCollide = true
+        else
+            _ZVPxuNTV.CanCollide = false
+        end
+    else
+        _ZVPxuNTV.CanCollide = false
+        _ZVPxuNTV.CFrame = CFrame.new(0, -500, 0)
+    end
+end)
+
+Toggle_AutoFarm = AddToggle(string.char(107,105,108,108,32,97,117,114,97), _EnLSNzJX, _bdkPVXHz(_ZESnyjqx)
+    _G.AutoFarm = _ZESnyjqx
+    if _ZESnyjqx then
+        NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(107,105,108,108,32,97,117,114,97,32,98,7853,116))
+    end
+end)
+
+Toggle_AutoChest = AddToggle(string.char(97,117,116,111,32,97,108,108,32,99,104,101,115,116), _EnLSNzJX, _bdkPVXHz(_ZESnyjqx)
+    _G.AutoCollectChest = _ZESnyjqx
+    if _ZESnyjqx then
+        NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(97,117,116,111,32,116,101,108,101,32,99,104,101,115,116,32,98,7853,116))
+    end
+end)
+
+Toggle_AutoBlueprint = AddToggle(string.char(97,117,116,111,32,98,7843,110,32,116,104,105,7871,116,32,107,7871,40,98,101,116,97,41), _EnLSNzJX, _bdkPVXHz(_ZESnyjqx)
+    _G.AutoBlueprintMaster = _ZESnyjqx
+    if _ZESnyjqx then 
+        NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(97,117,116,111,32,110,104,7853,110,32,98,7843,110,32,116,104,105,7871,116,32,107,7871))
+    end
+end)
+
+AddToggle(string.char(65,117,116,111,32,71,111,108,100,32,66,117,103), _EnLSNzJX, _bdkPVXHz(state)
+    _G.GoldBugActive = state
+    if state then
+        if not _nXLxkgxG and NotifyOn then
+            NotifyOn(string.char(72,7879,32,84,104,7889,110,103), string.char(9888,65039,95,76,99,86,112,117,71,89,70,7841,95,107,99,120,86,68,87,104,101,32,95,86,101,70,67,72,109,75,110,7909,110,103,32,99,243,32,116,104,7875,32,98,7883,32,98,97,110,110,101,100,9888,65039))
+        end
+        
+        if RunGoldBugPath then
+            RunGoldBugPath()
+        end
+    end
+end)
+
+Toggle_AntiVoid = AddToggle(string.char(97,110,116,105,32,118,111,105,100), _EnLSNzJX, _bdkPVXHz(_ZESnyjqx)
+    _G.PlatformActive = _ZESnyjqx
+    if _ZESnyjqx then
+        NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(97,110,116,105,32,118,111,105,100,32,98,7853,116))
+        if _xKURqmdd.Character and _xKURqmdd.Character:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then
+            _ZVPxuNTV.Position = _xKURqmdd.Character.HumanoidRootPart.Position - Vector3.new(0, 3.5, 0)
+        end
+    end
+end)
+
+game:GetService(string.char(83,116,97,114,116,101,114,71,117,105)):SetCore(string.char(83,101,110,100,78,111,116,105,102,105,99,97,116,105,111,110), {
+    _MaCLhQZE = string.char(115,105,120,32,115,101,118,101,110),
+    Text = string.char(273,227,32,116,7843,105,32,120,111,110,103),
+    Duration = 10
+})
+
+local _MJyYsiIM = {
+    {Type = string.char(70,97,114,109), Pos = Vector3.new(-432.01, 82.23, -35.68)},
+    {Type = string.char(70,97,114,109), Pos = Vector3.new(-118.78, 67.92, -167.74)}, 
+    {Type = string.char(67,111,108,108,101,99,116), Pos = Vector3.new(-142.67, 53.77, -211.52)}, 
+    {Type = string.char(70,97,114,109), Pos = Vector3.new(251.28, 68.51, -23.98)}, 
+    {Type = string.char(67,111,108,108,101,99,116), Pos = Vector3.new(229.28, 51.85, -33.03)}, 
+    {Type = string.char(70,97,114,109), Pos = Vector3.new(627.25, 66.60, -185.59)}, 
+    {Type = string.char(67,111,108,108,101,99,116), Pos = Vector3.new(657.27, 68.38, -179.39)}, 
+    {Type = string.char(67,111,108,108,101,99,116), Pos = Vector3.new(667.93, 56.22, -134.54)}, 
+    {Type = string.char(70,97,114,109), Pos = Vector3.new(688.43, 66.78, 242.20)}, 
+    {Type = string.char(67,111,108,108,101,99,116), Pos = Vector3.new(690.56, 66.78, 273.21)}, 
+    {Type = string.char(67,111,108,108,101,99,116), Pos = Vector3.new(456.61, 55.92, -597.25)}, 
+    {Type = string.char(70,97,114,109), Pos = Vector3.new(989.22, 81.00, -126.43)}, 
+    {Type = string.char(71,101,116,67,111,100,101), Pos = {Vector3.new(983.45, 54.10, -93.26)}}, 
+    {Type = string.char(70,105,110,97,108), Pos = Vector3.new(1037.90, 65.60, -126.34)} 
+}
+local _KSbQYGdQ = false 
+local _EBuLDTOh = false 
+local _bdkPVXHz interactWithPrompt()
+    local _QzGuihwj = _xKURqmdd.Character
+    if not _QzGuihwj or not _QzGuihwj:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then return end
+    local _yfpJrBds = _QzGuihwj.HumanoidRootPart
+    
+    for _, descendant in ipairs(_KzZGlMIE:GetDescendants()) do
+        if descendant:IsA(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116)) then
+            local _DOFabTwS = descendant:FindFirstAncestorWhichIsA(string.char(66,97,115,101,80,97,114,116)) or descendant:FindFirstAncestorWhichIsA(string.char(65,116,116,97,99,104,109,101,110,116))
+            if _DOFabTwS then
+                local _vSFjPIWI = _DOFabTwS:IsA(string.char(65,116,116,97,99,104,109,101,110,116)) and _DOFabTwS.WorldPosition or _DOFabTwS.Position
+                if (_yfpJrBds.Position - _vSFjPIWI).Magnitude < 25 then
+                    descendant.HoldDuration = 0
+fireproximityprompt(descendant)
+                    task.wait(0.1)
+                end
+            end
+        end
+    end
+end
+local _bdkPVXHz countMonstersNearby(centerPos)
+    local _yQkjmYIf = 0
+    if _CNiYDkwT then
+        for _, monster in ipairs(_CNiYDkwT:GetChildren()) do
+            local _VVNfMdfm = monster:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) or monster:FindFirstChildWhichIsA(string.char(66,97,115,101,80,97,114,116))
+            if _VVNfMdfm then
+                local _KhFBAYIZ = (centerPos - _VVNfMdfm.Position).Magnitude
+                if _KhFBAYIZ <= 100 then
+                    _yQkjmYIf = _yQkjmYIf + 1
+                end
+            end
+        end
+    end
+    return _yQkjmYIf
+end
+task.spawn(_bdkPVXHz()
+    local _jbtDEJpt = 1
+    
+    while true do
+        if _G.AutoBlueprintMaster then
+            
+            if not _EBuLDTOh then
+                _EBuLDTOh = true
+                _KSbQYGdQ = _G.AutoFarm 
+                _G.AutoFarm = true 
+                _jbtDEJpt = 1 
+            end
+
+            local _QzGuihwj = _xKURqmdd.Character
+            local _yfpJrBds = _QzGuihwj and _QzGuihwj:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+            
+            if _yfpJrBds then
+                local _OQnDVoZk = _MJyYsiIM[_jbtDEJpt]
+                if not _OQnDVoZk then
+                    _G.AutoBlueprintMaster = false 
+                    continue 
+                end
+                
+                local _vSFjPIWI
+                if type(_OQnDVoZk.Pos) == string.char(116,97,98,108,101) then
+                    _vSFjPIWI = _OQnDVoZk.Pos[1]
+                else
+                    _vSFjPIWI = _OQnDVoZk.Pos
+                end
+                
+                
+                if _OQnDVoZk.Type == string.char(70,97,114,109) then
+                    _yfpJrBds.CFrame = CFrame.new(_vSFjPIWI)
+                    task.wait(1.5)
+                    
+                    while _G.AutoBlueprintMaster and _OQnDVoZk.Type == string.char(70,97,114,109) do
+                        if countMonstersNearby(_vSFjPIWI) == 0 then
+                            _jbtDEJpt = _jbtDEJpt + 1 
+                            break
+                        end
+                        task.wait(1)
+                    end
+                else
+                    _yfpJrBds.CFrame = CFrame.new(_vSFjPIWI)
+                    task.wait(0.5)
+                    
+                    interactWithPrompt()
+                    task.wait(0.5)
+                    
+                    _jbtDEJpt = _jbtDEJpt + 1 
+                end
+            end
+        else
+            if _EBuLDTOh then
+                _G.AutoFarm = _KSbQYGdQ
+                _EBuLDTOh = false 
+            end
+        end
+        task.wait(0.1)
+    end
+end)
+
+local _cfpABaMf = Vector3.new(-37.91, 51.59, 86.33)
+local _sWzWADUp = Vector3.new(-26.95, 85.49, 122.67)
+
+local _xnfPwooJ = false 
+local _jSjbrZSS = false        
+
+local _bdkPVXHz ClickSkip()
+    
+    if _G.AutoSkip then
+        if not _jSjbrZSS then
+            _jSjbrZSS = true
+            _xnfPwooJ = _G.AutoFarm 
+            _G.AutoFarm = true                    
+        end
+    else
+        if _jSjbrZSS then
+            _G.AutoFarm = _xnfPwooJ 
+            _jSjbrZSS = false        
+        end
+        return false
+    end
+    for _, v in pairs(workspace:GetDescendants()) do
+        if (v:IsA(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116)) or v:IsA(string.char(67,108,105,99,107,68,101,116,101,99,116,111,114))) then
+            local _JXWnEXeT = v:FindFirstAncestorWhichIsA(string.char(66,97,115,101,80,97,114,116)) or v:FindFirstAncestorWhichIsA(string.char(65,116,116,97,99,104,109,101,110,116))
+            if _JXWnEXeT then
+                local _vSFjPIWI = _JXWnEXeT:IsA(string.char(65,116,116,97,99,104,109,101,110,116)) and _JXWnEXeT.WorldPosition or _JXWnEXeT.Position
+                if (_vSFjPIWI - _cfpABaMf).Magnitude < 15 then
+                    if v:IsA(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116)) then
+                        v.HoldDuration = 0 
+                        fireproximityprompt(v)
+                    else
+                        fireclickdetector(v)
+                    end
+                    task.wait(0.1)
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
+
+AddToggle(string.char(97,117,116,111,32,100,97,121,115), _EnLSNzJX , _bdkPVXHz(_ZESnyjqx)
+    _G.AutoLoopActive = _ZESnyjqx
+    if _G.AutoLoopActive then
+        task.spawn(_bdkPVXHz()
+            local _xJkVwRlK = false
+            while _G.AutoLoopActive do
+                local _NGGErepS = _xKURqmdd.Character
+                local _ZqCZKWOZ = _NGGErepS and _NGGErepS:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116))
+                
+                if _ZqCZKWOZ then
+                    local _LbovuUlp = _NlmqySWO.ClockTime
+                    if _LbovuUlp >= 6 and _LbovuUlp < 18 then
+                        if not _xJkVwRlK then
+                            _ZqCZKWOZ.CFrame = CFrame.new(_cfpABaMf)
+                            task.wait(0.4)
+                            if ClickSkip() then
+                                _xJkVwRlK = true
+                                _ZqCZKWOZ.CFrame = CFrame.new(_sWzWADUp)
+                            end
+                        else
+                            if (_ZqCZKWOZ.Position - _sWzWADUp).Magnitude > 5 then
+                                _ZqCZKWOZ.CFrame = CFrame.new(_sWzWADUp)
+                            end
+                        end
+                    else
+                        _xJkVwRlK = false
+                        if (_ZqCZKWOZ.Position - _sWzWADUp).Magnitude > 5 then
+                            _ZqCZKWOZ.CFrame = CFrame.new(_sWzWADUp)
+                        end
+                    end
+                end
+                task.wait(0.5)
+            end
+        end)
+    end
+end)
+
+Toggle_BringVatLieu = AddToggle(string.char(66,114,105,110,103,32,118,7853,116,32,108,105,7879,117), _QIBEtKdS, _bdkPVXHz(state)
+    _G.BringWhitelistActive = state
+end)
+
+Toggle_BringXacZombie = AddToggle(string.char(66,114,105,110,103,32,120,225,99,32,122,111,109,98,105,101), _QIBEtKdS, _bdkPVXHz(state)
+    _G.BringCorpsesActive = state
+end)
+
+Toggle_BringDoYTe = AddToggle(string.char(66,114,105,110,103,32,273,7891,32,121,32,116,7871), _QIBEtKdS, _bdkPVXHz(state)
+    _G.BringBandagesActive = state
+end)
+
+Toggle_BringLinhTinh = AddToggle(string.char(98,114,105,110,103,32,108,105,110,104,32,116,105,110,104), _QIBEtKdS, _bdkPVXHz(stage)
+     _G.BringWeaponsActive = stage
+end)
+
+_G.MaterialWhitelist = {string.char(78,117,116),string.char(87,111,111,100,83,116,111,111,108),string.char(66,114,111,107,101,110,76,97,110,116,101,114,110),string.char(80,97,105,110,116,105,110,103),string.char(78,97,105,108),string.char(71,101,97,114),string.char(76,97,109,112),string.char(79,108,100,67,97,110),string.char(84,101,97,112,111,116),string.char(67,114,117,115,104,101,100,67,97,110),string.char(86,105,110,116,97,103,101,84,86),string.char(87,111,111,100,99,104,97,105,114),string.char(84,111,97,115,116,101,114),string.char(82,111,99,107,105,110,103,67,104,97,105,114),string.char(77,101,116,97,108,66,97,114,114,101,108),string.char(87,104,101,101,108),string.char(67,114,97,99,107,101,100,66,101,108,108),string.char(77,101,116,97,108,71,101,97,114),string.char(87,104,101,101,108,66,97,114,114,111,119),string.char(77,101,116,97,108,66,117,99,107,101,116),string.char(87,111,111,100,80,108,97,110,107)}
+
+local _SHiBuERA = {
+[string.char(122,111,109,98,105,101)] = true,
+[string.char(116,97,110,107,122,111,109,98,105,101)] = true,
+[string.char(112,101,97,122,111,109,98,105,101)] = true,
+[string.char(102,97,115,116,122,111,109,98,105,101)] = true,
+[string.char(115,101,119,101,114,114,97,116)] = true,
+[string.char(114,97,100,105,111,97,99,116,105,118,101,114,97,116)] = true,
+[string.char(99,97,114,114,111,116,122,111,109,98,105,101)] = true, 
+[string.char(97,112,112,108,101,122,111,109,98,105,101)] = true,
+[string.char(114,97,100,105,111,97,99,116,105,118,101,99,111,114,110,122,111,109,98,105,101)] = true, 
+[string.char(99,114,97,119,108,101,114,122,111,109,98,105,101)] = true, 
+[string.char(114,97,100,105,111,97,99,116,105,118,101,97,112,112,108,101,122,111,109,98,105,101)] = true,
+[string.char(114,97,100,105,111,97,99,116,105,118,101,99,97,114,114,111,116,122,111,109,98,105,101)] = true, 
+[string.char(114,97,100,105,111,97,99,116,105,118,101,98,97,110,97,110,97,122,111,109,98,105,101)] = true, 
+[string.char(109,117,115,104,114,111,111,109,122,111,109,98,105,101)] = true,
+[string.char(101,110,114,97,103,101,100,102,97,115,116,122,111,109,98,105,101)] = true, 
+[string.char(101,118,105,108,115,99,105,101,110,116,105,115,116,98,111,115,115)] = true, 
+[string.char(99,104,101,114,114,121,98,111,109,98,122,111,109,98,105,101)] = true, [string.char(103,114,97,112,101,122,111,109,98,105,101)] = true, 
+[string.char(103,111,108,100,101,110,99,97,114,114,111,116,122,111,109,98,105,101)] = true, 
+[string.char(115,116,114,97,119,98,101,114,114,121,122,111,109,98,105,101)] = true,
+[string.char(98,108,117,101,98,101,114,114,121,122,111,109,98,105,101)] = true, 
+[string.char(100,111,111,109,98,101,114,114,121,122,111,109,98,105,101)] = true, 
+[string.char(101,110,114,97,103,101,100,99,97,99,116,117,115)] = true,
+[string.char(98,97,110,97,110,97,122,111,109,98,105,101)] = true, 
+[string.char(102,105,114,101,122,111,109,98,105,101)] = true,
+[string.char(99,97,99,116,117,115)] = true,
+[string.char(112,105,99,107,108,101,122,111,109,98,105,101)] = true,
+[string.char(101,103,103,112,108,97,110,116,122,111,109,98,105,101)] = true, 
+[string.char(99,111,114,110,122,111,109,98,105,101)] = true,
+[string.char(111,110,105,111,110,122,111,109,98,105,101)] = true,
+[string.char(103,104,111,115,116,112,101,112,101,101,114)] = true,
+[string.char(111,114,97,110,103,101,122,111,109,98,105,101)] = true, 
+[string.char(116,111,109,97,116,111,122,111,109,98,105,101)] = true,
+[string.char(112,111,116,97,116,111,122,111,109,98,105,101)] = true 
+	}
+
+local _bdkPVXHz IsInWhitelist(objName)
+    local _zxsUlnSA = objName:lower()
+    for _, whiteName in pairs(_G.MaterialWhitelist) do
+        if _zxsUlnSA == whiteName:lower() then
+            return true
+        end
+    end
+    return false
+end
+
+local _bdkPVXHz IsTargetMob(objName)
+    local _FyinYcDY = objName:lower():gsub(string.char(37,95,90,69,83,110,121,106,113,120,43), string.char()) 
+    return _SHiBuERA[_FyinYcDY] or false
+end
+
+local _bdkPVXHz BringToPosition(obj, targetCFrame)
+    pcall(_bdkPVXHz()
+        local _sMCopMEE = obj:FindFirstChildOfClass(string.char(80,114,111,120,105,109,105,116,121,80,114,111,109,112,116)) or obj:FindFirstChild(string.char(80,114,111,109,112,116), true)
+
+        if obj:IsA(string.char(77,111,100,101,108)) then
+            if obj.PrimaryPart then
+                obj.PrimaryPart.CFrame = targetCFrame + Vector3.new(0, 1, 0)
+            else
+                obj:MoveTo(targetCFrame.Position) 
+            end
+        else
+            obj.Anchored = false
+            obj.CanCollide = false
+            obj.CFrame = targetCFrame + Vector3.new(0, 1, 0) 
+        end
+
+        if _sMCopMEE then
+            task.spawn(_bdkPVXHz()
+                fireproximityprompt(_sMCopMEE)
+            end)
+        end
+    end)
+end
+
+task.spawn(_bdkPVXHz()
+    local _DNaBsvhn = nil
+    while true do
+        task.wait(0.15) 
+        local _xKURqmdd = _HnLuZxvK.LocalPlayer
+        if _G.BringWhitelistActive and _xKURqmdd.Character and _xKURqmdd.Character:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then
+            if not _DNaBsvhn then
+                _DNaBsvhn = _xKURqmdd.Character.HumanoidRootPart.CFrame
+            end
+            
+            if _SSyYsaRp then
+                local _UsvHIzlP = _SSyYsaRp:GetChildren()
+                local _XFVqlbXu = 0
+                
+                for _, obj in pairs(_UsvHIzlP) do
+                    if not _G.BringWhitelistActive then break end
+                    if obj:IsA(string.char(80,97,114,116)) or obj:IsA(string.char(77,101,115,104,80,97,114,116)) or obj:IsA(string.char(77,111,100,101,108)) then
+                        if IsInWhitelist(obj.Name) then
+                            BringToPosition(obj, _DNaBsvhn)
+                            _XFVqlbXu = _XFVqlbXu + 1
+                            task.wait(0.01) 
+                        end
+                    end
+                end
+
+                if _XFVqlbXu > 0 then
+                    pcall(_bdkPVXHz()
+                        NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(273,227,32,99,104,244,95,107,99,120,86,68,87,104,101,32,116,104,224,110,104,32,99,244,110,103,32) .. _XFVqlbXu .. string.char(32,110,103,117,121,234,110,32,108,105,7879,117))
+                    end)
+                end
+            end
+        else
+            _DNaBsvhn = nil
+        end
+    end
+end)
+
+task.spawn(_bdkPVXHz()
+    local _DNaBsvhn = nil
+    while true do
+        task.wait(0.15) 
+        local _xKURqmdd = _HnLuZxvK.LocalPlayer
+        if _G.BringCorpsesActive and _xKURqmdd.Character and _xKURqmdd.Character:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then
+            if not _DNaBsvhn then
+                _DNaBsvhn = _xKURqmdd.Character.HumanoidRootPart.CFrame
+            end 
+            
+            if _SSyYsaRp then
+                local _UsvHIzlP = _SSyYsaRp:GetChildren()
+                local _qIszNgZn = 0
+
+                for _, obj in pairs(_UsvHIzlP) do
+                    if not _G.BringCorpsesActive then break end
+                    if IsTargetMob(obj.Name) then
+                        BringToPosition(obj, _DNaBsvhn)
+                        _qIszNgZn = _qIszNgZn + 1
+                        task.wait(0.01) 
+                    end
+                end
+
+                if _qIszNgZn > 0 then
+                    pcall(_bdkPVXHz()
+                        NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(272,227,32,103,111,109,32,116,104,224,110,104,32,99,244,110,103,32) .. _qIszNgZn .. string.char(32,120,225,99,32,122,111,109,98,105,101))
+                    end)
+                end
+            end
+        else
+            _DNaBsvhn = nil
+        end
+    end
+end)
+
+task.spawn(_bdkPVXHz()
+    local _DNaBsvhn = nil
+    while true do
+        task.wait(0.15) 
+        local _xKURqmdd = _HnLuZxvK.LocalPlayer
+        if _G.BringBandagesActive and _xKURqmdd.Character and _xKURqmdd.Character:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then
+            if not _DNaBsvhn then
+                _DNaBsvhn = nil
+                _DNaBsvhn = _xKURqmdd.Character.HumanoidRootPart.CFrame
+            end
+            
+            if _SSyYsaRp then
+                local _UsvHIzlP = _SSyYsaRp:GetChildren()
+                local _yxJfTQeK = 0
+                
+                for _, obj in pairs(_UsvHIzlP) do
+                    if not _G.BringBandagesActive then break end
+                    if obj:IsA(string.char(80,97,114,116)) or obj:IsA(string.char(77,101,115,104,80,97,114,116)) or obj:IsA(string.char(77,111,100,101,108)) then
+                        local _vErDmvGJ = obj.Name:lower()
+                        if _vErDmvGJ == string.char(98,97,110,100,97,103,101) or _vErDmvGJ == string.char(102,105,114,115,116,97,105,100,107,105,116) or _vErDmvGJ == string.char(114,101,118,105,118,101,107,105,116) then
+                            BringToPosition(obj, _DNaBsvhn)
+                            _yxJfTQeK = _yxJfTQeK + 1
+                            task.wait(0.01) 
+                        end
+                    end
+                end
+
+                if _yxJfTQeK > 0 then
+                    pcall(_bdkPVXHz()
+                        NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(273,227,32,99,104,244,95,107,99,120,86,68,87,104,101,32,116,104,224,110,104,32,99,244,110,103,32) .. _yxJfTQeK .. string.char(32,273,7891,32,121,32,116,7871))
+                    end)
+                end
+            end
+        else
+            _DNaBsvhn = nil
+        end
+    end
+end)
+
+local _rwPZJeLR = {
+    [string.char(68,77,82)] = true,
+    [string.char(66,114,97,115,115,75,110,117,99,107,108,101,115,100,109,114)] = true,
+    [string.char(67,104,97,105,110,115,97,119)] = true,
+    [string.char(82,101,118,111,108,118,101,114)] = true,
+    [string.char(83,117,112,101,114,83,112,101,101,100,74,117,105,99,101)] = true,
+    [string.char(69,120,111,82,105,102,108,101)] = true,
+    [string.char(74,117,103,67,104,117,103,74,117,105,99,101)] = true,
+    [string.char(77,52,65,49)] = true,
+    [string.char(74,117,109,109,121,74,117,105,99,101)] = true,
+    [string.char(80,111,119,80,111,119,74,117,105,99,101)] = true,
+    [string.char(74,117,109,112,121,74,117,105,99,101)] = true,
+    [string.char(73,114,111,110,82,101,112,97,105,114,72,97,109,109,101,114)] = true,
+    [string.char(32,83,112,101,101,100,74,117,105,99,101)] = true
+}
+local _bdkPVXHz IsWeapon(objName)
+    local _zxsUlnSA = objName:gsub(string.char(37,95,90,69,83,110,121,106,113,120,43), string.char()) 
+    return _rwPZJeLR[_zxsUlnSA] or false
+end
+
+task.spawn(_bdkPVXHz()
+    local _DNaBsvhn = nil
+    while true do
+        task.wait(0.15) 
+        if _G.BringWeaponsActive and _xKURqmdd.Character and _xKURqmdd.Character:FindFirstChild(string.char(72,117,109,97,110,111,105,100,82,111,111,116,80,97,114,116)) then
+            if not _DNaBsvhn then
+                _DNaBsvhn = _xKURqmdd.Character.HumanoidRootPart.CFrame
+            end
+            
+            if _SSyYsaRp then
+                local _UsvHIzlP = _SSyYsaRp:GetChildren()
+                local _BAKskuOH = 0
+                
+                for _, obj in pairs(_UsvHIzlP) do
+                    if not _G.BringWeaponsActive then break end
+                    
+                    if obj:IsA(string.char(80,97,114,116)) or obj:IsA(string.char(77,101,115,104,80,97,114,116)) or obj:IsA(string.char(77,111,100,101,108)) then
+                        if IsWeapon(obj.Name) then
+                            BringToPosition(obj, _DNaBsvhn)
+                            _BAKskuOH = _BAKskuOH + 1
+                            task.wait(0.01) 
+                        end
+                    end
+                end
+
+                if _BAKskuOH > 0 then
+                    pcall(_bdkPVXHz()
+                        NotifyOn(string.char(115,105,120,32,115,101,118,101,110), string.char(273,227,32,99,104,244,95,107,99,120,86,68,87,104,101,32,116,104,224,110,104,32,99,244,110,103,32) .. _BAKskuOH .. string.char(32,118,361,32,107,104,237))
+                    end)
+                end
+            end
+        else
+            _DNaBsvhn = nil
+        end
+    end
+end)
+
+local _NosqUXxv = {
+    [string.char(118,105)] = {
+
+        [string.char(66,114,105,110,103,77,97,116)] = string.char(95,78,102,90,77,80,90,120,97,250,116,32,118,7853,116,32,108,105,7879,117),
+        [string.char(66,114,105,110,103,67,111,114,112,115,101)] = string.char(95,78,102,90,77,80,90,120,97,250,116,32,120,225,99,32,122,111,109,98,105,101),
+        [string.char(66,114,105,110,103,77,101,100)] = string.char(95,78,102,90,77,80,90,120,97,250,116,32,273,7891,32,121,32,116,7871),
+        [string.char(66,114,105,110,103,77,105,115,99)] = string.char(95,78,102,90,77,80,90,120,97,250,116,32,108,105,110,104,32,116,105,110,104,40,95,76,99,86,112,117,71,89,70,7895,105,41),
+
+        [string.char(71,111,108,100,66,117,103)] = string.char(116,7921,32,273,7897,110,103,32,100,117,112,32,118,224,110,103),
+        [string.char(65,117,116,111,70,97,114,109)] = string.char(107,105,108,108,32,97,117,114,97),
+        [string.char(65,117,116,111,67,104,101,115,116)] = string.char(116,7921,32,273,7897,110,103,32,95,107,99,120,86,68,87,104,101,7903,32,114,432,417,110,103),
+        [string.char(65,117,116,111,66,108,117,101,112,114,105,110,116)] = string.char(116,7921,32,273,7897,110,103,32,98,7843,110,32,116,104,105,7871,116,32,107,7871,40,98,101,116,97,41),
+        [string.char(65,110,116,105,86,111,105,100)] = string.char(97,110,116,105,32,95,78,102,90,77,80,90,120,97,432,32,107,104,244,110,103),
+        
+        [string.char(83,112,101,101,100)] = string.char(116,7889,99,32,273,7897),
+        [string.char(70,108,121)] = string.char(98,97,121),
+        [string.char(73,110,102,74,117,109,112)] = string.char(110,104,7843,121,32,118,244,32,95,78,102,90,77,80,90,120,97,7841,110),
+        [string.char(73,110,115,116,97,110,116)] = string.char(95,114,102,69,109,104,121,113,109,432,417,110,103,32,95,114,102,69,109,104,121,113,109,225,99,32,78,104,97,110,104),
+        [string.char(78,111,99,108,105,112)] = string.char(120,117,121,234,110,32,116,432,7901,110,103),
+        
+        [string.char(84,104,105,114,100,80,101,114,115,111,110)] = string.char(103,243,99,32,110,104,236,110,32,116,104,7913,32,51),
+        [string.char(69,115,112,80,108,97,121,101,114)] = string.char(69,83,80,32,78,103,432,7901,105,32,67,104,417,105),
+        [string.char(69,115,112,77,111,98)] = string.char(69,83,80,32,81,117,225,105,32,86,7853,116),
+        [string.char(69,115,112,67,104,101,115,116)] = string.char(69,83,80,32,116,111,224,110,32,98,7897,32,114,432,417,110,103),
+        [string.char(70,117,108,108,66,114,105,103,104,116)] = string.char(110,104,236,110,32,116,114,111,110,103,32,98,243,110,103,32,116,7889,105),
+        [string.char(78,111,70,111,103)] = string.char(88,243,97,32,95,90,69,83,110,121,106,113,120,432,417,110,103,32,95,107,99,120,86,68,87,104,101,249)
+    },
+    [string.char(101,110)] = {
+
+        [string.char(66,114,105,110,103,77,97,116)] = string.char(66,114,105,110,103,32,77,97,116,101,114,105,97,108,115),
+        [string.char(66,114,105,110,103,67,111,114,112,115,101)] = string.char(66,114,105,110,103,32,90,111,109,98,105,101,32,67,111,114,112,115,101,115),
+        [string.char(66,114,105,110,103,77,101,100)] = string.char(66,114,105,110,103,32,77,101,100,105,99,97,108,32,73,116,101,109,115),
+        [string.char(66,114,105,110,103,77,105,115,99)] = string.char(66,114,105,110,103,32,77,105,115,99,32,73,116,101,109,115,32,40,66,117,103,103,121,41),
+        [string.char(65,117,116,111,70,97,114,109)] = string.char(75,105,108,108,32,65,117,114,97),
+        [string.char(65,117,116,111,67,104,101,115,116)] = string.char(65,117,116,111,32,67,111,108,108,101,99,116,32,67,104,101,115,116),
+        [string.char(65,117,116,111,66,108,117,101,112,114,105,110,116)] = string.char(65,117,116,111,32,66,108,117,101,112,114,105,110,116,32,40,66,101,116,97,41),
+        [string.char(65,110,116,105,86,111,105,100)] = string.char(65,110,116,105,32,86,111,105,100,32,80,114,111,116,101,99,116,105,111,110),
+        
+        [string.char(83,112,101,101,100)] = string.char(83,112,101,101,100,32,72,97,99,107),
+        [string.char(70,108,121)] = string.char(70,108,121,32,77,111,100,101),
+        [string.char(73,110,102,74,117,109,112)] = string.char(73,110,102,105,110,105,116,101,32,74,117,109,112),
+        [string.char(73,110,115,116,97,110,116)] = string.char(73,110,115,116,97,110,116,32,73,110,116,101,114,97,99,116,105,111,110),
+        [string.char(78,111,99,108,105,112)] = string.char(78,111,99,108,105,112),
+        
+        [string.char(84,104,105,114,100,80,101,114,115,111,110)] = string.char(84,104,105,114,100,32,80,101,114,115,111,110,32,86,105,101,119),
+        [string.char(69,115,112,80,108,97,121,101,114)] = string.char(80,108,97,121,101,114,32,69,83,80),
+        [string.char(69,115,112,77,111,98)] = string.char(77,111,110,115,116,101,114,32,69,83,80),
+        [string.char(69,115,112,67,104,101,115,116)] = string.char(67,104,101,115,116,32,69,83,80,32,40,65,108,108,41),
+        [string.char(70,117,108,108,66,114,105,103,104,116)] = string.char(70,117,108,108,66,114,105,103,104,116),
+        [string.char(78,111,70,111,103)] = string.char(82,101,109,111,118,101,32,70,111,103)
+    }
+}
+
+local _bdkPVXHz UpdateUILanguage(lang)
+    local _ljfZWceW = _NosqUXxv[lang]
+    
+    if Toggle_BringVatLieu then Toggle_BringVatLieu:SetText(_ljfZWceW[string.char(66,114,105,110,103,77,97,116)]) end
+    if Toggle_BringXacZombie then Toggle_BringXacZombie:SetText(_ljfZWceW[string.char(66,114,105,110,103,67,111,114,112,115,101)]) end
+    if Toggle_BringDoYTe then Toggle_BringDoYTe:SetText(_ljfZWceW[string.char(66,114,105,110,103,77,101,100)]) end
+    if Toggle_BringLinhTinh then Toggle_BringLinhTinh:SetText(_ljfZWceW[string.char(66,114,105,110,103,77,105,115,99)]) end
+    if Toggle_AutoFarm then Toggle_AutoFarm:SetText(_ljfZWceW[string.char(65,117,116,111,70,97,114,109)]) end
+    if Toggle_AutoChest then Toggle_AutoChest:SetText(_ljfZWceW[string.char(65,117,116,111,67,104,101,115,116)]) end
+    if Toggle_AutoBlueprint then Toggle_AutoBlueprint:SetText(_ljfZWceW[string.char(65,117,116,111,66,108,117,101,112,114,105,110,116)]) end
+    if Toggle_AntiVoid then Toggle_AntiVoid:SetText(_ljfZWceW[string.char(65,110,116,105,86,111,105,100)]) end
+    
+    if Toggle_Speed then Toggle_Speed:SetText(_ljfZWceW[string.char(83,112,101,101,100)]) end
+    if Toggle_Fly then Toggle_Fly:SetText(_ljfZWceW[string.char(70,108,121)]) end
+    if Toggle_InfJump then Toggle_InfJump:SetText(_ljfZWceW[string.char(73,110,102,74,117,109,112)]) end
+    if Toggle_Instant then Toggle_Instant:SetText(_ljfZWceW[string.char(73,110,115,116,97,110,116)]) end
+    if Toggle_Noclip then Toggle_Noclip:SetText(_ljfZWceW[string.char(78,111,99,108,105,112)]) end
+    
+    if Toggle_ThirdPerson then Toggle_ThirdPerson:SetText(_ljfZWceW[string.char(84,104,105,114,100,80,101,114,115,111,110)]) end
+    if Toggle_EspPlayer then Toggle_EspPlayer:SetText(_ljfZWceW[string.char(69,115,112,80,108,97,121,101,114)]) end
+    if Toggle_EspMob then Toggle_EspMob:SetText(_ljfZWceW[string.char(69,115,112,77,111,98)]) end
+    if Toggle_EspChest then Toggle_EspChest:SetText(_ljfZWceW[string.char(69,115,112,67,104,101,115,116)]) end
+    if Toggle_FullBright then Toggle_FullBright:SetText(_ljfZWceW[string.char(70,117,108,108,66,114,105,103,104,116)]) end
+    if Toggle_NoFog then Toggle_NoFog:SetText(_ljfZWceW[string.char(78,111,70,111,103)]) end
+end
+
+if _mpWVskFj and AddMiscBtn then
+    local _kcqejsqE = AddMiscBtn(string.char(86,73,7878,95,114,102,69,109,104,121,113,109,32,78,65,77,32,55356,55356), Color3.fromRGB(30, 30, 35), _bdkPVXHz()
+        UpdateUILanguage(string.char(118,105))
+        if NotifyOn then NotifyOn(string.char(78,103,244,110,32,78,103,7919), string.char(272,227,32,99,104,117,121,7875,110,32,115,97,110,103,32,84,105,7871,110,103,32,86,105,7879,116)) end
+    end)
+    _kcqejsqE.TextSize = 10
+    _kcqejsqE.Parent = _mpWVskFj
+
+    local _QfvJkalB = AddMiscBtn(string.char(69,110,103,108,105,115,104,32,55356,55356), Color3.fromRGB(30, 30, 35), _bdkPVXHz()
+        UpdateUILanguage(string.char(101,110))
+        if NotifyOn then NotifyOn(string.char(76,97,110,103,117,97,103,101), string.char(83,119,105,116,99,104,101,100,32,116,111,32,69,110,103,108,105,115,104,32,115,117,99,99,101,115,115,102,117,108,108,121,33)) end
+    end)
+    _QfvJkalB.TextSize = 10
+    _QfvJkalB.Parent = _mpWVskFj
+end
+
+end
