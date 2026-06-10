@@ -613,7 +613,7 @@ local ZaloLink = Instance.new("TextLabel", PageMain)
 ZaloLink.Size = UDim2.new(1, -110, 0, 22)
 ZaloLink.Position = UDim2.new(0, 10, 0, yPos)
 ZaloLink.BackgroundTransparency = 1
-ZaloLink.Text = "zalo.me/g/yourgroupcode   ← thay link thật"
+ZaloLink.Text = ""
 ZaloLink.TextColor3 = Color3.fromRGB(0, 212, 255)
 ZaloLink.Font = Enum.Font.GothamBold
 ZaloLink.TextSize = 12
@@ -632,7 +632,7 @@ Instance.new("UICorner", CopyBtn).CornerRadius = UDim.new(0, 5)
 yPos = yPos + 28
 
 CopyBtn.MouseButton1Click:Connect(function()
-    local link = "https://zalo.me/g/yourgroupcode" -- ← THAY LINK ZALO THẬT VÀO ĐÂY
+    local link = "" 
     pcall(function() setclipboard(link) end)
     CopyBtn.Text = "✓ Đã copy"
     task.delay(1.2, function()
