@@ -53,7 +53,7 @@ TimeLabel.Font = Enum.Font.GothamMedium
 TimeLabel.TextSize = 16
 TimeLabel.BackgroundTransparency = 1
 
-local TIME1  = 17 
+local TIME1  = 20
 local TIME2 = 0  
 
 task.spawn(function()
