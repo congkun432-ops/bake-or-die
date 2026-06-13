@@ -11,6 +11,31 @@ local Stats = game:GetService("Stats")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local lp = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
+local HttpService = game:GetService("HttpService")
+
+local KeyConfig = {
+    SaveFile = "CourieCat_Auth.json"
+}
+
+local function DecodeKey(str)
+    return str:gsub(".", function(c)
+        return string.char(string.byte(c) - 5)
+    end)
+end
+
+local function LoadKeyAuth()
+    if isfile and isfile(KeyConfig.SaveFile) then
+        local success, data = pcall(function()
+            return HttpService:JSONDecode(DecodeKey(readfile(KeyConfig.SaveFile)))
+        end)
+        return success and data or {LastTime = 0}
+    end
+    return {LastTime = 0}
+end
+
+local KeyAuthData = LoadKeyAuth()
+local KEY_EXPIRE_TIME = KeyAuthData.LastTime + 86400
+local KeyTimeLabel = nil
 
 -- Khai báo dữ liệu Game từ ReplicatedStorage
 local ZAP = require(ReplicatedStorage:WaitForChild("Client"):WaitForChild("ClientRemotes"))
@@ -98,10 +123,6 @@ local MeatWhitelist = {
     ["RadioactiveRatMeat"] = true, ["Milk"] = true, ["ChocolateMilk"] = true, ["RatMeat"] = true, ["Carrot"] = true,
     ["Orange"] = true, ["CactusMeat"] = true, ["GoldenCarrot"] = true
 }
-
--- ====================================================================
--- ĐỊNH NGHĨA CÁC HÀM LOGIC TRƯỚC KHI TẠO MENU (QUAN TRỌNG ĐỂ TRÁNH LỖI NIL)
--- ====================================================================
 
 _G.FlySpeed = _G.FlySpeed or 50 
 local MAX_FLY_SPEED = 750
@@ -282,11 +303,6 @@ local function BringToPosition(obj, targetCFrame)
         if prompt then task.spawn(function() fireproximityprompt(prompt) end) end
     end)
 end
-
--- ====================================================================
--- TẠO GIAO DIỆN (UI MENU)
--- ====================================================================
-
 local function CreateSwitch(name, parent, default, callback)
     local SwitchFrame = Instance.new("Frame", parent)
     SwitchFrame.Size = UDim2.new(1, 0, 0, 38); SwitchFrame.BackgroundTransparency = 1
@@ -498,10 +514,6 @@ AddTabBtn("FARM & ESP")
 AddTabBtn("TELEBOT") 
 AddTabBtn("MISC")
 
--- ====================================================================
--- TELEBOT - Danh sách người chơi + Teleport
--- ====================================================================
-
 local TeleScroll = Instance.new("ScrollingFrame", PageTele)
 TeleScroll.Size = UDim2.new(1, -10, 1, -10)
 TeleScroll.Position = UDim2.new(0, 5, 0, 5)
@@ -549,26 +561,16 @@ local function RefreshPlayerList()
         TeleScroll.CanvasSize = UDim2.new(0, 0, 0, UIList.AbsoluteContentSize.Y + 10)
     end)
 end
-
--- Tự động cập nhật khi có người vào/ra
-Players.PlayerAdded:Connect(RefreshPlayerList)
 Players.PlayerRemoving:Connect(RefreshPlayerList)
-
--- Cập nhật định kỳ
 task.spawn(function()
-    while task.wait(8) do
+    while task.wait(10) do
         RefreshPlayerList()
     end
 end)
 
-RefreshPlayerList() -- Load lần đầu
+RefreshPlayerList()
 
 PageMain.Visible = true
-
--- ====================================================================
--- MAIN PAGE - THÔNG TIN PHIÊN CHƠI (Gọn + Đẹp + Nhiều Info)
--- ====================================================================
-
 local yPos = 8
 local function CreateInfoLabel(text, color, sizeY)
     local lbl = Instance.new("TextLabel", PageMain)
@@ -586,28 +588,13 @@ end
 
 -- Header
 CreateInfoLabel("📊  THÔNG TIN PHIÊN CHƠI  •  " .. _G.HubName .. "  •  By: " .. _G.AuthorName, Color3.fromRGB(0, 212, 255), 30)
-
--- Player
+local KeyTimeLabel = CreateInfoLabel("🔑  Key còn lại: Đang kiểm tra...", Color3.fromRGB(100, 255, 200))
 local PlayerLabel = CreateInfoLabel("👤  " .. lp.Name .. "  (" .. lp.DisplayName .. ")", Color3.fromRGB(255, 255, 255))
-
--- Play Time
 local TimeLabel = CreateInfoLabel("⏱️  Thời gian chơi: 00:00:00", Color3.fromRGB(180, 255, 180))
-
--- FPS + Status
 local FPSLabel = CreateInfoLabel("🎮  FPS: --  (Đang tính...)", Color3.fromRGB(255, 200, 100))
-
--- Ping + Status
 local PingLabel = CreateInfoLabel("📶  Ping: -- ms  (Đang đo...)", Color3.fromRGB(100, 200, 255))
-
--- Server Players
 local ServerLabel = CreateInfoLabel("🌍  Người chơi trong server: --", Color3.fromRGB(200, 200, 255))
-
--- In-game Time
 local GameTimeLabel = CreateInfoLabel("🕒  Giờ trong game: --:--  (Đang tải...)", Color3.fromRGB(255, 220, 150))
-
--- Zalo
-yPos = yPos + 4
-local ZaloLabel = CreateInfoLabel("📱  Zalo Group:", Color3.fromRGB(230, 230, 230), 22)
 
 local ZaloLink = Instance.new("TextLabel", PageMain)
 ZaloLink.Size = UDim2.new(1, -110, 0, 22)
@@ -639,16 +626,11 @@ CopyBtn.MouseButton1Click:Connect(function()
         if CopyBtn and CopyBtn.Parent then CopyBtn.Text = "Copy Link" end
     end)
 end)
-
--- Live Update
 task.spawn(function()
     local sessionStart = tick()
     while PageMain and PageMain.Parent do
-        -- Thời gian chơi
         local t = math.floor(tick() - sessionStart)
         TimeLabel.Text = string.format("⏱️  Thời gian chơi: %02d:%02d:%02d", t//3600, (t%3600)//60, t%60)
-
-        -- FPS + trạng thái
         local fps = 60
         pcall(function() fps = math.floor(1 / RunService.RenderStepped:Wait() + 0.5) end)
         local fpsStatus, fpsColor = "Ổn định", Color3.fromRGB(100, 255, 150)
@@ -656,28 +638,43 @@ task.spawn(function()
         elseif fps < 55 then fpsStatus, fpsColor = "Bình thường", Color3.fromRGB(255, 220, 100) end
         FPSLabel.Text = string.format("🎮  FPS: %d  (%s)", fps, fpsStatus)
         FPSLabel.TextColor3 = fpsColor
-
-        -- Ping + trạng thái
         pcall(function()
             local pingItem = Stats.Network.ServerStatsItem["Data Ping"]
             if pingItem then
                 local ping = math.floor(pingItem:GetValue() or 0)
-                local pingStatus, pingColor = "Thấp (Ổn)", Color3.fromRGB(100, 255, 150)
-                if ping > 150 then pingStatus, pingColor = "Cao (Lag)", Color3.fromRGB(255, 80, 80)
+                local pingStatus, pingColor = "Thấp", Color3.fromRGB(100, 255, 150)
+                if ping > 150 then pingStatus, pingColor = "Cao", Color3.fromRGB(255, 80, 80)
                 elseif ping > 80 then pingStatus, pingColor = "Trung bình", Color3.fromRGB(255, 220, 100) end
                 PingLabel.Text = string.format("📶  Ping: %d ms  (%s)", ping, pingStatus)
                 PingLabel.TextColor3 = pingColor
             end
         end)
-
-        -- Số người chơi server
         ServerLabel.Text = "🌍  Người chơi trong server: " .. #Players:GetPlayers()
-
-        -- Giờ trong game
         local hour = Lighting.ClockTime
         local period = (hour >= 6 and hour < 18) and "☀️ Sáng" or "🌙 Tối"
         GameTimeLabel.Text = string.format("🕒  Giờ server: %02d:%02d  (%s)", math.floor(hour), math.floor((hour % 1)*60), period)
+        if KeyTimeLabel then
+            local now = os.time()
+            local left = KEY_EXPIRE_TIME - now
 
+            if left <= 0 then
+                KeyTimeLabel.Text = "🔑  Key đã HẾT HẠN!"
+                KeyTimeLabel.TextColor3 = Color3.fromRGB(255, 60, 60)
+            else
+                local h = math.floor(left / 3600)
+                local m = math.floor((left % 3600) / 60)
+                local s = left % 60
+
+                KeyTimeLabel.Text = string.format("🔑  Key còn lại: %02d:%02d:%02d", h, m, s)
+
+                if left < 600 then
+                    KeyTimeLabel.TextColor3 = Color3.fromRGB(255, 80, 80)
+                elseif left < 3600 then
+KeyTimeLabel.TextColor3 = Color3.fromRGB(255, 200, 80)
+                else        KeyTimeLabel.TextColor3 = Color3.fromRGB(100, 255, 150)    
+                end
+            end
+        end
         task.wait(1)
     end
 end)
@@ -714,7 +711,7 @@ CreateSwitch("Kill Aura", PageFarm, _G.AutoFarm, function(s)
     _G.AutoFarm = s
 end)
 
-CreateDropdown("Chọn Slot Kill Aura (1-12)", PageFarm, {"1","2","3","4","5","6","7","8","9","10","11","12"}, function(selected)
+CreateDropdown("Slot Kill Aura", PageFarm, {"1","2","3","4","5","6","7","8","9","10","11","12"}, function(selected)
     _G.WeaponSlot = tonumber(selected) or 1
 end)
 
@@ -826,12 +823,6 @@ FPSTextBox.FocusLost:Connect(function(enterPressed)
     setfpscap(num)
 end)
 
--- (Đã xoá hoạt ảnh intro)
-
--- ====================================================================
--- HỆ THỐNG VÒNG LẶP LOGIC GAME TRONG NỀN (RUNNING THREADS)
--- ====================================================================
-
 RunService.Heartbeat:Connect(function()
     if _G.SpeedActive then
         local Character = lp.Character
@@ -899,10 +890,7 @@ end)
 task.spawn(function()
     while task.wait(4) do
         if _G.ReduceLag then
-            -- Tắt bóng đổ
             Lighting.GlobalShadows = false
-            
-            -- Tắt các hiệu ứng hạt (particle) gây lag
             for _, v in pairs(Workspace:GetDescendants()) do
                 if v:IsA("ParticleEmitter") or v:IsA("Fire") or v:IsA("Smoke") or v:IsA("Sparkles") then
                     v.Enabled = false
@@ -1047,7 +1035,7 @@ task.spawn(function()
                             if hum then hum:ChangeState(Enum.HumanoidStateType.Physics) end
                         end)
                         if obj:IsA("Model") and obj.PrimaryPart then obj:SetPrimaryPartCFrame(FixedCFrame) else targetPart.CFrame = FixedCFrame end
-                        task.wait(0.05) -- Giảm tải vật lý tránh lag game
+                        task.wait(0.05)
                     end
                     
                 elseif SelectedBringType == "Đồ y tế" then
@@ -1288,8 +1276,6 @@ task.spawn(function()
         task.wait(0.1)
     end
 end)
-
--- VÒNG LẶP GÓC NHÌN THỨ 3 (XỬ LÝ MƯỢT MÀ BẰNG RENDERSTEPPED)
 local isThirdPersonRunning = false
 RunService.RenderStepped:Connect(function()
     if _G.ThirdPersonActive then
@@ -1326,10 +1312,6 @@ task.spawn(function()
         task.wait(20)
     end
 end)
-
--- ====================================================================
--- HỆ THỐNG ESP TỐI ƯU (PLAYER & MOB)
--- ====================================================================
 
 local ActiveEspTags = {}
 
@@ -1379,9 +1361,7 @@ end
 -- Vòng lặp cập nhật ESP
 task.spawn(function()
     while true do
-        task.wait(1) -- Quét mỗi giây
-        
-        -- Xử lý ESP Player
+        task.wait(1)
         for _, player in pairs(Players:GetPlayers()) do
             if player ~= lp and _G.EspPlayer then
                 local char = player.Character
@@ -1394,23 +1374,16 @@ task.spawn(function()
                 if player.Character then RemoveEsp(player.Character) end
             end
         end
-        
-        -- Xử lý ESP Mob (đã chuyển sang hệ thống riêng bên dưới để tối ưu hơn)
     end
 end)
 
--- ====================================================================
--- LOGIC ESP MOB MỚI (Tối ưu, chỉ hiện tên + cleanup tốt hơn)
--- ====================================================================
-
-local ActiveMobTags = {} -- Quản lý nhãn quái vật
+local ActiveMobTags = {} 
 
 task.spawn(function()
     while true do
-        task.wait(0.3) -- Tốc độ quét nhanh 0.3s cho mob
+        task.wait(0.3) 
         
         if _G.EspMob and MonstersFolder then
-            -- 1. Tạo/cập nhật nhãn cho quái còn sống
             for _, obj in pairs(MonstersFolder:GetChildren()) do
                 local hrp = obj:FindFirstChild("HumanoidRootPart")
                 local hum = obj:FindFirstChildOfClass("Humanoid")
@@ -1433,13 +1406,10 @@ task.spawn(function()
                         textLabel.TextSize = 12
                         textLabel.TextStrokeTransparency = 0
                         textLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-
-                        ActiveMobTags[obj] = billboard
+ActiveMobTags[obj] = billboard
                     end
                 end
             end
-
-            -- 2. Dọn dẹp quái đã chết / không còn
             for mob, tag in pairs(ActiveMobTags) do
                 local hum = mob:FindFirstChildOfClass("Humanoid")
                 if not mob.Parent or not hum or (hum and hum.Health <= 0) then
@@ -1448,13 +1418,10 @@ task.spawn(function()
                 end
             end
         else
-            -- 3. Xóa sạch khi tắt ESP Mob
             for mob, tag in pairs(ActiveMobTags) do
                 if tag then pcall(function() tag:Destroy() end) end
                 ActiveMobTags[mob] = nil
             end
-            
-            -- Emergency cleanup (phòng trường hợp tag còn sót)
             if MonstersFolder then
                 for _, obj in pairs(MonstersFolder:GetChildren()) do
                     local hrp = obj:FindFirstChild("HumanoidRootPart")
