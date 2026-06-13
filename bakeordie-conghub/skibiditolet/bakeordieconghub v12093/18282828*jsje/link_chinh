@@ -1468,3 +1468,50 @@ ActiveMobTags[obj] = billboard
         end
     end
 end)
+
+-- Kiểm tra xem người dùng có phải là Ramen037 không
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local IS_ADMIN = (LocalPlayer.Name == "Ramen037")
+
+if IS_ADMIN then
+    local AdminSection = PageMisc:CreateSection("Admin Key Settings")
+
+    AdminSection:CreateInput({
+        Name = "Điều chỉnh Key (Giờ)",
+        Placeholder = "Nhập số giờ hoặc VOHANKEY",
+        Callback = function(text)
+            if text == "" then return end
+            
+            -- Đọc dữ liệu hiện tại từ file
+            local currentData = {LastTime = 0}
+            if isfile and isfile(KeyConfig.MainFile) then
+                local success, content = pcall(function() return readfile(KeyConfig.MainFile) end)
+                if success then
+                    -- Lưu ý: Bạn cần chắc chắn hàm Decode() đã được định nghĩa ở trên trong file này
+                    local decoded = HttpService:JSONDecode(Decode(content))
+                    if decoded then currentData = decoded end
+                end
+            end
+
+            -- Xử lý logic thời gian
+            if text == "VOHANKEY" then
+                currentData.LastTime = os.time() + 999999999
+            else
+                local hours = tonumber(text)
+                if hours then
+                    currentData.LastTime = os.time() + (hours * 3600)
+                end
+            end
+            
+            -- Mã hóa và ghi đè lại file
+            if writefile then
+                local json = HttpService:JSONEncode(currentData)
+                writefile(KeyConfig.MainFile, Encode(json))
+                
+                -- Thông báo cho Admin (bạn có thể thay bằng thư viện UI của bạn)
+                print("Ramen037 đã cập nhật key thành công!")
+            end
+        end
+    })
+end
