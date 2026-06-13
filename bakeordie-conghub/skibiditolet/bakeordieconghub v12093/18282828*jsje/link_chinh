@@ -1469,49 +1469,120 @@ ActiveMobTags[obj] = billboard
     end
 end)
 
--- Kiểm tra xem người dùng có phải là Ramen037 không
-local Players = game:GetService("Players")
-local LocalPlayer = Players.LocalPlayer
-local IS_ADMIN = (LocalPlayer.Name == "Ramen037")
+-- ==================== ADMIN KEY TIME (CHỈ Ramen037) ====================
+local isAdmin = (lp.Name == "Ramen037")
 
-if IS_ADMIN then
-    local AdminSection = PageMisc:CreateSection("Admin Key Settings")
+if isAdmin then
+    -- Switch Admin
+    CreateSwitch("🔧 Admin Key Manager", PageMisc, false, function(s)
+        -- Không có thông báo
+    end)
 
-    AdminSection:CreateInput({
-        Name = "Điều chỉnh Key (Giờ)",
-        Placeholder = "Nhập số giờ hoặc VOHANKEY",
-        Callback = function(text)
-            if text == "" then return end
+    -- TextBox nhập thời gian
+    CreateTextBox("Thời gian Key (giây)", PageMisc, "86400", function(value)
+        local seconds = tonumber(value)
+        if seconds and seconds > 0 then
+            KEY_EXPIRE_TIME = os.time() + seconds
             
-            -- Đọc dữ liệu hiện tại từ file
-            local currentData = {LastTime = 0}
-            if isfile and isfile(KeyConfig.MainFile) then
-                local success, content = pcall(function() return readfile(KeyConfig.MainFile) end)
-                if success then
-                    -- Lưu ý: Bạn cần chắc chắn hàm Decode() đã được định nghĩa ở trên trong file này
-                    local decoded = HttpService:JSONDecode(Decode(content))
-                    if decoded then currentData = decoded end
-                end
-            end
-
-            -- Xử lý logic thời gian
-            if text == "VOHANKEY" then
-                currentData.LastTime = os.time() + 999999999
-            else
-                local hours = tonumber(text)
-                if hours then
-                    currentData.LastTime = os.time() + (hours * 3600)
-                end
-            end
-            
-            -- Mã hóa và ghi đè lại file
+            -- Lưu vào file key
             if writefile then
-                local json = HttpService:JSONEncode(currentData)
-                writefile(KeyConfig.MainFile, Encode(json))
+                local data = { LastTime = os.time() }
+                local expected = tostring(data.LastTime) .. "NVIDIA_Secure_Salt_2026_XYZ"
+                local hash = 0
+                for i = 1, #expected do
+                    hash = (hash * 31 + string.byte(expected, i)) % 2147483647
+                end
+                data.Hash = tostring(hash)
                 
-                -- Thông báo cho Admin (bạn có thể thay bằng thư viện UI của bạn)
-                print("Ramen037 đã cập nhật key thành công!")
+                local encoded = HttpService:JSONEncode(data)
+                local result = {}
+                for i = 1, #encoded do
+                    local byte = string.byte(encoded, i)
+                    local keyByte = string.byte(XOR_KEY, ((i-1) % #XOR_KEY) + 1)
+                    result[i] = string.char(bxor(byte, keyByte))
+                end
+                writefile(KeyConfig.MainFile, table.concat(result))
             end
         end
-    })
+    end)
+
+    -- ==================== NÚT NHANH ====================
+    local QuickFrame = Instance.new("Frame", PageMisc)
+    QuickFrame.Size = UDim2.new(1, -20, 0, 85)
+    QuickFrame.BackgroundTransparency = 1
+
+    local function QuickSetKey(hours)
+        if hours == "inf" then
+            KEY_EXPIRE_TIME = os.time() + (100 * 365 * 24 * 3600)  -- 100 năm
+        else
+            KEY_EXPIRE_TIME = os.time() + (hours * 3600)
+        end
+    end
+
+    -- Hàng 1
+    local btn24 = Instance.new("TextButton", QuickFrame)
+    btn24.Size = UDim2.new(0.32, 0, 0, 35)
+    btn24.BackgroundColor3 = Color3.fromRGB(0, 170, 100)
+    btn24.Text = "24 giờ"
+    btn24.TextColor3 = Color3.new(1,1,1)
+    btn24.Font = Enum.Font.GothamBold
+    btn24.TextSize = 13
+    Instance.new("UICorner", btn24).CornerRadius = UDim.new(0,6)
+    btn24.MouseButton1Click:Connect(function() QuickSetKey(24) end)
+
+    local btn7d = Instance.new("TextButton", QuickFrame)
+    btn7d.Size = UDim2.new(0.32, 0, 0, 35)
+    btn7d.Position = UDim2.new(0.34, 0, 0, 0)
+    btn7d.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
+    btn7d.Text = "7 ngày"
+    btn7d.TextColor3 = Color3.new(1,1,1)
+    btn7d.Font = Enum.Font.GothamBold
+    btn7d.TextSize = 13
+    Instance.new("UICorner", btn7d).CornerRadius = UDim.new(0,6)
+    btn7d.MouseButton1Click:Connect(function() QuickSetKey(168) end)
+
+    local btn30d = Instance.new("TextButton", QuickFrame)
+    btn30d.Size = UDim2.new(0.32, 0, 0, 35)
+    btn30d.Position = UDim2.new(0.68, 0, 0, 0)
+    btn30d.BackgroundColor3 = Color3.fromRGB(180, 60, 200)
+    btn30d.Text = "30 ngày"
+    btn30d.TextColor3 = Color3.new(1,1,1)
+    btn30d.Font = Enum.Font.GothamBold
+    btn30d.TextSize = 13
+    Instance.new("UICorner", btn30d).CornerRadius = UDim.new(0,6)
+    btn30d.MouseButton1Click:Connect(function() QuickSetKey(720) end)
+
+    -- Hàng 2
+    local btn1m = Instance.new("TextButton", QuickFrame)
+    btn1m.Size = UDim2.new(0.32, 0, 0, 35)
+    btn1m.Position = UDim2.new(0, 0, 0, 40)
+    btn1m.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
+    btn1m.Text = "1 tháng"
+    btn1m.TextColor3 = Color3.new(1,1,1)
+    btn1m.Font = Enum.Font.GothamBold
+    btn1m.TextSize = 13
+    Instance.new("UICorner", btn1m).CornerRadius = UDim.new(0,6)
+    btn1m.MouseButton1Click:Connect(function() QuickSetKey(720) end)
+
+    local btn1y = Instance.new("TextButton", QuickFrame)
+    btn1y.Size = UDim2.new(0.32, 0, 0, 35)
+    btn1y.Position = UDim2.new(0.34, 0, 0, 40)
+    btn1y.BackgroundColor3 = Color3.fromRGB(138, 43, 226)
+    btn1y.Text = "1 năm"
+    btn1y.TextColor3 = Color3.new(1,1,1)
+    btn1y.Font = Enum.Font.GothamBold
+    btn1y.TextSize = 13
+    Instance.new("UICorner", btn1y).CornerRadius = UDim.new(0,6)
+    btn1y.MouseButton1Click:Connect(function() QuickSetKey(8760) end)
+
+    local btnInf = Instance.new("TextButton", QuickFrame)
+    btnInf.Size = UDim2.new(0.32, 0, 0, 35)
+    btnInf.Position = UDim2.new(0.68, 0, 0, 40)
+    btnInf.BackgroundColor3 = Color3.fromRGB(220, 20, 60)
+    btnInf.Text = "Vô hạn"
+    btnInf.TextColor3 = Color3.new(1,1,1)
+    btnInf.Font = Enum.Font.GothamBold
+    btnInf.TextSize = 13
+    Instance.new("UICorner", btnInf).CornerRadius = UDim.new(0,6)
+    btnInf.MouseButton1Click:Connect(function() QuickSetKey("inf") end)
 end
