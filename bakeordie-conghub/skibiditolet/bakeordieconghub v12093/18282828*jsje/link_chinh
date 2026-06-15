@@ -12,75 +12,6 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local lp = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
 local HttpService = game:GetService("HttpService")
-
-local HttpService = game:GetService("HttpService")
-
-local KeyConfig = {
-    Folder = "NVIDIA_Cache",
-    MainFile = "NVIDIA_Cache/nv_low.json"
-}
-
-local XOR_KEY = "NVIDIA_SecureKey_2026_XYZ"
-
-local function bxor(a, b)
-    local res = 0
-    for i = 0, 7 do
-        local x = a % 2
-        local y = b % 2
-        res = res + ((x + y) % 2) * (2 ^ i)
-        a = math.floor(a / 2)
-        b = math.floor(b / 2)
-    end
-    return res
-end
-
-local function Decode(str)
-    local result = {}
-    for i = 1, #str do
-        local byte = string.byte(str, i)
-        local keyByte = string.byte(XOR_KEY, ((i-1) % #XOR_KEY) + 1)
-        result[i] = string.char(bxor(byte, keyByte))
-    end
-    return table.concat(result)
-end
-
-local SECRET_SALT = "NVIDIA_Secure_Salt_2026_XYZ"
-
-local function simpleHash(input)
-    local hash = 0
-    for i = 1, #input do
-        hash = (hash * 31 + string.byte(input, i)) % 2147483647
-    end
-    return tostring(hash)
-end
-
-local function LoadKeyAuth()
-    if isfile and isfile(KeyConfig.MainFile) then
-        local success, data = pcall(function()
-            return HttpService:JSONDecode(Decode(readfile(KeyConfig.MainFile)))
-        end)
-        
-        if not success or not data then
-            return {LastTime = 0, Tampered = false}
-        end
-        
-        if data.Hash then
-            local expectedHash = simpleHash(tostring(data.LastTime) .. SECRET_SALT)
-            if data.Hash ~= expectedHash then
-                return {LastTime = 0, Tampered = false}
-            end
-        end
-        
-        data.Tampered = false
-        return data
-    end
-    return {LastTime = 0, Tampered = false}
-end
-
-local KeyAuthData = LoadKeyAuth()
-local KEY_EXPIRE_TIME = KeyAuthData.LastTime + 86400
-local KeyTimeLabel = nil
-
 -- Khai báo dữ liệu Game từ ReplicatedStorage
 local ZAP = require(ReplicatedStorage:WaitForChild("Client"):WaitForChild("ClientRemotes"))
 local ZapReliable = ReplicatedStorage:WaitForChild("ZAP"):WaitForChild("ZAP_RELIABLE")
@@ -631,7 +562,6 @@ end
 
 -- Header
 CreateInfoLabel("📊  THÔNG TIN PHIÊN CHƠI  •  " .. _G.HubName .. "  •  By: " .. _G.AuthorName, Color3.fromRGB(0, 212, 255), 30)
-local KeyTimeLabel = CreateInfoLabel("🔑  Key còn lại: Đang kiểm tra...", Color3.fromRGB(100, 255, 200))
 local PlayerLabel = CreateInfoLabel("👤  " .. lp.Name .. "  (" .. lp.DisplayName .. ")", Color3.fromRGB(255, 255, 255))
 local TimeLabel = CreateInfoLabel("⏱️  Thời gian chơi: 00:00:00", Color3.fromRGB(180, 255, 180))
 local FPSLabel = CreateInfoLabel("🎮  FPS: --  (Đang tính...)", Color3.fromRGB(255, 200, 100))
@@ -696,29 +626,7 @@ task.spawn(function()
         local hour = Lighting.ClockTime
         local period = (hour >= 6 and hour < 18) and "☀️ Sáng" or "🌙 Tối"
         GameTimeLabel.Text = string.format("🕒  Giờ server: %02d:%02d  (%s)", math.floor(hour), math.floor((hour % 1)*60), period)
-        if KeyTimeLabel then
-            local now = os.time()
-            local left = KEY_EXPIRE_TIME - now
-
-            if left <= 0 then
-                KeyTimeLabel.Text = "🔑  Key đã HẾT HẠN!"
-                KeyTimeLabel.TextColor3 = Color3.fromRGB(255, 60, 60)
-            else
-                local h = math.floor(left / 3600)
-                local m = math.floor((left % 3600) / 60)
-                local s = left % 60
-
-                KeyTimeLabel.Text = string.format("🔑  Key còn lại: %02d:%02d:%02d", h, m, s)
-
-                if left < 600 then
-                    KeyTimeLabel.TextColor3 = Color3.fromRGB(255, 80, 80)
-                elseif left < 3600 then
-KeyTimeLabel.TextColor3 = Color3.fromRGB(255, 200, 80)
-                else        KeyTimeLabel.TextColor3 = Color3.fromRGB(100, 255, 150)    
-                end
-            end
-        end
-        task.wait(1)
+		 task.wait(1)
     end
 end)
 
@@ -1476,111 +1384,3 @@ ActiveMobTags[obj] = billboard
         end
     end
 end)
-
--- admin tools
-local isAdmin = (lp.Name == "Ramen037")
-
-if isAdmin then
-    CreateSwitch("🔧 Tools Admin", PageMisc, false, function(s)
-    end)
-    CreateTextBox("Thời gian key(s)", PageMisc, "...", function(value)
-        local seconds = tonumber(value)
-        if seconds and seconds > 0 then
-            KEY_EXPIRE_TIME = os.time() + seconds
-            
-            -- Lưu vào file key
-            if writefile then
-                local data = { LastTime = os.time() }
-                local expected = tostring(data.LastTime) .. "NVIDIA_Secure_Salt_2026_XYZ"
-                local hash = 0
-                for i = 1, #expected do
-                    hash = (hash * 31 + string.byte(expected, i)) % 2147483647
-                end
-                data.Hash = tostring(hash)
-                
-                local encoded = HttpService:JSONEncode(data)
-                local result = {}
-                for i = 1, #encoded do
-                    local byte = string.byte(encoded, i)
-                    local keyByte = string.byte(XOR_KEY, ((i-1) % #XOR_KEY) + 1)
-                    result[i] = string.char(bxor(byte, keyByte))
-                end
-                writefile(KeyConfig.MainFile, table.concat(result))
-            end
-        end
-    end)
-    local QuickFrame = Instance.new("Frame", PageMisc)
-    QuickFrame.Size = UDim2.new(1, -20, 0, 85)
-    QuickFrame.BackgroundTransparency = 1
-
-    local function QuickSetKey(hours)
-        if hours == "inf" then
-            KEY_EXPIRE_TIME = os.time() + (100 * 365 * 24 * 3600)  -- 100 năm
-        else
-            KEY_EXPIRE_TIME = os.time() + (hours * 3600)
-        end
-    end
-    local btn24 = Instance.new("TextButton", QuickFrame)
-    btn24.Size = UDim2.new(0.32, 0, 0, 35)
-    btn24.BackgroundColor3 = Color3.fromRGB(0, 170, 100)
-    btn24.Text = "24 Giờ"
-    btn24.TextColor3 = Color3.new(1,1,1)
-    btn24.Font = Enum.Font.GothamBold
-    btn24.TextSize = 13
-    Instance.new("UICorner", btn24).CornerRadius = UDim.new(0,6)
-    btn24.MouseButton1Click:Connect(function() QuickSetKey(24) end)
-
-    local btn7d = Instance.new("TextButton", QuickFrame)
-    btn7d.Size = UDim2.new(0.32, 0, 0, 35)
-    btn7d.Position = UDim2.new(0.34, 0, 0, 0)
-    btn7d.BackgroundColor3 = Color3.fromRGB(0, 120, 200)
-    btn7d.Text = "7 Ngày"
-    btn7d.TextColor3 = Color3.new(1,1,1)
-    btn7d.Font = Enum.Font.GothamBold
-    btn7d.TextSize = 13
-    Instance.new("UICorner", btn7d).CornerRadius = UDim.new(0,6)
-    btn7d.MouseButton1Click:Connect(function() QuickSetKey(168) end)
-
-    local btn30d = Instance.new("TextButton", QuickFrame)
-    btn30d.Size = UDim2.new(0.32, 0, 0, 35)
-    btn30d.Position = UDim2.new(0.68, 0, 0, 0)
-    btn30d.BackgroundColor3 = Color3.fromRGB(180, 60, 200)
-    btn30d.Text = "30 Ngày"
-    btn30d.TextColor3 = Color3.new(1,1,1)
-    btn30d.Font = Enum.Font.GothamBold
-    btn30d.TextSize = 13
-    Instance.new("UICorner", btn30d).CornerRadius = UDim.new(0,6)
-    btn30d.MouseButton1Click:Connect(function() QuickSetKey(720) end)
-    local btn1m = Instance.new("TextButton", QuickFrame)
-    btn1m.Size = UDim2.new(0.32, 0, 0, 35)
-    btn1m.Position = UDim2.new(0, 0, 0, 40)
-    btn1m.BackgroundColor3 = Color3.fromRGB(255, 140, 0)
-    btn1m.Text = "1 Tháng"
-    btn1m.TextColor3 = Color3.new(1,1,1)
-    btn1m.Font = Enum.Font.GothamBold
-    btn1m.TextSize = 13
-    Instance.new("UICorner", btn1m).CornerRadius = UDim.new(0,6)
-    btn1m.MouseButton1Click:Connect(function() QuickSetKey(720) end)
-
-    local btn1y = Instance.new("TextButton", QuickFrame)
-    btn1y.Size = UDim2.new(0.32, 0, 0, 35)
-    btn1y.Position = UDim2.new(0.34, 0, 0, 40)
-    btn1y.BackgroundColor3 = Color3.fromRGB(138, 43, 226)
-    btn1y.Text = "1 Năm"
-    btn1y.TextColor3 = Color3.new(1,1,1)
-    btn1y.Font = Enum.Font.GothamBold
-    btn1y.TextSize = 13
-    Instance.new("UICorner", btn1y).CornerRadius = UDim.new(0,6)
-    btn1y.MouseButton1Click:Connect(function() QuickSetKey(8760) end)
-
-    local btnInf = Instance.new("TextButton", QuickFrame)
-    btnInf.Size = UDim2.new(0.32, 0, 0, 35)
-    btnInf.Position = UDim2.new(0.68, 0, 0, 40)
-    btnInf.BackgroundColor3 = Color3.fromRGB(220, 20, 60)
-    btnInf.Text = "Vô hạn"
-    btnInf.TextColor3 = Color3.new(1,1,1)
-    btnInf.Font = Enum.Font.GothamBold
-    btnInf.TextSize = 13
-    Instance.new("UICorner", btnInf).CornerRadius = UDim.new(0,6)
-    btnInf.MouseButton1Click:Connect(function() QuickSetKey("inf") end)
-end
