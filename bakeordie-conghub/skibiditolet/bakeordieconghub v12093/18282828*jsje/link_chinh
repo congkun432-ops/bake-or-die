@@ -64,6 +64,353 @@ _G.AntiAFK = false
 _G.ReduceLag = false
 _G.FPSCap = 60
 
+_G.CurrentLanguage = "VN" 
+
+-- lang full việt nam,english
+local Languages = {
+    ["VN"] = {
+        ["SpeedHack"] = "Tốc độ",
+        ["FlyMode"] = "Bay",
+        ["InfJump"] = "Nhảy vô hạn",
+        ["InstantInteract"] = "Tương tác nhanh",
+        ["Noclip"] = "Xuyên tường",
+        ["KillAura"] = "Kill Aura",
+        ["AutoChest"] = "Tự động mở rương",
+        ["AntiAFK"] = "Chống AFK",
+        ["ReduceLag"] = "Giảm Lag",
+        ["FPSUnlock"] = "Mở khóa FPS (1-120)",
+        ["LangTitle"] = "Ngôn ngữ",
+        ["ThirdPerson"] = "Góc nhìn thứ 3",
+        ["EspPlayer"] = "ESP Người Chơi",
+        ["EspMob"] = "ESP Quái Vật",
+        ["EspChest"] = "ESP Rương",
+        ["NightVision"] = "Night Vision",
+        ["NoFog"] = "Xoá xương mù",
+        ["AutoBlueprint"] = "Tự động thu thập Bản Vẽ",
+        ["BringItems"] = "Bring Items",
+        ["AutoDays"] = "Tự động qua ngày",
+        ["AntiVoid"] = "Anti Void",
+        
+        ["MainInfo"] = "📊  THÔNG TIN PHIÊN CHƠI",
+        ["PlayerInfo"] = "👤  Player",
+        ["TimePlayed"] = "⏱️  Thời gian chơi",
+        ["FPSInfo"] = "🎮  FPS",
+        ["PingInfo"] = "📶  Ping",
+        ["ServerInfo"] = "🌍  Người chơi trong server",
+        ["GameTimeInfo"] = "🕒  Giờ server",
+        ["SpeedBoostLabel"] = "Tốc độ",
+        ["FlySpeedLabel"] = "Tốc độ bay",
+        ["CameraDistanceLabel"] = "Độ xa Camera",
+        ["KillAuraSlot"] = "Số ô vũ khí",
+        ["BringTypeLabel"] = "Chọn loại Bring"
+    },
+    ["EN"] = {
+        ["SpeedHack"] = "Speed Hack",
+        ["FlyMode"] = "Fly Mode",
+        ["InfJump"] = "Infinite Jump",
+        ["InstantInteract"] = "Instant Interact",
+        ["Noclip"] = "Noclip",
+        ["KillAura"] = "Kill Aura",
+        ["AutoChest"] = "Auto All Chest",
+        ["AntiAFK"] = "Anti AFK",
+        ["ReduceLag"] = "Reduce Lag",
+        ["FPSUnlock"] = "FPS Unlock (1-120)",
+        ["LangTitle"] = "Language",
+        ["ThirdPerson"] = "Third Person",
+        ["EspPlayer"] = "ESP Players",
+        ["EspMob"] = "ESP Mobs",
+        ["EspChest"] = "ESP Chests",
+        ["NightVision"] = "Night Vision",
+        ["NoFog"] = "No Fog",
+        ["AutoBlueprint"] = "Auto Blueprint",
+        ["BringItems"] = "Bring Items",
+        ["AutoDays"] = "Auto Days",
+        ["AntiVoid"] = "Anti Void",
+        
+        ["MainInfo"] = "📊  SESSION INFO",
+        ["PlayerInfo"] = "👤  Player",
+        ["TimePlayed"] = "⏱️  Time Played",
+        ["FPSInfo"] = "🎮  FPS",
+        ["PingInfo"] = "📶  Ping",
+        ["ServerInfo"] = "🌍  Players in Server",
+        ["GameTimeInfo"] = "🕒  Server Time",
+        ["SpeedBoostLabel"] = "Speed",
+        ["FlySpeedLabel"] = "Fly Speed",
+        ["CameraDistanceLabel"] = "Camera Distance",
+        ["KillAuraSlot"] = "Kill Aura Slot",
+        ["BringTypeLabel"] = "Select Bring Type"
+    },
+    ["CN"] = {
+        ["SpeedHack"] = "速度破解",
+        ["FlyMode"] = "飞行模式",
+        ["InfJump"] = "无限跳跃",
+        ["InstantInteract"] = "快速交互",
+        ["Noclip"] = "穿墙",
+        ["KillAura"] = "自动攻击",
+        ["AutoChest"] = "自动开箱",
+        ["AntiAFK"] = "防挂机",
+        ["ReduceLag"] = "降低延迟",
+        ["FPSUnlock"] = "解锁帧率 (1-120)",
+        ["LangTitle"] = "语言",
+        ["ThirdPerson"] = "第三人称",
+        ["EspPlayer"] = "玩家透视",
+        ["EspMob"] = "怪物透视",
+        ["EspChest"] = "宝箱透视",
+        ["NightVision"] = "夜视",
+        ["NoFog"] = "去除雾气",
+        ["AutoBlueprint"] = "自动蓝图",
+        ["BringItems"] = "传送物品",
+        ["AutoDays"] = "自动天数",
+        ["AntiVoid"] = "防虚空掉落",
+        
+        ["MainInfo"] = "📊  游戏会话信息",
+        ["PlayerInfo"] = "👤  玩家",
+        ["TimePlayed"] = "⏱️  游戏时长",
+        ["FPSInfo"] = "🎮  帧率",
+        ["PingInfo"] = "📶  延迟",
+        ["ServerInfo"] = "🌍  服务器玩家",
+        ["GameTimeInfo"] = "🕒  服务器时间",
+        ["SpeedBoostLabel"] = "速度",
+        ["FlySpeedLabel"] = "飞行速度",
+        ["CameraDistanceLabel"] = "相机距离",
+        ["KillAuraSlot"] = "攻击槽位",
+        ["BringTypeLabel"] = "选择传送类型"
+    },
+    ["TH"] = {
+        ["SpeedHack"] = "แฮ็คความเร็ว",
+        ["FlyMode"] = "โหมดบิน",
+        ["InfJump"] = "กระโดดไม่จำกัด",
+        ["InstantInteract"] = "โต้ตอบทันที",
+        ["Noclip"] = "ทะลุกำแพง",
+        ["KillAura"] = "โจมตีอัตโนมัติ",
+        ["AutoChest"] = "เปิดหีบอัตโนมัติ",
+        ["AntiAFK"] = "กัน AFK",
+        ["ReduceLag"] = "ลดแลค",
+        ["FPSUnlock"] = "ปลดล็อค FPS (1-120)",
+        ["LangTitle"] = "ภาษา",
+        ["ThirdPerson"] = "มุมมองบุคคลที่ 3",
+        ["EspPlayer"] = "ESP ผู้เล่น",
+        ["EspMob"] = "ESP มอนสเตอร์",
+        ["EspChest"] = "ESP หีบ",
+        ["NightVision"] = "มองเห็นในที่มืด",
+        ["NoFog"] = "ปิดหมอก",
+        ["AutoBlueprint"] = "Auto พิมพ์เขียว",
+        ["BringItems"] = "ดึงไอเทม",
+        ["AutoDays"] = "Auto ข้ามวัน",
+        ["AntiVoid"] = "กันตกแมพ",
+        
+        ["MainInfo"] = "📊  ข้อมูลเซสชัน",
+        ["PlayerInfo"] = "👤  ผู้เล่น",
+        ["TimePlayed"] = "⏱️  เวลาที่เล่น",
+        ["FPSInfo"] = "🎮  FPS",
+        ["PingInfo"] = "📶  Ping",
+        ["ServerInfo"] = "🌍  ผู้เล่นในเซิร์ฟเวอร์",
+        ["GameTimeInfo"] = "🕒  เวลาในเกม",
+        ["SpeedBoostLabel"] = "ความเร็ว",
+        ["FlySpeedLabel"] = "ความเร็วบิน",
+        ["CameraDistanceLabel"] = "ระยะกล้อง",
+        ["KillAuraSlot"] = "ช่องโจมตี",
+        ["BringTypeLabel"] = "เลือกประเภทการดึง"
+    },
+    ["JP"] = {
+        ["SpeedHack"] = "スピードハック",
+        ["FlyMode"] = "飛行モード",
+        ["InfJump"] = "無限ジャンプ",
+        ["InstantInteract"] = "インスタントインタラクト",
+        ["Noclip"] = "壁抜け",
+        ["KillAura"] = "キルオーラ",
+        ["AutoChest"] = "自動宝箱開け",
+        ["AntiAFK"] = "放置防止",
+        ["ReduceLag"] = "ラグ軽減",
+        ["FPSUnlock"] = "FPS制限解除 (1-120)",
+        ["LangTitle"] = "言語",
+        ["ThirdPerson"] = "三人称視点",
+        ["EspPlayer"] = "プレイヤーESP",
+        ["EspMob"] = "モンスターESP",
+        ["EspChest"] = "宝箱ESP",
+        ["NightVision"] = "暗視",
+        ["NoFog"] = "霧除去",
+        ["AutoBlueprint"] = "自動設計図",
+        ["BringItems"] = "アイテム引き寄せ",
+        ["AutoDays"] = "自動日送り",
+        ["AntiVoid"] = "虚空落下防止",
+        
+        ["MainInfo"] = "📊  セッション情報",
+        ["PlayerInfo"] = "👤  プレイヤー",
+        ["TimePlayed"] = "⏱️  プレイ時間",
+        ["FPSInfo"] = "🎮  FPS",
+        ["PingInfo"] = "📶  Ping",
+        ["ServerInfo"] = "🌍  サーバー内のプレイヤー",
+        ["GameTimeInfo"] = "🕒  サーバー時間",
+        ["SpeedBoostLabel"] = "速度",
+        ["FlySpeedLabel"] = "飛行速度",
+        ["CameraDistanceLabel"] = "カメラ距離",
+        ["KillAuraSlot"] = "攻撃スロット",
+        ["BringTypeLabel"] = "引き寄せタイプ選択"
+    },
+    ["ES"] = {
+        ["SpeedHack"] = "Hack de Velocidad",
+        ["FlyMode"] = "Modo Vuelo",
+        ["InfJump"] = "Salto Infinito",
+        ["InstantInteract"] = "Interactuar al instante",
+        ["Noclip"] = "Noclip",
+        ["KillAura"] = "Aura de Asesinato",
+        ["AutoChest"] = "Abrir cofres auto",
+        ["AntiAFK"] = "Anti-AFK",
+        ["ReduceLag"] = "Reducir Lag",
+        ["FPSUnlock"] = "Desbloquear FPS (1-120)",
+        ["LangTitle"] = "Idioma",
+        ["ThirdPerson"] = "Tercera Persona",
+        ["EspPlayer"] = "ESP de Jugadores",
+        ["EspMob"] = "ESP de Mobs",
+        ["EspChest"] = "ESP de Cofres",
+        ["NightVision"] = "Visión Nocturna",
+        ["NoFog"] = "Sin Niebla",
+        ["AutoBlueprint"] = "Auto Plano",
+        ["BringItems"] = "Traer Objetos",
+        ["AutoDays"] = "Auto Días",
+        ["AntiVoid"] = "Anti Vacío",
+        
+        ["MainInfo"] = "📊  INFO DE SESIÓN",
+        ["PlayerInfo"] = "👤  Jugador",
+        ["TimePlayed"] = "⏱️  Tiempo jugado",
+        ["FPSInfo"] = "🎮  FPS",
+        ["PingInfo"] = "📶  Ping",
+        ["ServerInfo"] = "🌍  Jugadores en servidor",
+        ["GameTimeInfo"] = "🕒  Hora del servidor",
+        ["SpeedBoostLabel"] = "Velocidad",
+        ["FlySpeedLabel"] = "Velocidad Vuelo",
+        ["CameraDistanceLabel"] = "Distancia Cámara",
+        ["KillAuraSlot"] = "Slot de Ataque",
+        ["BringTypeLabel"] = "Tipo de traer"
+    },
+    ["KR"] = {
+        ["SpeedHack"] = "속도 핵",
+        ["FlyMode"] = "비행 모드",
+        ["InfJump"] = "무한 점프",
+        ["InstantInteract"] = "즉시 상호작용",
+        ["Noclip"] = "벽 통과",
+        ["KillAura"] = "자동 공격",
+        ["AutoChest"] = "자동 상자 열기",
+        ["AntiAFK"] = "자리비움 방지",
+        ["ReduceLag"] = "랙 감소",
+        ["FPSUnlock"] = "FPS 잠금 해제 (1-120)",
+        ["LangTitle"] = "언어",
+        ["ThirdPerson"] = "3인칭 시점",
+        ["EspPlayer"] = "플레이어 ESP",
+        ["EspMob"] = "몬스터 ESP",
+        ["EspChest"] = "상자 ESP",
+        ["NightVision"] = "야간 투시",
+        ["NoFog"] = "안개 제거",
+        ["AutoBlueprint"] = "자동 설계도",
+        ["BringItems"] = "아이템 소환",
+        ["AutoDays"] = "자동 시간 넘기기",
+        ["AntiVoid"] = "낙사 방지",
+        
+        ["MainInfo"] = "📊  세션 정보",
+        ["PlayerInfo"] = "👤  플레이어",
+        ["TimePlayed"] = "⏱️  플레이 시간",
+        ["FPSInfo"] = "🎮  프레임 (FPS)",
+        ["PingInfo"] = "📶  핑 (Ping)",
+        ["ServerInfo"] = "🌍  서버 인원",
+        ["GameTimeInfo"] = "🕒  서버 시간",
+        ["SpeedBoostLabel"] = "속도",
+        ["FlySpeedLabel"] = "비행 속도",
+        ["CameraDistanceLabel"] = "카메라 거리",
+        ["KillAuraSlot"] = "공격 슬롯",
+        ["BringTypeLabel"] = "소환 타입 선택"
+    },
+    ["PT"] = {
+        ["SpeedHack"] = "Hack de Velocidade",
+        ["FlyMode"] = "Modo Voo",
+        ["InfJump"] = "Pulo Infinito",
+        ["InstantInteract"] = "Interagir Instantâneo",
+        ["Noclip"] = "Atravessar paredes",
+        ["KillAura"] = "Kill Aura",
+        ["AutoChest"] = "Auto Abrir Baús",
+        ["AntiAFK"] = "Anti-AFK",
+        ["ReduceLag"] = "Reduzir Lag",
+        ["FPSUnlock"] = "Desbloquear FPS (1-120)",
+        ["LangTitle"] = "Idioma",
+        ["ThirdPerson"] = "Terceira Pessoa",
+        ["EspPlayer"] = "ESP de Jogadores",
+        ["EspMob"] = "ESP de Monstros",
+        ["EspChest"] = "ESP de Baús",
+        ["NightVision"] = "Visão Noturna",
+        ["NoFog"] = "Sem Névoa",
+        ["AutoBlueprint"] = "Auto Projetos",
+        ["BringItems"] = "Trazer Itens",
+        ["AutoDays"] = "Auto Dias",
+        ["AntiVoid"] = "Anti-Vazio",
+        
+        ["MainInfo"] = "📊  INFO DA SESSÃO",
+        ["PlayerInfo"] = "👤  Jogador",
+        ["TimePlayed"] = "⏱️  Tempo jogado",
+        ["FPSInfo"] = "🎮  FPS",
+        ["PingInfo"] = "📶  Ping",
+        ["ServerInfo"] = "🌍  Jogadores no servidor",
+        ["GameTimeInfo"] = "🕒  Hora do servidor",
+        ["SpeedBoostLabel"] = "Velocidade",
+        ["FlySpeedLabel"] = "Velocidade de Voo",
+        ["CameraDistanceLabel"] = "Distância Câmera",
+        ["KillAuraSlot"] = "Slot de Ataque",
+        ["BringTypeLabel"] = "Tipo de tração"
+    },
+    ["TR"] = {
+        ["SpeedHack"] = "Hız Hilesi",
+        ["FlyMode"] = "Uçuş Modu",
+        ["InfJump"] = "Sınırsız Zıplama",
+        ["InstantInteract"] = "Anında Etkileşim",
+        ["Noclip"] = "Duvarlardan Geçme",
+        ["KillAura"] = "Otomatik Saldırı",
+        ["AutoChest"] = "Otomatik Sandık Açma",
+        ["AntiAFK"] = "AFK Koruması",
+        ["ReduceLag"] = "Gecikmeyi Azalt",
+        ["FPSUnlock"] = "FPS Kilidini Aç (1-120)",
+        ["LangTitle"] = "Dil",
+        ["ThirdPerson"] = "Üçüncü Şahıs",
+        ["EspPlayer"] = "Oyuncu ESP",
+        ["EspMob"] = "Canavar ESP",
+        ["EspChest"] = "Sandık ESP",
+        ["NightVision"] = "Gece Görüşü",
+        ["NoFog"] = "Sisi Kaldır",
+        ["AutoBlueprint"] = "Otomatik Taslak",
+        ["BringItems"] = "Eşyaları Getir",
+        ["AutoDays"] = "Otomatik Gün Geçişi",
+        ["AntiVoid"] = "Boşluk Koruması",
+        
+        ["MainInfo"] = "📊  OTURUM BİLGİLERİ",
+        ["PlayerInfo"] = "👤  Oyuncu",
+        ["TimePlayed"] = "⏱️  Oynama Süresi",
+        ["FPSInfo"] = "🎮  FPS",
+        ["PingInfo"] = "📶  Ping",
+        ["ServerInfo"] = "🌍  Sunucudaki Oyuncular",
+        ["GameTimeInfo"] = "🕒  Sunucu Saati",
+        ["SpeedBoostLabel"] = "Hız",
+        ["FlySpeedLabel"] = "Uçuş Hızı",
+        ["CameraDistanceLabel"] = "Kamera Mesafesi",
+        ["KillAuraSlot"] = "Saldırı Slotu",
+        ["BringTypeLabel"] = "Getirme Türü Seç"
+    }
+}
+
+local function T(key)
+    return Languages[_G.CurrentLanguage][key] or key
+end
+local TranslatableElements = {}
+
+local function RefreshLanguage()
+    for element, data in pairs(TranslatableElements) do
+        if element and element.Parent then
+            pcall(function()
+                if element:IsA("TextLabel") then
+                    element.Text = T(data.key)
+                end
+            end)
+        end
+    end
+end
+
 local SavedKey = nil 
 local SavedChestKey = nil
 
@@ -277,13 +624,17 @@ local function BringToPosition(obj, targetCFrame)
         if prompt then task.spawn(function() fireproximityprompt(prompt) end) end
     end)
 end
-local function CreateSwitch(name, parent, default, callback)
+--create switch
+
+local function CreateSwitch(translationKey, parent, default, callback)
     local SwitchFrame = Instance.new("Frame", parent)
     SwitchFrame.Size = UDim2.new(1, 0, 0, 38); SwitchFrame.BackgroundTransparency = 1
     
+    local displayText = T(translationKey)
     local Label = Instance.new("TextLabel", SwitchFrame)
-    Label.Size = UDim2.new(0.6, 0, 1, 0); Label.Text = name; Label.TextColor3 = Color3.fromRGB(230, 230, 230)
+    Label.Size = UDim2.new(0.6, 0, 1, 0); Label.Text = displayText; Label.TextColor3 = Color3.fromRGB(230, 230, 230)
     Label.Font = Enum.Font.GothamMedium; Label.TextSize = 13; Label.BackgroundTransparency = 1; Label.TextXAlignment = 0
+    TranslatableElements[Label] = {type = "switch", key = translationKey}
     
     local BG = Instance.new("Frame", SwitchFrame)
     BG.Size = UDim2.new(0, 38, 0, 20); BG.Position = UDim2.new(1, -45, 0.5, -10)
@@ -306,13 +657,18 @@ local function CreateSwitch(name, parent, default, callback)
     end)
 end
 
-local function CreateTextBox(name, parent, placeholder, callback)
+-- create texbox
+
+local function CreateTextBox(translationKey, parent, placeholder, callback)
     local BoxFrame = Instance.new("Frame", parent)
     BoxFrame.Size = UDim2.new(1, 0, 0, 38); BoxFrame.BackgroundTransparency = 1
     
+    local displayText = T(translationKey)
     local Label = Instance.new("TextLabel", BoxFrame)
-    Label.Size = UDim2.new(0.5, 0, 1, 0); Label.Text = name; Label.TextColor3 = Color3.fromRGB(230, 230, 230)
+    Label.Size = UDim2.new(0.5, 0, 1, 0); Label.Text = displayText; Label.TextColor3 = Color3.fromRGB(230, 230, 230)
     Label.Font = Enum.Font.GothamMedium; Label.TextSize = 13; Label.BackgroundTransparency = 1; Label.TextXAlignment = 0
+    
+    TranslatableElements[Label] = {type = "label", key = translationKey}
     
     local Input = Instance.new("TextBox", BoxFrame)
     Input.Size = UDim2.new(0, 65, 0, 26); Input.Position = UDim2.new(1, -70, 0.5, -13)
@@ -326,14 +682,18 @@ local function CreateTextBox(name, parent, placeholder, callback)
     end)
 end
 
-local function CreateDropdown(name, parent, options, callback)
+-- create dropdown
+local function CreateDropdown(translationKey, parent, options, callback)
     local DropdownFrame = Instance.new("Frame", parent)
     DropdownFrame.Size = UDim2.new(1, 0, 0, 38); DropdownFrame.BackgroundTransparency = 1
     DropdownFrame.ClipsDescendants = false 
     
+    local displayText = T(translationKey)
     local Label = Instance.new("TextLabel", DropdownFrame)
-    Label.Size = UDim2.new(0.4, 0, 1, 0); Label.Text = name; Label.TextColor3 = Color3.fromRGB(230, 230, 230)
+    Label.Size = UDim2.new(0.4, 0, 1, 0); Label.Text = displayText; Label.TextColor3 = Color3.fromRGB(230, 230, 230)
     Label.Font = Enum.Font.GothamMedium; Label.TextSize = 13; Label.BackgroundTransparency = 1; Label.TextXAlignment = 0
+    
+    TranslatableElements[Label] = {type = "label", key = translationKey}
     
     local MainBtn = Instance.new("TextButton", DropdownFrame)
     MainBtn.Size = UDim2.new(0, 130, 0, 28); MainBtn.Position = UDim2.new(1, -135, 0.5, -14)
@@ -529,8 +889,6 @@ local function RefreshPlayerList()
             end)
         end
     end
-
-    -- Cập nhật CanvasSize
     task.defer(function()
         TeleScroll.CanvasSize = UDim2.new(0, 0, 0, UIList.AbsoluteContentSize.Y + 10)
     end)
@@ -546,17 +904,20 @@ RefreshPlayerList()
 
 PageMain.Visible = true
 local yPos = 8
-local function CreateInfoLabel(text, color, sizeY)
+local function CreateInfoLabel(translationKey, color, sizeY)
+    local displayText = T(translationKey)
     local lbl = Instance.new("TextLabel", PageMain)
     lbl.Size = UDim2.new(1, -20, 0, sizeY or 26)
     lbl.Position = UDim2.new(0, 10, 0, yPos)
     lbl.BackgroundTransparency = 1
-    lbl.Text = text
+    lbl.Text = displayText
     lbl.TextColor3 = color or Color3.fromRGB(230, 230, 230)
     lbl.Font = Enum.Font.GothamMedium
     lbl.TextSize = 13
     lbl.TextXAlignment = Enum.TextXAlignment.Left
     yPos = yPos + (sizeY or 26) + 6
+    
+    TranslatableElements[lbl] = {type = "label", key = translationKey}
     return lbl
 end
 
@@ -630,106 +991,115 @@ task.spawn(function()
     end
 end)
 
-CreateSwitch("Speed Hack", PagePlayer, _G.SpeedActive, function(s)
+
+-- PLAYER
+CreateSwitch("SpeedHack", PagePlayer, _G.SpeedActive, function(s)
     _G.SpeedActive = s
 end)
 
-CreateTextBox("Tốc độ", PagePlayer, "100", function(v)
+CreateTextBox("SpeedBoostLabel", PagePlayer, "100", function(v)
     _G.SpeedBoost = tonumber(v) or 100 
 end)
 
-CreateSwitch("Fly Mode", PagePlayer, false, function(s)
+CreateSwitch("FlyMode", PagePlayer, false, function(s)
     if s then StartFly() else StopFly() end
 end)
 
-CreateTextBox("Fly Speed", PagePlayer, "50", function(v)
+CreateTextBox("FlySpeedLabel", PagePlayer, "50", function(v)
     _G.FlySpeed = tonumber(v) or 50
 end)
 
-CreateSwitch("Nhảy vô hạn", PagePlayer, _G.InfJumpActive, function(s)
+CreateSwitch("InfJump", PagePlayer, _G.InfJumpActive, function(s)
     _G.InfJumpActive = s
 end)
 
-CreateSwitch("Tương Tác Nhanh", PagePlayer, _G.InstantInteract, function(s)
+CreateSwitch("InstantInteract", PagePlayer, _G.InstantInteract, function(s)
     _G.InstantInteract = s
 end)
 
-CreateSwitch("Xuyên tường", PagePlayer, _G.NoclipActive, function(s)
+CreateSwitch("Noclip", PagePlayer, _G.NoclipActive, function(s)
     _G.NoclipActive = s
 end)
 
-CreateSwitch("Kill Aura", PageFarm, _G.AutoFarm, function(s)
+-- FARM
+CreateSwitch("KillAura", PageFarm, _G.AutoFarm, function(s)
     _G.AutoFarm = s
 end)
 
-CreateDropdown("Slot Kill Aura", PageFarm, {"1","2","3","4","5","6","7","8","9","10","11","12"}, function(selected)
+CreateDropdown("KillAuraSlot", PageFarm, {"1","2","3","4","5","6","7","8","9","10","11","12"}, function(selected)
     _G.WeaponSlot = tonumber(selected) or 1
 end)
 
-CreateSwitch("Auto All Chest", PageFarm, _G.AutoCollectChest, function(s)
+CreateSwitch("AutoChest", PageFarm, _G.AutoCollectChest, function(s)
     _G.AutoCollectChest = s
 end)
 
-CreateSwitch("Auto Bản Vẽ", PageFarm, _G.AutoBlueprintMaster, function(s)
+CreateSwitch("AutoBlueprint", PageFarm, _G.AutoBlueprintMaster, function(s)
     _G.AutoBlueprintMaster = s
 end)
 
 local SelectedBringType = "Vật liệu"
 _G.GlobalBringActive = false
 
-CreateDropdown("Chọn loại Bring", PageFarm, {"Vật liệu", "Xác Zombie", "Đồ y tế", "Súng & Nước", "Thịt"}, function(selected)
+CreateDropdown("BringTypeLabel", PageFarm, {"Vật liệu", "Xác Zombie", "Đồ y tế", "Súng & Nước", "Thịt"}, function(selected)
     SelectedBringType = selected
 end)
 
-CreateSwitch("Bring Items", PageFarm, _G.GlobalBringActive, function(s)
+CreateSwitch("BringItems", PageFarm, _G.GlobalBringActive, function(s)
     _G.GlobalBringActive = s
 end)
 
-CreateSwitch("Anti Void", PageFarm, _G.PlatformActive, function(s)
+CreateSwitch("AntiVoid", PageFarm, _G.PlatformActive, function(s)
     _G.PlatformActive = s
 end)
 
-CreateSwitch("Auto Days", PageFarm, _G.AutoLoopActive, function(s)
+CreateSwitch("AutoDays", PageFarm, _G.AutoLoopActive, function(s)
     _G.AutoLoopActive = s
     _G.AutoSkip = s  
 end)
 
-CreateSwitch("Góc nhìn thứ 3 (Beta)", PageFarm, _G.ThirdPersonActive, function(s)
+CreateSwitch("ThirdPerson", PageFarm, _G.ThirdPersonActive, function(s)
     _G.ThirdPersonActive = s
     lp.CameraMode = s and Enum.CameraMode.Classic or Enum.CameraMode.LockFirstPerson
 end)
 
-CreateTextBox("Độ xa Camera", PageFarm, "50", function(v)
+CreateTextBox("CameraDistanceLabel", PageFarm, "50", function(v)
     _G.CameraDistance = tonumber(v) or 50
     lp.CameraMaxZoomDistance = _G.CameraDistance
 end)
 
-CreateSwitch("ESP Người Chơi", PageFarm, _G.EspPlayer, function(s)
+CreateSwitch("EspPlayer", PageFarm, _G.EspPlayer, function(s)
     _G.EspPlayer = s
 end)
 
-CreateSwitch("ESP Quái Vật", PageFarm, _G.EspMob, function(s)
+CreateSwitch("EspMob", PageFarm, _G.EspMob, function(s)
     _G.EspMob = s
 end)
 
-CreateSwitch("ESP Rương", PageFarm, _G.EspAllChests, function(s)
+CreateSwitch("EspChest", PageFarm, _G.EspAllChests, function(s)
     _G.EspAllChests = s
 end)
 
-CreateSwitch("Night Vision", PageFarm, _G.FullBrightActive, function(s)
+CreateSwitch("NightVision", PageFarm, _G.FullBrightActive, function(s)
     _G.FullBrightActive = s
 end)
 
-CreateSwitch("No Fog", PageFarm, _G.NoFogActive, function(s)
+CreateSwitch("NoFog", PageFarm, _G.NoFogActive, function(s)
     _G.NoFogActive = s
 end)
 
-CreateSwitch("Anti AFK", PageMisc, _G.AntiAFK, function(s)
+-- MISC
+CreateSwitch("AntiAFK", PageMisc, _G.AntiAFK, function(s)
     _G.AntiAFK = s
 end)
 
-CreateSwitch("Giảm Lag", PageMisc, _G.ReduceLag, function(s)
+CreateSwitch("ReduceLag", PageMisc, _G.ReduceLag, function(s)
     _G.ReduceLag = s
+end)
+
+CreateDropdown("LangTitle", PageMisc, {"VN", "EN", "CN", "TH", "JP", "ES", "KR","TR" , "PT"}, function(selected)
+    _G.CurrentLanguage = selected
+    RefreshLanguage()
 end)
 
 -- FPS Unlocker
