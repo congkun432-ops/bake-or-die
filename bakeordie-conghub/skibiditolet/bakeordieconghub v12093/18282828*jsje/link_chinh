@@ -1,4 +1,7 @@
--- 1. Biến Hệ thống
+
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/congkun432-ops/CongSkibidiHub/refs/heads/main/menu_raw"))()
+
+-- ===== BIẾN HỆ THỐNG =====
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui") or game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 local Players = game:GetService("Players")
@@ -12,7 +15,9 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local lp = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
 local HttpService = game:GetService("HttpService")
--- Khai báo dữ liệu Game từ ReplicatedStorage
+
+-- ===== KHAI BÁO DỮ LIỆU GAME =====
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local ZAP = require(ReplicatedStorage:WaitForChild("Client"):WaitForChild("ClientRemotes"))
 local MonstersFolder = Workspace:FindFirstChild("Monsters")
 local ContainersFolder = Workspace:FindFirstChild("Containers")
@@ -32,7 +37,7 @@ local OriginalSettings = {
     Brightness = Lighting.Brightness
 }
 
--- 2. Biến Toàn cục (_G) 
+-- ===== BIẾN _G ===== 
 _G.HubName = _G.HubName or "Setchauphi"
 _G.AuthorName = _G.AuthorName or "Courier cat"
 _G.SpeedActive = false
@@ -61,357 +66,13 @@ _G.AntiAFK = false
 _G.ReduceLag = false
 _G.FPSCap = 60
 _G.GlobalBringActive = false
-_G.CurrentLanguage = "VN" 
+_G.AutoPickupActive = false
+_G.CurrentLanguage = "EN" 
+_G.SelectedPickupType = "Materials"
+_G.AutoDropActive = false
+_G.SelectedDropType = "Materials"
 
--- lang update
-local Languages = {
-    ["VN"] = {
-        ["SpeedHack"] = "Tốc độ",
-        ["FlyMode"] = "Bay",
-        ["InfJump"] = "Nhảy vô hạn",
-        ["InstantInteract"] = "Tương tác nhanh",
-        ["Noclip"] = "Xuyên tường",
-        ["KillAura"] = "Kill Aura",
-        ["AutoChest"] = "Tự động mở rương",
-        ["AntiAFK"] = "Chống AFK",
-        ["ReduceLag"] = "Giảm Lag",
-        ["FPSUnlock"] = "Mở khóa FPS (1-120)",
-        ["LangTitle"] = "Ngôn ngữ",
-        ["ThirdPerson"] = "Góc nhìn thứ 3",
-        ["EspPlayer"] = "ESP Người Chơi",
-        ["EspMob"] = "ESP Quái Vật",
-        ["EspChest"] = "ESP Rương",
-        ["NightVision"] = "Night Vision",
-        ["NoFog"] = "Xoá xương mù",
-        ["AutoBlueprint"] = "Tự động thu thập Bản Vẽ",
-        ["BringItems"] = "Bring Items",
-        ["AutoDays"] = "Tự động qua ngày",
-        ["AntiVoid"] = "Anti Void",
-        
-        ["MainInfo"] = "📊  THÔNG TIN PHIÊN CHƠI",
-        ["PlayerInfo"] = "👤  Player",
-        ["TimePlayed"] = "⏱️  Thời gian chơi",
-        ["FPSInfo"] = "🎮  FPS",
-        ["PingInfo"] = "📶  Ping",
-        ["ServerInfo"] = "🌍  Người chơi trong server",
-        ["GameTimeInfo"] = "🕒  Giờ server",
-        ["SpeedBoostLabel"] = "Tốc độ",
-        ["FlySpeedLabel"] = "Tốc độ bay",
-        ["CameraDistanceLabel"] = "Độ xa Camera",
-        ["KillAuraSlot"] = "Số ô vũ khí",
-        ["BringTypeLabel"] = "Chọn loại Bring"
-    },
-    ["EN"] = {
-        ["SpeedHack"] = "Speed Hack",
-        ["FlyMode"] = "Fly Mode",
-        ["InfJump"] = "Infinite Jump",
-        ["InstantInteract"] = "Instant Interact",
-        ["Noclip"] = "Noclip",
-        ["KillAura"] = "Kill Aura",
-        ["AutoChest"] = "Auto All Chest",
-        ["AntiAFK"] = "Anti AFK",
-        ["ReduceLag"] = "Reduce Lag",
-        ["FPSUnlock"] = "FPS Unlock (1-120)",
-        ["LangTitle"] = "Language",
-        ["ThirdPerson"] = "Third Person",
-        ["EspPlayer"] = "ESP Players",
-        ["EspMob"] = "ESP Mobs",
-        ["EspChest"] = "ESP Chests",
-        ["NightVision"] = "Night Vision",
-        ["NoFog"] = "No Fog",
-        ["AutoBlueprint"] = "Auto Blueprint",
-        ["BringItems"] = "Bring Items",
-        ["AutoDays"] = "Auto Days",
-        ["AntiVoid"] = "Anti Void",
-        
-        ["MainInfo"] = "📊  SESSION INFO",
-        ["PlayerInfo"] = "👤  Player",
-        ["TimePlayed"] = "⏱️  Time Played",
-        ["FPSInfo"] = "🎮  FPS",
-        ["PingInfo"] = "📶  Ping",
-        ["ServerInfo"] = "🌍  Players in Server",
-        ["GameTimeInfo"] = "🕒  Server Time",
-        ["SpeedBoostLabel"] = "Speed",
-        ["FlySpeedLabel"] = "Fly Speed",
-        ["CameraDistanceLabel"] = "Camera Distance",
-        ["KillAuraSlot"] = "Kill Aura Slot",
-        ["BringTypeLabel"] = "Select Bring Type"
-    },
-    ["CN"] = {
-        ["SpeedHack"] = "速度破解",
-        ["FlyMode"] = "飞行模式",
-        ["InfJump"] = "无限跳跃",
-        ["InstantInteract"] = "快速交互",
-        ["Noclip"] = "穿墙",
-        ["KillAura"] = "自动攻击",
-        ["AutoChest"] = "自动开箱",
-        ["AntiAFK"] = "防挂机",
-        ["ReduceLag"] = "降低延迟",
-        ["FPSUnlock"] = "解锁帧率 (1-120)",
-        ["LangTitle"] = "语言",
-        ["ThirdPerson"] = "第三人称",
-        ["EspPlayer"] = "玩家透视",
-        ["EspMob"] = "怪物透视",
-        ["EspChest"] = "宝箱透视",
-        ["NightVision"] = "夜视",
-        ["NoFog"] = "去除雾气",
-        ["AutoBlueprint"] = "自动蓝图",
-        ["BringItems"] = "传送物品",
-        ["AutoDays"] = "自动天数",
-        ["AntiVoid"] = "防虚空掉落",
-        
-        ["MainInfo"] = "📊  游戏会话信息",
-        ["PlayerInfo"] = "👤  玩家",
-        ["TimePlayed"] = "⏱️  游戏时长",
-        ["FPSInfo"] = "🎮  帧率",
-        ["PingInfo"] = "📶  延迟",
-        ["ServerInfo"] = "🌍  服务器玩家",
-        ["GameTimeInfo"] = "🕒  服务器时间",
-        ["SpeedBoostLabel"] = "速度",
-        ["FlySpeedLabel"] = "飞行速度",
-        ["CameraDistanceLabel"] = "相机距离",
-        ["KillAuraSlot"] = "攻击槽位",
-        ["BringTypeLabel"] = "选择传送类型"
-    },
-    ["TH"] = {
-        ["SpeedHack"] = "แฮ็คความเร็ว",
-        ["FlyMode"] = "โหมดบิน",
-        ["InfJump"] = "กระโดดไม่จำกัด",
-        ["InstantInteract"] = "โต้ตอบทันที",
-        ["Noclip"] = "ทะลุกำแพง",
-        ["KillAura"] = "โจมตีอัตโนมัติ",
-        ["AutoChest"] = "เปิดหีบอัตโนมัติ",
-        ["AntiAFK"] = "กัน AFK",
-        ["ReduceLag"] = "ลดแลค",
-        ["FPSUnlock"] = "ปลดล็อค FPS (1-120)",
-        ["LangTitle"] = "ภาษา",
-        ["ThirdPerson"] = "มุมมองบุคคลที่ 3",
-        ["EspPlayer"] = "ESP ผู้เล่น",
-        ["EspMob"] = "ESP มอนสเตอร์",
-        ["EspChest"] = "ESP หีบ",
-        ["NightVision"] = "มองเห็นในที่มืด",
-        ["NoFog"] = "ปิดหมอก",
-        ["AutoBlueprint"] = "Auto พิมพ์เขียว",
-        ["BringItems"] = "ดึงไอเทม",
-        ["AutoDays"] = "Auto ข้ามวัน",
-        ["AntiVoid"] = "กันตกแมพ",
-        
-        ["MainInfo"] = "📊  ข้อมูลเซสชัน",
-        ["PlayerInfo"] = "👤  ผู้เล่น",
-        ["TimePlayed"] = "⏱️  เวลาที่เล่น",
-        ["FPSInfo"] = "🎮  FPS",
-        ["PingInfo"] = "📶  Ping",
-        ["ServerInfo"] = "🌍  ผู้เล่นในเซิร์ฟเวอร์",
-        ["GameTimeInfo"] = "🕒  เวลาในเกม",
-        ["SpeedBoostLabel"] = "ความเร็ว",
-        ["FlySpeedLabel"] = "ความเร็วบิน",
-        ["CameraDistanceLabel"] = "ระยะกล้อง",
-        ["KillAuraSlot"] = "ช่องโจมตี",
-        ["BringTypeLabel"] = "เลือกประเภทการดึง"
-    },
-    ["JP"] = {
-        ["SpeedHack"] = "スピードハック",
-        ["FlyMode"] = "飛行モード",
-        ["InfJump"] = "無限ジャンプ",
-        ["InstantInteract"] = "インスタントインタラクト",
-        ["Noclip"] = "壁抜け",
-        ["KillAura"] = "キルオーラ",
-        ["AutoChest"] = "自動宝箱開け",
-        ["AntiAFK"] = "放置防止",
-        ["ReduceLag"] = "ラグ軽減",
-        ["FPSUnlock"] = "FPS制限解除 (1-120)",
-        ["LangTitle"] = "言語",
-        ["ThirdPerson"] = "三人称視点",
-        ["EspPlayer"] = "プレイヤーESP",
-        ["EspMob"] = "モンスターESP",
-        ["EspChest"] = "宝箱ESP",
-        ["NightVision"] = "暗視",
-        ["NoFog"] = "霧除去",
-        ["AutoBlueprint"] = "自動設計図",
-        ["BringItems"] = "アイテム引き寄せ",
-        ["AutoDays"] = "自動日送り",
-        ["AntiVoid"] = "虚空落下防止",
-        
-        ["MainInfo"] = "📊  セッション情報",
-        ["PlayerInfo"] = "👤  プレイヤー",
-        ["TimePlayed"] = "⏱️  プレイ時間",
-        ["FPSInfo"] = "🎮  FPS",
-        ["PingInfo"] = "📶  Ping",
-        ["ServerInfo"] = "🌍  サーバー内のプレイヤー",
-        ["GameTimeInfo"] = "🕒  サーバー時間",
-        ["SpeedBoostLabel"] = "速度",
-        ["FlySpeedLabel"] = "飛行速度",
-        ["CameraDistanceLabel"] = "カメラ距離",
-        ["KillAuraSlot"] = "攻撃スロット",
-        ["BringTypeLabel"] = "引き寄せタイプ選択"
-    },
-    ["ES"] = {
-        ["SpeedHack"] = "Hack de Velocidad",
-        ["FlyMode"] = "Modo Vuelo",
-        ["InfJump"] = "Salto Infinito",
-        ["InstantInteract"] = "Interactuar al instante",
-        ["Noclip"] = "Noclip",
-        ["KillAura"] = "Aura de Asesinato",
-        ["AutoChest"] = "Abrir cofres auto",
-        ["AntiAFK"] = "Anti-AFK",
-        ["ReduceLag"] = "Reducir Lag",
-        ["FPSUnlock"] = "Desbloquear FPS (1-120)",
-        ["LangTitle"] = "Idioma",
-        ["ThirdPerson"] = "Tercera Persona",
-        ["EspPlayer"] = "ESP de Jugadores",
-        ["EspMob"] = "ESP de Mobs",
-        ["EspChest"] = "ESP de Cofres",
-        ["NightVision"] = "Visión Nocturna",
-        ["NoFog"] = "Sin Niebla",
-        ["AutoBlueprint"] = "Auto Plano",
-        ["BringItems"] = "Traer Objetos",
-        ["AutoDays"] = "Auto Días",
-        ["AntiVoid"] = "Anti Vacío",
-        
-        ["MainInfo"] = "📊  INFO DE SESIÓN",
-        ["PlayerInfo"] = "👤  Jugador",
-        ["TimePlayed"] = "⏱️  Tiempo jugado",
-        ["FPSInfo"] = "🎮  FPS",
-        ["PingInfo"] = "📶  Ping",
-        ["ServerInfo"] = "🌍  Jugadores en servidor",
-        ["GameTimeInfo"] = "🕒  Hora del servidor",
-        ["SpeedBoostLabel"] = "Velocidad",
-        ["FlySpeedLabel"] = "Velocidad Vuelo",
-        ["CameraDistanceLabel"] = "Distancia Cámara",
-        ["KillAuraSlot"] = "Slot de Ataque",
-        ["BringTypeLabel"] = "Tipo de traer"
-    },
-    ["KR"] = {
-        ["SpeedHack"] = "속도 핵",
-        ["FlyMode"] = "비행 모드",
-        ["InfJump"] = "무한 점프",
-        ["InstantInteract"] = "즉시 상호작용",
-        ["Noclip"] = "벽 통과",
-        ["KillAura"] = "자동 공격",
-        ["AutoChest"] = "자동 상자 열기",
-        ["AntiAFK"] = "자리비움 방지",
-        ["ReduceLag"] = "랙 감소",
-        ["FPSUnlock"] = "FPS 잠금 해제 (1-120)",
-        ["LangTitle"] = "언어",
-        ["ThirdPerson"] = "3인칭 시점",
-        ["EspPlayer"] = "플레이어 ESP",
-        ["EspMob"] = "몬스터 ESP",
-        ["EspChest"] = "상자 ESP",
-        ["NightVision"] = "야간 투시",
-        ["NoFog"] = "안개 제거",
-        ["AutoBlueprint"] = "자동 설계도",
-        ["BringItems"] = "아이템 소환",
-        ["AutoDays"] = "자동 시간 넘기기",
-        ["AntiVoid"] = "낙사 방지",
-        
-        ["MainInfo"] = "📊  세션 정보",
-        ["PlayerInfo"] = "👤  플레이어",
-        ["TimePlayed"] = "⏱️  플레이 시간",
-        ["FPSInfo"] = "🎮  프레임 (FPS)",
-        ["PingInfo"] = "📶  핑 (Ping)",
-        ["ServerInfo"] = "🌍  서버 인원",
-        ["GameTimeInfo"] = "🕒  서버 시간",
-        ["SpeedBoostLabel"] = "속도",
-        ["FlySpeedLabel"] = "비행 속도",
-        ["CameraDistanceLabel"] = "카메라 거리",
-        ["KillAuraSlot"] = "공격 슬롯",
-        ["BringTypeLabel"] = "소환 타입 선택"
-    },
-    ["PT"] = {
-        ["SpeedHack"] = "Hack de Velocidade",
-        ["FlyMode"] = "Modo Voo",
-        ["InfJump"] = "Pulo Infinito",
-        ["InstantInteract"] = "Interagir Instantâneo",
-        ["Noclip"] = "Atravessar paredes",
-        ["KillAura"] = "Kill Aura",
-        ["AutoChest"] = "Auto Abrir Baús",
-        ["AntiAFK"] = "Anti-AFK",
-        ["ReduceLag"] = "Reduzir Lag",
-        ["FPSUnlock"] = "Desbloquear FPS (1-120)",
-        ["LangTitle"] = "Idioma",
-        ["ThirdPerson"] = "Terceira Pessoa",
-        ["EspPlayer"] = "ESP de Jogadores",
-        ["EspMob"] = "ESP de Monstros",
-        ["EspChest"] = "ESP de Baús",
-        ["NightVision"] = "Visão Noturna",
-        ["NoFog"] = "Sem Névoa",
-        ["AutoBlueprint"] = "Auto Projetos",
-        ["BringItems"] = "Trazer Itens",
-        ["AutoDays"] = "Auto Dias",
-        ["AntiVoid"] = "Anti-Vazio",
-        
-        ["MainInfo"] = "📊  INFO DA SESSÃO",
-        ["PlayerInfo"] = "👤  Jogador",
-        ["TimePlayed"] = "⏱️  Tempo jogado",
-        ["FPSInfo"] = "🎮  FPS",
-        ["PingInfo"] = "📶  Ping",
-        ["ServerInfo"] = "🌍  Jogadores no servidor",
-        ["GameTimeInfo"] = "🕒  Hora do servidor",
-        ["SpeedBoostLabel"] = "Velocidade",
-        ["FlySpeedLabel"] = "Velocidade de Voo",
-        ["CameraDistanceLabel"] = "Distância Câmera",
-        ["KillAuraSlot"] = "Slot de Ataque",
-        ["BringTypeLabel"] = "Tipo de tração"
-    },
-    ["TR"] = {
-        ["SpeedHack"] = "Hız Hilesi",
-        ["FlyMode"] = "Uçuş Modu",
-        ["InfJump"] = "Sınırsız Zıplama",
-        ["InstantInteract"] = "Anında Etkileşim",
-        ["Noclip"] = "Duvarlardan Geçme",
-        ["KillAura"] = "Otomatik Saldırı",
-        ["AutoChest"] = "Otomatik Sandık Açma",
-        ["AntiAFK"] = "AFK Koruması",
-        ["ReduceLag"] = "Gecikmeyi Azalt",
-        ["FPSUnlock"] = "FPS Kilidini Aç (1-120)",
-        ["LangTitle"] = "Dil",
-        ["ThirdPerson"] = "Üçüncü Şahıs",
-        ["EspPlayer"] = "Oyuncu ESP",
-        ["EspMob"] = "Canavar ESP",
-        ["EspChest"] = "Sandık ESP",
-        ["NightVision"] = "Gece Görüşü",
-        ["NoFog"] = "Sisi Kaldır",
-        ["AutoBlueprint"] = "Otomatik Taslak",
-        ["BringItems"] = "Eşyaları Getir",
-        ["AutoDays"] = "Otomatik Gün Geçişi",
-        ["AntiVoid"] = "Boşluk Koruması",
-        
-        ["MainInfo"] = "📊  OTURUM BİLGİLERİ",
-        ["PlayerInfo"] = "👤  Oyuncu",
-        ["TimePlayed"] = "⏱️  Oynama Süresi",
-        ["FPSInfo"] = "🎮  FPS",
-        ["PingInfo"] = "📶  Ping",
-        ["ServerInfo"] = "🌍  Sunucudaki Oyuncular",
-        ["GameTimeInfo"] = "🕒  Sunucu Saati",
-        ["SpeedBoostLabel"] = "Hız",
-        ["FlySpeedLabel"] = "Uçuş Hızı",
-        ["CameraDistanceLabel"] = "Kamera Mesafesi",
-        ["KillAuraSlot"] = "Saldırı Slotu",
-        ["BringTypeLabel"] = "Getirme Türü Seç"
-    }
-}
-
-local function T(key)
-    return Languages[_G.CurrentLanguage][key] or key
-end
-local TranslatableElements = {}
-
-local function RefreshLanguage()
-    for element, data in pairs(TranslatableElements) do
-        if element and element.Parent then
-            pcall(function()
-                if element:IsA("TextLabel") then
-                    element.Text = T(data.key)
-                end
-            end)
-        end
-    end
-end
-
-local SavedKey = nil 
-local SavedChestKey = nil
-
--- Whitelists
+-- ===== WHITELISTS =====
 _G.MaterialWhitelist = {"Nut","WoodStool","BrokenLantern","Painting","Nail","Gear","Lamp","OldCan","Teapot","CrushedCan","VintageTV","Woodchair","Toaster","RockingChair","MetalBarrel","Wheel","CrackedBell","MetalGear","WheelBarrow","MetalBucket","WoodenNail"}
 
 local TargetMobs = {
@@ -423,13 +84,20 @@ local TargetMobs = {
     ["strawberryzombie"] = true, ["blueberryzombie"] = true, ["doomberryzombie"] = true, ["enragedcactus"] = true,
     ["bananazombie"] = true, ["firezombie"] = true, ["cactus"] = true, ["picklezombie"] = true, ["eggplantzombie"] = true, 
     ["cornzombie"] = true, ["onionzombie"] = true, ["ghostpepeer"] = true, ["orangezombie"] = true, ["tomatozombie"] = true,
-    ["potatozombie"] = true 
+    ["potatozombie"] = true,
+    ["minigundoomberryzombie"] = true,
+    ["peanutzombie"] = true,
+    ["tamarindzombie"] = true
 }
 
 local WeaponWhitelist = {
     ["DMR"] = true, ["BrassKnucklesdmr"] = true, ["Chainsaw"] = true, ["Revolver"] = true, ["SuperSpeedJuice"] = true,
     ["ExoRifle"] = true, ["JugChugJuice"] = true, ["M4A1"] = true, ["JummyJuice"] = true, ["PowPowJuice"] = true,
-    ["JumpyJuice"] = true, ["IronRepairHammer"] = true, ["SpeedJuice"] = true
+    ["JumpyJuice"] = true, ["IronRepairHammer"] = true, ["SpeedJuice"] = true,
+    ["gingerbreadman"] = true,
+    ["orangejellyzombie"] = true,
+    ["pinkjellyzombie"] = true,
+    ["greenjellyzombie"] = true
 }
 
 local MeatWhitelist = {
@@ -448,6 +116,7 @@ local bVelocity, bGyro
 local renderConnection
 local previousSpeedState = false 
 
+-- ===== HÀM FLY =====
 function StartFly()
     previousSpeedState = _G.SpeedActive
     _G.SpeedActive = false
@@ -512,31 +181,7 @@ function StopFly()
     _G.SpeedActive = previousSpeedState
 end
 
-local function UpdateArmVisibility()
-    local char = lp.Character
-    if not char then return end
-    local armTransparency = _G.ThirdPersonActive and 0 or 1
-    local cameraObjTransparency = _G.ThirdPersonActive and 1 or 0
-    for _, v in pairs(char:GetChildren()) do
-        if v:IsA("BasePart") and (v.Name:find("Arm") or v.Name:find("Hand")) then
-            v.LocalTransparencyModifier = armTransparency
-        end
-    end
-    for _, v in pairs(Camera:GetChildren()) do
-        if v:IsA("Model") or v:IsA("BasePart") then
-            if v:IsA("BasePart") then
-                v.LocalTransparencyModifier = cameraObjTransparency
-            else
-                for _, part in pairs(v:GetDescendants()) do
-                    if part:IsA("BasePart") then
-                        part.LocalTransparencyModifier = cameraObjTransparency
-                    end
-                end
-            end
-        end
-    end
-end
-
+-- ===== HÀM ESP =====
 local function CreateESP(obj, color)
     if obj:FindFirstChild("CongESP") then return end
     local hl = Instance.new("Highlight")
@@ -588,6 +233,7 @@ local function ApplyChestESP(obj, text, color)
     end)
 end
 
+-- ===== HÀM KIỂM TRA =====
 local function IsInWhitelist(objName)
     local cleanedName = objName:lower()
     for _, whiteName in pairs(_G.MaterialWhitelist) do
@@ -621,354 +267,159 @@ local function BringToPosition(obj, targetCFrame)
         if prompt then task.spawn(function() fireproximityprompt(prompt) end) end
     end)
 end
---create switch
 
-local function CreateSwitch(translationKey, parent, default, callback)
-    local SwitchFrame = Instance.new("Frame", parent)
-    SwitchFrame.Size = UDim2.new(1, 0, 0, 38); SwitchFrame.BackgroundTransparency = 1
-    
-    local displayText = T(translationKey)
-    local Label = Instance.new("TextLabel", SwitchFrame)
-    Label.Size = UDim2.new(0.6, 0, 1, 0); Label.Text = displayText; Label.TextColor3 = Color3.fromRGB(230, 230, 230)
-    Label.Font = Enum.Font.GothamMedium; Label.TextSize = 13; Label.BackgroundTransparency = 1; Label.TextXAlignment = 0
-    TranslatableElements[Label] = {type = "switch", key = translationKey}
-    
-    local BG = Instance.new("Frame", SwitchFrame)
-    BG.Size = UDim2.new(0, 38, 0, 20); BG.Position = UDim2.new(1, -45, 0.5, -10)
-    BG.BackgroundColor3 = default and Color3.fromRGB(0, 168, 204) or Color3.fromRGB(45, 48, 56)
-    Instance.new("UICorner", BG).CornerRadius = UDim.new(1, 0)
-    
-    local Ball = Instance.new("Frame", BG)
-    Ball.Size = UDim2.new(0, 14, 0, 14); Ball.Position = default and UDim2.new(1, -18, 0.5, -7) or UDim2.new(0, 3, 0.5, -7)
-    Ball.BackgroundColor3 = Color3.fromRGB(255, 255, 255); Instance.new("UICorner", Ball).CornerRadius = UDim.new(1, 0)
-    
-    local ClickBtn = Instance.new("TextButton", SwitchFrame)
-    ClickBtn.Size = UDim2.new(1, 0, 1, 0); ClickBtn.BackgroundTransparency = 1; ClickBtn.Text = ""
-    
-    local state = default
-    ClickBtn.MouseButton1Click:Connect(function()
-        state = not state
-        TweenService:Create(Ball, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {Position = state and UDim2.new(1, -18, 0.5, -7) or UDim2.new(0, 3, 0.5, -7)}):Play()
-        TweenService:Create(BG, TweenInfo.new(0.2, Enum.EasingStyle.Quad), {BackgroundColor3 = state and Color3.fromRGB(0, 168, 204) or Color3.fromRGB(45, 48, 56)}):Play()
-        callback(state)
-    end)
+local function UpdateArmVisibility()
+    local char = lp.Character
+    if not char then return end
+    local armTransparency = _G.ThirdPersonActive and 0 or 1
+    local cameraObjTransparency = _G.ThirdPersonActive and 1 or 0
+    for _, v in pairs(char:GetChildren()) do
+        if v:IsA("BasePart") and (v.Name:find("Arm") or v.Name:find("Hand")) then
+            v.LocalTransparencyModifier = armTransparency
+        end
+    end
+    for _, v in pairs(Camera:GetChildren()) do
+        if v:IsA("Model") or v:IsA("BasePart") then
+            if v:IsA("BasePart") then
+                v.LocalTransparencyModifier = cameraObjTransparency
+            else
+                for _, part in pairs(v:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.LocalTransparencyModifier = cameraObjTransparency
+                    end
+                end
+            end
+        end
+    end
 end
 
--- create texbox
-
-local function CreateTextBox(translationKey, parent, placeholder, callback)
-    local BoxFrame = Instance.new("Frame", parent)
-    BoxFrame.Size = UDim2.new(1, 0, 0, 38); BoxFrame.BackgroundTransparency = 1
+local function findItemUUID(obj)
+    for attrName, attrValue in pairs(obj:GetAttributes()) do
+        if typeof(attrValue) == "string" and string.match(attrValue, "^%w+-%w+-%w+-%w+-%w+$") then
+            return attrValue
+        end
+    end
     
-    local displayText = T(translationKey)
-    local Label = Instance.new("TextLabel", BoxFrame)
-    Label.Size = UDim2.new(0.5, 0, 1, 0); Label.Text = displayText; Label.TextColor3 = Color3.fromRGB(230, 230, 230)
-    Label.Font = Enum.Font.GothamMedium; Label.TextSize = 13; Label.BackgroundTransparency = 1; Label.TextXAlignment = 0
+    for _, child in pairs(obj:GetChildren()) do
+        if child:IsA("StringValue") and string.match(child.Value, "^%w+-%w+-%w+-%w+-%w+$") then
+            return child.Value
+        end
+    end
     
-    TranslatableElements[Label] = {type = "label", key = translationKey}
+    if string.match(obj.Name, "^%w+-%w+-%w+-%w+-%w+$") then
+        return obj.Name
+    end
     
-    local Input = Instance.new("TextBox", BoxFrame)
-    Input.Size = UDim2.new(0, 65, 0, 26); Input.Position = UDim2.new(1, -70, 0.5, -13)
-    Input.BackgroundColor3 = Color3.fromRGB(33, 36, 43); Input.TextColor3 = Color3.fromRGB(0, 212, 255)
-    Input.Text = placeholder; Input.TextSize = 12; Input.Font = Enum.Font.GothamBold; Input.ClearTextOnFocus = true
-    local BoxCorner = Instance.new("UICorner", Input); BoxCorner.CornerRadius = UDim.new(0, 6)
-    local BoxStroke = Instance.new("UIStroke", Input); BoxStroke.Color = Color3.fromRGB(54, 59, 72); BoxStroke.Thickness = 1
-    
-    Input.FocusLost:Connect(function() 
-        callback(Input.Text)
-    end)
+    return nil
 end
 
--- create dropdown
-local function CreateDropdown(translationKey, parent, options, callback)
-    local DropdownFrame = Instance.new("Frame", parent)
-    DropdownFrame.Size = UDim2.new(1, 0, 0, 38); DropdownFrame.BackgroundTransparency = 1
-    DropdownFrame.ClipsDescendants = false 
+-- ===== HÀM AUTO BANK =====
+function ToggleAutoOpenBank(state)
+    _G.AutoOpenBankActive = state
     
-    local displayText = T(translationKey)
-    local Label = Instance.new("TextLabel", DropdownFrame)
-    Label.Size = UDim2.new(0.4, 0, 1, 0); Label.Text = displayText; Label.TextColor3 = Color3.fromRGB(230, 230, 230)
-    Label.Font = Enum.Font.GothamMedium; Label.TextSize = 13; Label.BackgroundTransparency = 1; Label.TextXAlignment = 0
-    
-    TranslatableElements[Label] = {type = "label", key = translationKey}
-    
-    local MainBtn = Instance.new("TextButton", DropdownFrame)
-    MainBtn.Size = UDim2.new(0, 130, 0, 28); MainBtn.Position = UDim2.new(1, -135, 0.5, -14)
-    MainBtn.BackgroundColor3 = Color3.fromRGB(33, 36, 43); MainBtn.TextColor3 = Color3.fromRGB(0, 212, 255)
-    MainBtn.Text = options[1] or "None"; MainBtn.Font = Enum.Font.GothamBold; MainBtn.TextSize = 12
-    local DropCorner = Instance.new("UICorner", MainBtn); DropCorner.CornerRadius = UDim.new(0, 6)
-    local DropStroke = Instance.new("UIStroke", MainBtn); DropStroke.Color = Color3.fromRGB(54, 59, 72); DropStroke.Thickness = 1
-
-    local ScrollList = Instance.new("ScrollingFrame", MainBtn)
-    ScrollList.Size = UDim2.new(1, 0, 0, 100); ScrollList.Position = UDim2.new(0, 0, 1, 5)
-    ScrollList.BackgroundColor3 = Color3.fromRGB(25, 27, 34); ScrollList.Visible = false; ScrollList.ZIndex = 10
-    ScrollList.ScrollBarThickness = 3; ScrollList.CanvasSize = UDim2.new(0, 0, 0, 0)
-    Instance.new("UICorner", ScrollList).CornerRadius = UDim.new(0, 6)
-    local ListStroke = Instance.new("UIStroke", ScrollList); ListStroke.Color = Color3.fromRGB(0, 212, 255); ListStroke.Thickness = 1
-
-    local ListLayout = Instance.new("UIListLayout", ScrollList)
-    ListLayout.Padding = UDim.new(0, 2)
-    
-    ListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-        ScrollList.CanvasSize = UDim2.new(0, 0, 0, ListLayout.AbsoluteContentSize.Y + 5)
-    end)
-
-    local isOpen = false
-    MainBtn.MouseButton1Click:Connect(function()
-        isOpen = not isOpen
-        ScrollList.Visible = isOpen
-    end)
-
-    for _, optionName in pairs(options) do
-        local OptBtn = Instance.new("TextButton", ScrollList)
-        OptBtn.Size = UDim2.new(1, 0, 0, 25); OptBtn.BackgroundTransparency = 1
-        OptBtn.Text = optionName; OptBtn.TextColor3 = Color3.fromRGB(200, 200, 200)
-        OptBtn.Font = Enum.Font.GothamMedium; OptBtn.TextSize = 11; OptBtn.ZIndex = 11
-        
-        OptBtn.MouseButton1Click:Connect(function()
-            MainBtn.Text = optionName
-            isOpen = false
-            ScrollList.Visible = false
-            callback(optionName)
+    if state then
+        task.spawn(function()
+            while _G.AutoOpenBankActive do
+                if ZAP and ZAP.openBankVault and ZAP.openBankVault.fire then
+                    pcall(function()
+                        ZAP.openBankVault.fire({})
+                    end)
+                end
+                task.wait(1.5) 
+            end
         end)
     end
 end
 
-local ScreenGui = Instance.new("ScreenGui", CoreGui); ScreenGui.Name = "CyberVibe_Hub"; ScreenGui.ResetOnSpawn = false
-local MobileToggle = Instance.new("TextButton", ScreenGui)
-MobileToggle.Size = UDim2.new(0, 65, 0, 65)
-MobileToggle.Position = UDim2.new(0, 15, 0, 15)
-MobileToggle.BackgroundColor3 = Color3.fromRGB(25, 27, 34)
-MobileToggle.Text = "" 
-MobileToggle.Draggable = true 
-Instance.new("UICorner", MobileToggle).CornerRadius = UDim.new(1, 0)
-local ToggleStroke = Instance.new("UIStroke", MobileToggle); ToggleStroke.Thickness = 2
-local ToggleIcon = Instance.new("ImageLabel", MobileToggle)
-ToggleIcon.Size = UDim2.new(1, 0, 1, 0) 
-ToggleIcon.Position = UDim2.new(0, 0, 0, 0)
-ToggleIcon.BackgroundTransparency = 1
-ToggleIcon.Image = "rbxassetid://134586557209278"
-ToggleIcon.ImageColor3 = Color3.fromRGB(255, 255, 255)
-ToggleIcon.ScaleType = Enum.ScaleType.Fit
-Instance.new("UICorner", ToggleIcon).CornerRadius = UDim.new(1, 0)
+-- ===== TẠO UI BẰNG LIBRARY =====
+local Window = Library:CreateWindow({
+    HubName = _G.HubName,
+    AuthorName = _G.AuthorName
+})
 
-local MainFrame = Instance.new("Frame", ScreenGui)
-MainFrame.Size = UDim2.new(0, 460, 0, 320); MainFrame.Position = UDim2.new(0.5, -230, 0.5, -160)
-MainFrame.BackgroundColor3 = Color3.fromRGB(20, 22, 27); MainFrame.Visible = true; MainFrame.Active = true; MainFrame.Draggable = true
-local MainStroke = Instance.new("UIStroke", MainFrame); MainStroke.Thickness = 1.5; Instance.new("UICorner", MainFrame).CornerRadius = UDim.new(0, 10)
-
-local CloseBtn = Instance.new("TextButton", MainFrame)
-CloseBtn.Size = UDim2.new(0, 28, 0, 28)
-CloseBtn.Position = UDim2.new(1, -38, 0, 10)
-CloseBtn.BackgroundColor3 = Color3.fromRGB(250, 60, 60)
-CloseBtn.Text = "X"
-CloseBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-CloseBtn.Font = Enum.Font.GothamBold
-CloseBtn.TextSize = 14
-Instance.new("UICorner", CloseBtn).CornerRadius = UDim.new(0, 6)
-CloseBtn.MouseButton1Click:Connect(function()
-    MainFrame.Visible = false
-end)
-
-local TitleLabel = Instance.new("TextLabel", MainFrame)
-TitleLabel.Size = UDim2.new(1, -50, 0, 40); TitleLabel.Position = UDim2.new(0, 15, 0, 0); TitleLabel.BackgroundTransparency = 1
-TitleLabel.Font = Enum.Font.GothamBold; TitleLabel.TextSize = 14; TitleLabel.TextXAlignment = 0
-
-task.spawn(function()
-    while MainFrame and MainFrame.Parent do
-        local hue = (tick() % 6) / 6
-        local rainbow = Color3.fromHSV(hue, 0.7, 1)
-        MainStroke.Color = rainbow
-        TitleLabel.TextColor3 = rainbow
-        ToggleStroke.Color = rainbow
-        TitleLabel.Text = "🔮	" .. _G.HubName .. "  |  By: " .. _G.AuthorName
-        task.wait()
-    end
-end)
-
-MobileToggle.MouseButton1Click:Connect(function()
-    MainFrame.Visible = not MainFrame.Visible
-end)
-
-local TabContainer = Instance.new("Frame", MainFrame)
-TabContainer.Size = UDim2.new(0, 110, 1, -55); TabContainer.Position = UDim2.new(0, 12, 0, 45); TabContainer.BackgroundTransparency = 1
-local TabList = Instance.new("UIListLayout", TabContainer); TabList.Padding = UDim.new(0, 6)
-
-local ContentContainer = Instance.new("Frame", MainFrame)
-ContentContainer.Size = UDim2.new(1, -145, 1, -55); ContentContainer.Position = UDim2.new(0, 133, 0, 45); ContentContainer.BackgroundTransparency = 1
-
-local Pages = {}
-local function CreatePage(name)
-    local Page = Instance.new("ScrollingFrame", ContentContainer)
-    Page.Name = name.."Page"; Page.Size = UDim2.new(1, 0, 1, 0); Page.BackgroundTransparency = 1; Page.Visible = false
-    Page.ScrollBarThickness = 3; Page.ScrollBarImageColor3 = Color3.fromRGB(80, 85, 100); Page.CanvasSize = UDim2.new(0, 0, 0, 0)
-    local PageList = Instance.new("UIListLayout", Page); PageList.Padding = UDim.new(0, 6)
-    PageList:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(function()
-        Page.CanvasSize = UDim2.new(0, 0, 0, PageList.AbsoluteContentSize.Y + 10)
-    end)
-    Pages[name] = Page; return Page
-end
-
-local function AddTabBtn(name)
-    local TabBtn = Instance.new("TextButton", TabContainer)
-    TabBtn.Size = UDim2.new(1, 0, 0, 34); TabBtn.Text = "  " .. name; TabBtn.BackgroundColor3 = Color3.fromRGB(28, 31, 38)
-    TabBtn.TextColor3 = Color3.fromRGB(150, 155, 165); TabBtn.Font = Enum.Font.GothamBold; TabBtn.TextSize = 11; TabBtn.TextXAlignment = 0
-    local BtnCorner = Instance.new("UICorner", TabBtn); BtnCorner.CornerRadius = UDim.new(0, 6)
-    local BtnStroke = Instance.new("UIStroke", TabBtn); BtnStroke.Color = Color3.fromRGB(40, 44, 54); BtnStroke.Thickness = 1
+-- ===== THÊM PHƯƠNG THỨC AddInfoLabel CHO TAB =====
+local originalCreateTab = Window.CreateTab
+Window.CreateTab = function(self, name)
+    local tab = originalCreateTab(self, name)
     
-    TabBtn.MouseButton1Click:Connect(function()
-        for i, v in pairs(Pages) do v.Visible = (i == name) end
-        for _, btn in pairs(TabContainer:GetChildren()) do 
-            if btn:IsA("TextButton") then 
-                TweenService:Create(btn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(28, 31, 38), TextColor3 = Color3.fromRGB(150, 155, 165)}):Play() 
-            end 
-        end
-        TweenService:Create(TabBtn, TweenInfo.new(0.2), {BackgroundColor3 = Color3.fromRGB(35, 40, 50), TextColor3 = Color3.fromRGB(0, 212, 255)}):Play()
-    end)
+    function tab:AddInfoLabel(text, color, sizeY)
+        local page = self:GetPageContainer()
+        local label = Instance.new("TextLabel", page)
+        label.Size = UDim2.new(1, -20, 0, sizeY or 26)
+        label.Position = UDim2.new(0, 10, 0, #page:GetChildren() * 32 + 8)
+        label.BackgroundTransparency = 1
+        label.Text = text
+        label.TextColor3 = color or Color3.fromRGB(230, 230, 230)
+        label.Font = Enum.Font.GothamMedium
+        label.TextSize = 13
+        label.TextXAlignment = Enum.TextXAlignment.Left
+        label.TextYAlignment = Enum.TextYAlignment.Top
+        label.TextWrapped = true
+        label.AutomaticSize = Enum.AutomaticSize.Y
+        label.RichText = true
+        label.LineHeight = 1.2
+        return label
+    end
     
-    if name == "MAIN" then
-        TabBtn.BackgroundColor3 = Color3.fromRGB(35, 40, 50)
-        TabBtn.TextColor3 = Color3.fromRGB(0, 212, 255)
-    end
+    return tab
 end
 
--- Khởi tạo các Page
-local PageMain = CreatePage("MAIN")
-local PagePlayer = CreatePage("PLAYER")
-local PageFarm = CreatePage("FARM & ESP")
-local PageTele = CreatePage("TELEBOT")
-local PageMisc = CreatePage("MISC")
+-- ===== TAB INFO (ĐẦU TIÊN) =====
+local InfoTab = Window:CreateTab("INFO")
 
-AddTabBtn("MAIN")
-AddTabBtn("PLAYER")
-AddTabBtn("FARM & ESP")
-AddTabBtn("TELEBOT") 
-AddTabBtn("MISC")
+-- Tên người chơi
+InfoTab:AddInfoLabel("👤 " .. lp.Name .. "  (" .. lp.DisplayName .. ")", Color3.fromRGB(255, 255, 255))
 
-local TeleScroll = Instance.new("ScrollingFrame", PageTele)
-TeleScroll.Size = UDim2.new(1, -10, 1, -10)
-TeleScroll.Position = UDim2.new(0, 5, 0, 5)
-TeleScroll.BackgroundColor3 = Color3.fromRGB(25, 27, 34)
-TeleScroll.BorderSizePixel = 0
-TeleScroll.ScrollBarThickness = 6
-TeleScroll.CanvasSize = UDim2.new(0, 0, 0, 0)
+-- Thời gian chơi
+local TimeLabel = InfoTab:AddInfoLabel("⏱️ Thời gian chơi: 00:00:00", Color3.fromRGB(180, 255, 180))
 
-local UIList = Instance.new("UIListLayout", TeleScroll)
-UIList.Padding = UDim.new(0, 5)
-UIList.SortOrder = Enum.SortOrder.LayoutOrder
+-- FPS
+local FPSLabel = InfoTab:AddInfoLabel("🎮 FPS: --  (Đang tính...)", Color3.fromRGB(255, 200, 100))
 
-local function RefreshPlayerList()
-    for _, child in pairs(TeleScroll:GetChildren()) do
-        if child:IsA("TextButton") then
-            child:Destroy()
-        end
-    end
+-- Ping
+local PingLabel = InfoTab:AddInfoLabel("📶 Ping: -- ms  (Đang đo...)", Color3.fromRGB(100, 200, 255))
 
-    for _, player in pairs(Players:GetPlayers()) do
-        if player ~= lp and player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-            local btn = Instance.new("TextButton", TeleScroll)
-            btn.Size = UDim2.new(1, 0, 0, 34)
-            btn.Text = "  " .. player.Name
-            btn.BackgroundColor3 = Color3.fromRGB(35, 38, 45)
-            btn.TextColor3 = Color3.fromRGB(230, 230, 230)
-            btn.Font = Enum.Font.GothamMedium
-            btn.TextSize = 14
-            btn.TextXAlignment = Enum.TextXAlignment.Left
+-- Số người chơi
+local ServerLabel = InfoTab:AddInfoLabel("🌍 Người chơi trong server: --", Color3.fromRGB(200, 200, 255))
 
-            local corner = Instance.new("UICorner", btn)
-            corner.CornerRadius = UDim.new(0, 6)
+-- Giờ trong game
+local GameTimeLabel = InfoTab:AddInfoLabel("🕒 Giờ trong game: --:--  (Đang tải...)", Color3.fromRGB(255, 220, 150))
 
-            btn.MouseButton1Click:Connect(function()
-                if lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") and 
-                   player.Character and player.Character:FindFirstChild("HumanoidRootPart") then
-                    lp.Character.HumanoidRootPart.CFrame = player.Character.HumanoidRootPart.CFrame + Vector3.new(0, 5, 0)
-                end
-            end)
-        end
-    end
-    task.defer(function()
-        TeleScroll.CanvasSize = UDim2.new(0, 0, 0, UIList.AbsoluteContentSize.Y + 10)
-    end)
-end
-Players.PlayerRemoving:Connect(RefreshPlayerList)
-task.spawn(function()
-    while task.wait(10) do
-        RefreshPlayerList()
-    end
-end)
+InfoTab:AddInfoLabel(
+    "══════════════════════════════════════\n" ..
+    "   🔥 CẬP NHẬT LỚN / MAJOR UPDATE (VERSION 4.2.0)\n" ..
+    "══════════════════════════════════════\n\n" ..
+    "✨ TÍNH NĂNG MỚI / NEW FEATURES:\n" ..
+    "• [MỚI/NEW] Tự động Nhặt (Auto Pickup)\n" ..
+    "• [MỚI/NEW] Mở khóa FPS lên đến 200+ (Unlock FPS up to 200+)\n" ..
+    "• [MỚI/NEW] Chế độ Siêu Tối Ưu (Potato Mode)\n\n" ..
+    "🛠️ SỬA LỖI / BUG FIXES:\n" ..
+    "• Sửa lỗi không thể tấn công Boss mới / Fixed unable to attack new Boss\n" ..
+    "• Góc nhìn thứ 3 không bị reset / Fixed third person view reset\n" ..
+    "• Giảm RAM từ 40% xuống 12% / RAM usage reduced from 40% to 12%\n\n" ..
+    "⚠️ LƯU Ý / NOTE:\n" ..
+    "• Kill Aura mới chưa an toàn tuyệt đối / New Kill Aura not yet 100% safe\n" ..
+    "• Góp ý/báo lỗi qua Discord / Report bugs via Discord\n\n" ..
+    "══════════════════════════════════════",
+    Color3.fromRGB(240, 240, 240),
+    400
+)
 
-RefreshPlayerList()
-
-PageMain.Visible = true
-local yPos = 8
-local function CreateInfoLabel(translationKey, color, sizeY)
-    local displayText = T(translationKey)
-    local lbl = Instance.new("TextLabel", PageMain)
-    lbl.Size = UDim2.new(1, -20, 0, sizeY or 26)
-    lbl.Position = UDim2.new(0, 10, 0, yPos)
-    lbl.BackgroundTransparency = 1
-    lbl.Text = displayText
-    lbl.TextColor3 = color or Color3.fromRGB(230, 230, 230)
-    lbl.Font = Enum.Font.GothamMedium
-    lbl.TextSize = 13
-    lbl.TextXAlignment = Enum.TextXAlignment.Left
-    yPos = yPos + (sizeY or 26) + 6
-    
-    TranslatableElements[lbl] = {type = "label", key = translationKey}
-    return lbl
-end
-
--- Header
-CreateInfoLabel("📊  THÔNG TIN PHIÊN CHƠI  •  " .. _G.HubName .. "  •  By: " .. _G.AuthorName, Color3.fromRGB(0, 212, 255), 30)
-local PlayerLabel = CreateInfoLabel("👤  " .. lp.Name .. "  (" .. lp.DisplayName .. ")", Color3.fromRGB(255, 255, 255))
-local TimeLabel = CreateInfoLabel("⏱️  Thời gian chơi: 00:00:00", Color3.fromRGB(180, 255, 180))
-local FPSLabel = CreateInfoLabel("🎮  FPS: --  (Đang tính...)", Color3.fromRGB(255, 200, 100))
-local PingLabel = CreateInfoLabel("📶  Ping: -- ms  (Đang đo...)", Color3.fromRGB(100, 200, 255))
-local ServerLabel = CreateInfoLabel("🌍  Người chơi trong server: --", Color3.fromRGB(200, 200, 255))
-local GameTimeLabel = CreateInfoLabel("🕒  Giờ trong game: --:--  (Đang tải...)", Color3.fromRGB(255, 220, 150))
-
-local ZaloLink = Instance.new("TextLabel", PageMain)
-ZaloLink.Size = UDim2.new(1, -110, 0, 22)
-ZaloLink.Position = UDim2.new(0, 10, 0, yPos)
-ZaloLink.BackgroundTransparency = 1
-ZaloLink.Text = ""
-ZaloLink.TextColor3 = Color3.fromRGB(0, 212, 255)
-ZaloLink.Font = Enum.Font.GothamBold
-ZaloLink.TextSize = 12
-ZaloLink.TextXAlignment = Enum.TextXAlignment.Left
-
-local CopyBtn = Instance.new("TextButton", PageMain)
-CopyBtn.Size = UDim2.new(0, 85, 0, 22)
-CopyBtn.Position = UDim2.new(1, -95, 0, yPos)
-CopyBtn.BackgroundColor3 = Color3.fromRGB(0, 150, 180)
-CopyBtn.Text = "Copy Link"
-CopyBtn.TextColor3 = Color3.fromRGB(255,255,255)
-CopyBtn.Font = Enum.Font.GothamBold
-CopyBtn.TextSize = 11
-Instance.new("UICorner", CopyBtn).CornerRadius = UDim.new(0, 5)
-
-yPos = yPos + 28
-
-CopyBtn.MouseButton1Click:Connect(function()
-    local link = "" 
-    pcall(function() setclipboard(link) end)
-    CopyBtn.Text = "✓ Đã copy"
-    task.delay(1.2, function()
-        if CopyBtn and CopyBtn.Parent then CopyBtn.Text = "Copy Link" end
-    end)
-end)
+-- Cập nhật thông tin real-time
 task.spawn(function()
     local sessionStart = tick()
-    while PageMain and PageMain.Parent do
+    while InfoTab and InfoTab:GetPageContainer() and InfoTab:GetPageContainer().Parent do
         local t = math.floor(tick() - sessionStart)
-        TimeLabel.Text = string.format("⏱️  Thời gian chơi: %02d:%02d:%02d", t//3600, (t%3600)//60, t%60)
+        TimeLabel.Text = string.format("⏱️ Thời gian chơi: %02d:%02d:%02d", t//3600, (t%3600)//60, t%60)
+        
         local fps = 60
         pcall(function() fps = math.floor(1 / RunService.RenderStepped:Wait() + 0.5) end)
         local fpsStatus, fpsColor = "Ổn định", Color3.fromRGB(100, 255, 150)
         if fps < 35 then fpsStatus, fpsColor = "Lag", Color3.fromRGB(255, 80, 80)
         elseif fps < 55 then fpsStatus, fpsColor = "Bình thường", Color3.fromRGB(255, 220, 100) end
-        FPSLabel.Text = string.format("🎮  FPS: %d  (%s)", fps, fpsStatus)
+        FPSLabel.Text = string.format("🎮 FPS: %d  (%s)", fps, fpsStatus)
         FPSLabel.TextColor3 = fpsColor
+        
         pcall(function()
             local pingItem = Stats.Network.ServerStatsItem["Data Ping"]
             if pingItem then
@@ -976,173 +427,174 @@ task.spawn(function()
                 local pingStatus, pingColor = "Thấp", Color3.fromRGB(100, 255, 150)
                 if ping > 150 then pingStatus, pingColor = "Cao", Color3.fromRGB(255, 80, 80)
                 elseif ping > 80 then pingStatus, pingColor = "Trung bình", Color3.fromRGB(255, 220, 100) end
-                PingLabel.Text = string.format("📶  Ping: %d ms  (%s)", ping, pingStatus)
+                PingLabel.Text = string.format("📶 Ping: %d ms  (%s)", ping, pingStatus)
                 PingLabel.TextColor3 = pingColor
             end
         end)
-        ServerLabel.Text = "🌍  Người chơi trong server: " .. #Players:GetPlayers()
+        
+        ServerLabel.Text = "🌍 Người chơi trong server: " .. #Players:GetPlayers()
+        
         local hour = Lighting.ClockTime
         local period = (hour >= 6 and hour < 18) and "☀️ Sáng" or "🌙 Tối"
-        GameTimeLabel.Text = string.format("🕒  Giờ server: %02d:%02d  (%s)", math.floor(hour), math.floor((hour % 1)*60), period)
-		 task.wait(1)
+        GameTimeLabel.Text = string.format("🕒 Giờ server: %02d:%02d  (%s)", math.floor(hour), math.floor((hour % 1)*60), period)
+        
+        task.wait(1)
     end
 end)
 
+-- ===== TAB MAIN =====
+local MainTab = Window:CreateTab("MAIN")
 
--- PLAYER
-CreateSwitch("SpeedHack", PagePlayer, _G.SpeedActive, function(s)
+MainTab:AddSwitch("SpeedHack", _G.SpeedActive, function(s)
     _G.SpeedActive = s
 end)
 
-CreateTextBox("SpeedBoostLabel", PagePlayer, "100", function(v)
+MainTab:AddTextBox("SpeedBoostLabel", "100", function(v)
     _G.SpeedBoost = tonumber(v) or 100 
 end)
 
-CreateSwitch("FlyMode", PagePlayer, false, function(s)
+MainTab:AddSwitch("FlyMode", false, function(s)
     if s then StartFly() else StopFly() end
 end)
 
-CreateTextBox("FlySpeedLabel", PagePlayer, "50", function(v)
+MainTab:AddTextBox("FlySpeedLabel", "50", function(v)
     _G.FlySpeed = tonumber(v) or 50
 end)
 
-CreateSwitch("InfJump", PagePlayer, _G.InfJumpActive, function(s)
+MainTab:AddSwitch("InfJump", _G.InfJumpActive, function(s)
     _G.InfJumpActive = s
 end)
 
-CreateSwitch("InstantInteract", PagePlayer, _G.InstantInteract, function(s)
+MainTab:AddSwitch("InstantInteract", _G.InstantInteract, function(s)
     _G.InstantInteract = s
 end)
 
-CreateSwitch("Noclip", PagePlayer, _G.NoclipActive, function(s)
+MainTab:AddSwitch("Noclip", _G.NoclipActive, function(s)
     _G.NoclipActive = s
 end)
 
--- FARM
-CreateSwitch("KillAura", PageFarm, _G.AutoFarm, function(s)
-    _G.AutoFarm = s
-end)
+-- ===== TAB PLAYER =====
+local PlayerTab = Window:CreateTab("PLAYER")
 
-CreateDropdown("KillAuraSlot", PageFarm, {"1","2","3","4","5","6","7","8","9","10","11","12"}, function(selected)
-    _G.WeaponSlot = tonumber(selected) or 1
-end)
-
-CreateTextBox("Kill Aura Range", PageFarm, tostring(_G.AuraDistance), function(v)
-    _G.AuraDistance = tonumber(v) or 120
-end)
-
-CreateSwitch("AutoChest", PageFarm, _G.AutoCollectChest, function(s)
-    _G.AutoCollectChest = s
-end)
-
-CreateSwitch("AutoBlueprint", PageFarm, _G.AutoBlueprintMaster, function(s)
-    _G.AutoBlueprintMaster = s
-end)
-
-CreateDropdown("BringTypeLabel", PageFarm, {"Materials", "Zombie Corpses", "Medical", "Guns & Water", "Meat"}, function(selected)
-    SelectedBringType = selected
-end)
-
-CreateSwitch("BringItems", PageFarm, _G.GlobalBringActive, function(s)
-    _G.GlobalBringActive = s
-end)
-
-CreateSwitch("AntiVoid", PageFarm, _G.PlatformActive, function(s)
-    _G.PlatformActive = s
-end)
-
-CreateSwitch("AutoDays", PageFarm, _G.AutoLoopActive, function(s)
-    _G.AutoLoopActive = s
-    _G.AutoSkip = s  
-end)
-
-CreateSwitch("ThirdPerson", PageFarm, _G.ThirdPersonActive, function(s)
+PlayerTab:AddSwitch("ThirdPerson", _G.ThirdPersonActive, function(s)
     _G.ThirdPersonActive = s
     lp.CameraMode = s and Enum.CameraMode.Classic or Enum.CameraMode.LockFirstPerson
 end)
 
-CreateTextBox("CameraDistanceLabel", PageFarm, "50", function(v)
+PlayerTab:AddTextBox("CameraDistanceLabel", "50", function(v)
     _G.CameraDistance = tonumber(v) or 50
     lp.CameraMaxZoomDistance = _G.CameraDistance
 end)
 
-CreateSwitch("EspPlayer", PageFarm, _G.EspPlayer, function(s)
-    _G.EspPlayer = s
-end)
-
-CreateSwitch("EspMob", PageFarm, _G.EspMob, function(s)
-    _G.EspMob = s
-end)
-
-CreateSwitch("EspChest", PageFarm, _G.EspAllChests, function(s)
-    _G.EspAllChests = s
-end)
-
-CreateSwitch("NightVision", PageFarm, _G.FullBrightActive, function(s)
-    _G.FullBrightActive = s
-end)
-
-CreateSwitch("NoFog", PageFarm, _G.NoFogActive, function(s)
-    _G.NoFogActive = s
-end)
-
--- MISC
-CreateSwitch("AntiAFK", PageMisc, _G.AntiAFK, function(s)
+PlayerTab:AddSwitch("AntiAFK", _G.AntiAFK, function(s)
     _G.AntiAFK = s
 end)
 
-CreateSwitch("ReduceLag", PageMisc, _G.ReduceLag, function(s)
+PlayerTab:AddSwitch("ReduceLag", _G.ReduceLag, function(s)
     _G.ReduceLag = s
 end)
 
-CreateDropdown("LangTitle", PageMisc, {"VN", "EN", "CN", "TH", "JP", "ES", "KR","TR" , "PT"}, function(selected)
-    _G.CurrentLanguage = selected
-    RefreshLanguage()
+-- ===== TAB ESP =====
+local EspTab = Window:CreateTab("ESP")
+
+EspTab:AddSwitch("EspPlayer", _G.EspPlayer, function(s)
+    _G.EspPlayer = s
 end)
 
+EspTab:AddSwitch("EspMob", _G.EspMob, function(s)
+    _G.EspMob = s
+end)
+
+EspTab:AddSwitch("EspChest", _G.EspAllChests, function(s)
+    _G.EspAllChests = s
+end)
+
+EspTab:AddSwitch("NightVision", _G.FullBrightActive, function(s)
+    _G.FullBrightActive = s
+end)
+
+EspTab:AddSwitch("NoFog", _G.NoFogActive, function(s)
+    _G.NoFogActive = s
+end)
+
+EspTab:AddSwitch("AntiVoid", _G.PlatformActive, function(s)
+    _G.PlatformActive = s
+end)
+
+-- ===== TAB FARM =====
+local FarmTab = Window:CreateTab("FARM")
+
+FarmTab:AddSwitch("KillAura", _G.AutoFarm, function(s)
+    _G.AutoFarm = s
+end)
+
+FarmTab:AddDropdown("KillAuraSlot", {"1","2","3","4","5","6","7","8","9","10","11","12"}, function(selected)
+    _G.WeaponSlot = tonumber(selected) or 1
+end)
+
+FarmTab:AddTextBox("KillAuraRange", tostring(_G.AuraDistance), function(v)
+    _G.AuraDistance = tonumber(v) or 120
+end)
+
+FarmTab:AddSwitch("AutoChest", _G.AutoCollectChest, function(s)
+    _G.AutoCollectChest = s
+end)
+
+FarmTab:AddSwitch("AutoBlueprint", _G.AutoBlueprintMaster, function(s)
+    _G.AutoBlueprintMaster = s
+end)
+
+FarmTab:AddSwitch("AutoDays", _G.AutoLoopActive, function(s)
+    _G.AutoLoopActive = s
+    _G.AutoSkip = s  
+end)
+
+FarmTab:AddSwitch("AutoBank", false, function(s)
+    ToggleAutoOpenBank(s)
+end)
+
+-- ===== TAB ITEMS =====
+local ItemsTab = Window:CreateTab("ITEMS")
+
+ItemsTab:AddSwitch("Auto Pickup", _G.AutoPickupActive, function(s)
+    _G.AutoPickupActive = s
+end)
+
+ItemsTab:AddDropdown("Pickup", {"Materials", "Zombie Corpses", "Meat"}, function(selected)
+    _G.SelectedPickupType = selected
+end)
+
+ItemsTab:AddSwitch("BringItems", _G.GlobalBringActive, function(s)
+    _G.GlobalBringActive = s
+end)
+
+ItemsTab:AddDropdown("BringTypeLabel", {"Materials", "Zombie Corpses", "Medical", "Guns & Water", "Meat"}, function(selected)
+    SelectedBringType = selected
+end)
+
+ItemsTab:AddSwitch("AutoDrop(beta)", _G.AutoDropActive, function(s)
+    _G.AutoDropActive = s
+end)
+
+-- ===== TAB MISC =====
+local MiscTab = Window:CreateTab("MISC")
+
+MiscTab:AddDropdown("LangTitle", {"VN", "EN", "CN", "TH", "JP", "ES", "KR","TR" , "PT"}, function(selected)
+    _G.CurrentLanguage = selected
+end)
 
 -- FPS Unlocker
-local FPSFrame = Instance.new("Frame", PageMisc)
-FPSFrame.Size = UDim2.new(1, -10, 0, 38)
-FPSFrame.Position = UDim2.new(0, 5, 0, 5)
-FPSFrame.BackgroundTransparency = 1
-
-local FPSLabel = Instance.new("TextLabel", FPSFrame)
-FPSLabel.Size = UDim2.new(0.5, 0, 1, 0)
-FPSLabel.Text = "FPS Unlock (1-120)"
-FPSLabel.TextColor3 = Color3.fromRGB(230, 230, 230)
-FPSLabel.Font = Enum.Font.GothamMedium
-FPSLabel.TextSize = 13
-FPSLabel.BackgroundTransparency = 1
-FPSLabel.TextXAlignment = Enum.TextXAlignment.Left
-
-local FPSTextBox = Instance.new("TextBox", FPSFrame)
-FPSTextBox.Size = UDim2.new(0, 70, 0, 26)
-FPSTextBox.Position = UDim2.new(1, -75, 0.5, -13)
-FPSTextBox.BackgroundColor3 = Color3.fromRGB(33, 36, 43)
-FPSTextBox.TextColor3 = Color3.fromRGB(0, 212, 255)
-FPSTextBox.Text = tostring(_G.FPSCap)
-FPSTextBox.TextSize = 13
-FPSTextBox.Font = Enum.Font.GothamBold
-FPSTextBox.ClearTextOnFocus = false
-
-local BoxCorner = Instance.new("UICorner", FPSTextBox)
-BoxCorner.CornerRadius = UDim.new(0, 6)
-
-FPSTextBox.FocusLost:Connect(function(enterPressed)
-    local num = tonumber(FPSTextBox.Text) or _G.FPSCap
-    
-    if num < 1 then
-        num = 1
-    elseif num > 120 then
-        num = 120
-    end
-    
+MiscTab:AddTextBox("FPSUnlock", tostring(_G.FPSCap), function(v)
+    local num = tonumber(v) or _G.FPSCap
+    if num < 1 then num = 1
+    elseif num > 120 then num = 120 end
     _G.FPSCap = num
-    FPSTextBox.Text = tostring(num)
     setfpscap(num)
 end)
--- speed
+
+-- ===== CORE LOGIC =====
+
+-- Speed Hack
 RunService.Heartbeat:Connect(function()
     if _G.SpeedActive then
         local Character = lp.Character
@@ -1154,6 +606,7 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 
+-- Infinite Jump
 UserInputService.JumpRequest:Connect(function()
     if _G.InfJumpActive then
         local hum = lp.Character and lp.Character:FindFirstChildOfClass("Humanoid")
@@ -1161,6 +614,7 @@ UserInputService.JumpRequest:Connect(function()
     end
 end)
 
+-- Noclip
 RunService.Stepped:Connect(function()
     if _G.NoclipActive and lp.Character then
         local humanoid = lp.Character:FindFirstChildOfClass("Humanoid")
@@ -1174,7 +628,7 @@ RunService.Stepped:Connect(function()
     end
 end)
 
--- tương tác nhanh
+-- Instant Interact
 task.spawn(function()
     while task.wait(1) do 
         for _, v in pairs(Workspace:GetDescendants()) do
@@ -1198,7 +652,7 @@ Workspace.DescendantAdded:Connect(function(v)
     if _G.InstantInteract and v:IsA("ProximityPrompt") then v.HoldDuration = 0 end
 end)
 
--- anti afk
+-- Anti AFK
 Players.LocalPlayer.Idled:Connect(function()
     if _G.AntiAFK then
         VirtualUser:CaptureController()
@@ -1206,51 +660,81 @@ Players.LocalPlayer.Idled:Connect(function()
     end
 end)
 
--- giảm lag
+-- Reduce Lag
+local function ApplyLag()
+    Lighting.GlobalShadows = false
+    for _, v in pairs(Workspace:GetDescendants()) do
+        if v:IsA("ParticleEmitter") or v:IsA("Fire") or v:IsA("Smoke") or v:IsA("Sparkles") or v:IsA("Trail") or v:IsA("Beam") then
+            v.Enabled = false
+        end
+        if v:IsA("BasePart") and v.Material ~= Enum.Material.Plastic then
+            v.Material = Enum.Material.Plastic
+            v.Reflectance = 0
+        end
+    end
+end
+
+local ReduceLagEnabled = false
 task.spawn(function()
     while task.wait(4) do
-        if _G.ReduceLag then
-            Lighting.GlobalShadows = false
-            for _, v in pairs(Workspace:GetDescendants()) do
-                if v:IsA("ParticleEmitter") or v:IsA("Fire") or v:IsA("Smoke") or v:IsA("Sparkles") then
-                    v.Enabled = false
-                end
-            end
+        if _G.ReduceLag and not ReduceLagEnabled then
+            ApplyLag()
+            ReduceLagEnabled = true
+        elseif not _G.ReduceLag then
+            ReduceLagEnabled = false
         end
     end
 end)
 
--- kill aura
+-- Kill Aura
 RunService.Heartbeat:Connect(function()
-    if _G.AutoFarm and MonstersFolder then
-        local character = lp.Character
-        if character and character:FindFirstChild("HumanoidRootPart") then
-            local root = character.HumanoidRootPart
-            local slot = _G.WeaponSlot or 1
-            local distance = _G.AuraDistance or 120
+    if not _G.AutoFarm or not MonstersFolder then return end
+    
+    local character = lp.Character
+    if not character or not character:FindFirstChild("HumanoidRootPart") then return end
+    
+    local root = character.HumanoidRootPart
+    local slot = _G.WeaponSlot or 1
+    local distance = _G.AuraDistance or 120
+    
+    for _, monster in pairs(MonstersFolder:GetChildren()) do
+        if monster.Name == "GrimcrustSupreme" then
+            local bossPart = monster:FindFirstChild("HumanoidRootPart") 
+                or monster.PrimaryPart 
+                or monster:FindFirstChildWhichIsA("BasePart")
+            local hum = monster:FindFirstChildOfClass("Humanoid")
+            local hasHealth = hum and hum.Health > 0 or monster:GetAttribute("Health") ~= 0
             
-            local targets = {}
-            for _, monster in pairs(MonstersFolder:GetChildren()) do
-                if monster:FindFirstChild("HumanoidRootPart") then
-                    local monsterDistance = (root.Position - monster.HumanoidRootPart.Position).Magnitude
-                    if monsterDistance < distance then
-                        local hum = monster:FindFirstChildOfClass("Humanoid")
-                        if hum and hum.Health > 0 then table.insert(targets, monster) end
-                    end
+            if bossPart and hasHealth then
+                local monsterDistance = (root.Position - bossPart.Position).Magnitude
+                if monsterDistance < distance then
+                    ZAP.meleeAttack.fire({
+                        monsters = { monster },
+                        civilians = {},
+                        activeSlot = slot
+                    })
                 end
             end
-            if #targets > 0 then
-                ZAP.meleeAttack.fire({
-                    monsters = targets,
-                    civilians = {},
-                    activeSlot = slot
-                })
+            continue 
+        end
+        
+        if monster:FindFirstChild("HumanoidRootPart") then
+            local monsterDistance = (root.Position - monster.HumanoidRootPart.Position).Magnitude
+            if monsterDistance < distance then
+                local hum = monster:FindFirstChildOfClass("Humanoid")
+                if hum and hum.Health > 0 then
+                    ZAP.meleeAttack.fire({
+                        monsters = { monster },
+                        civilians = {},
+                        activeSlot = slot
+                    })
+                end
             end
         end
     end
 end)
 
--- auto all chest
+-- Auto All Chest
 local OpenedChests = {} 
 task.spawn(function()
     while true do
@@ -1284,7 +768,7 @@ task.spawn(function()
     end
 end)
 
--- anti void
+-- Anti Void
 local voidThreshold = Workspace.FallenPartsDestroyHeight
 local safeHeight = voidThreshold + 500
 
@@ -1313,7 +797,72 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 
--- bring item
+-- Auto Pickup
+task.spawn(function()
+    while true do
+        task.wait(0.2)
+        
+        if not _G.AutoPickupActive then continue end
+        if not InteractablesFolder then continue end
+        
+        for _, obj in pairs(InteractablesFolder:GetChildren()) do
+            if not _G.AutoPickupActive then break end
+            
+            local name = obj.Name
+            local isTarget = false
+            
+            if _G.SelectedPickupType == "Materials" and table.find(_G.MaterialWhitelist, name) then
+                isTarget = true
+            elseif _G.SelectedPickupType == "Meat" and MeatWhitelist[name] then
+                isTarget = true
+            elseif _G.SelectedPickupType == "Zombie Corpses" then
+                for mobName, _ in pairs(TargetMobs) do
+                    if string.lower(mobName) == string.lower(name) then
+                        isTarget = true
+                        break
+                    end
+                end
+            end
+            
+            if isTarget then
+                local uuid = findItemUUID(obj)
+                if uuid then
+                    pcall(function()
+                        ZAP.pickupObject.fire(uuid)
+                        ZAP.switchSlot.fire(1)
+                    end)
+                end
+            end
+        end
+    end
+end)
+
+-- Auto Drop
+task.spawn(function()
+    while true do
+        task.wait(0.01) 
+        
+        if _G.AutoDropActive then
+            local liveDeposit = workspace:FindFirstChild("Stations") 
+                and workspace.Stations:FindFirstChild("BlueprintsTable") 
+                and workspace.Stations.BlueprintsTable:FindFirstChild("ObjectDeposit")
+            if liveDeposit and liveDeposit:IsDescendantOf(workspace) then
+                for slot = 1, 6 do
+                    if not _G.AutoDropActive then break end
+                    
+                    pcall(function()
+                        ZAP.switchSlot.fire(slot)
+                        task.wait(0.01) 
+                        ZAP.dropObject.fire(liveDeposit)
+                        task.wait(0.01)
+                    end)
+                end
+            end
+        end
+    end
+end)
+
+-- Bring Items
 task.spawn(function()
     local FixedCFrame = nil
     local LastBringType = nil 
@@ -1397,7 +946,7 @@ task.spawn(function()
     end
 end)
 
--- auto day
+-- Auto Days
 local POS_SKIP = Vector3.new(-37.91, 51.59, 86.33)
 local POS_TREO = Vector3.new(-26.95, 145, 122.67)
 local previousFarmStateForSkip = false 
@@ -1465,7 +1014,7 @@ task.spawn(function()
     end
 end)
 
--- night vision
+-- Night Vision
 task.spawn(function()
     while true do 
         if _G.FullBrightActive then
@@ -1487,7 +1036,7 @@ task.spawn(function()
     end
 end)
 
--- no fog
+-- No Fog
 local fogApplied = false 
 task.spawn(function()
     while task.wait(1) do
@@ -1509,7 +1058,7 @@ task.spawn(function()
     end
 end)
 
--- LOGIC AUTO BẢN THIẾT KẾ
+-- Auto Blueprint
 local BlueprintSequence = {
     {Type = "Farm", Pos = Vector3.new(-432.01, 82.23, -35.68)},
     {Type = "Collect", Pos = Vector3.new(-433.13, 66.98, 9.00)},
@@ -1596,6 +1145,8 @@ task.spawn(function()
         task.wait(0.1)
     end
 end)
+
+-- Third Person
 local isThirdPersonRunning = false
 RunService.RenderStepped:Connect(function()
     if _G.ThirdPersonActive then
@@ -1611,7 +1162,8 @@ RunService.RenderStepped:Connect(function()
     end
     UpdateArmVisibility()
 end)
---esp chest
+
+-- Chest ESP
 task.spawn(function()
     while true do
         if _G.EspAllChests and ContainersFolder then
@@ -1632,6 +1184,7 @@ task.spawn(function()
     end
 end)
 
+-- Player ESP
 local ActiveEspTags = {}
 
 local function CreateHighlight(target, color, isPlayer)
@@ -1667,7 +1220,7 @@ local function CreateHighlight(target, color, isPlayer)
     ActiveEspTags[target] = {hl, billboard}
 end
 
-local function RemoveEsp(target)
+local function RemoveEspTag(target)
     if not target then return end
     if ActiveEspTags[target] then
         for _, obj in pairs(ActiveEspTags[target]) do
@@ -1677,7 +1230,6 @@ local function RemoveEsp(target)
     end
 end
 
--- Vòng lặp cập nhật ESP
 task.spawn(function()
     while true do
         task.wait(1)
@@ -1687,15 +1239,16 @@ task.spawn(function()
                 if char and char:FindFirstChild("HumanoidRootPart") then
                     CreateHighlight(char, Color3.fromRGB(0, 255, 0), true)
                 else
-                    RemoveEsp(char)
+                    RemoveEspTag(char)
                 end
             else
-                if player.Character then RemoveEsp(player.Character) end
+                if player.Character then RemoveEspTag(player.Character) end
             end
         end
     end
 end)
 
+-- Mob ESP
 local ActiveMobTags = {} 
 
 task.spawn(function()
@@ -1725,7 +1278,7 @@ task.spawn(function()
                         textLabel.TextSize = 12
                         textLabel.TextStrokeTransparency = 0
                         textLabel.TextStrokeColor3 = Color3.fromRGB(0, 0, 0)
-ActiveMobTags[obj] = billboard
+                        ActiveMobTags[obj] = billboard
                     end
                 end
             end
